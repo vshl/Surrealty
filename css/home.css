@@ -1,0 +1,42 @@
+/*Filename : Home.php
+
+Link :
+home.php  home.css (reference for style)
+----------------------------------------
+Created by : Abhijit
+Date : 11/10/2014
+----------------------------------------
+Updated by :
+1> Abhijit @2.00 on 11/10/2014 > Added header 
+2>
+----------------------------------------*/
+
+html {
+	position: relative;
+	min-height: 95%;
+	background: url("./../images/home-background.jpg") no-repeat center center fixed ; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: inherit;
+
+	}
+
+body {
+  /* Margin bottom by footer height */
+  background: transparent;
+}
+
+.no-margin {
+  margin: 0px ;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+/* for search input */
+#imaginary_container{
+    margin-top:30%;
+    margin-right: 10%;
+}
