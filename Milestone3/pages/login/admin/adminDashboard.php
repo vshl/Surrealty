@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -105,14 +108,7 @@
 
 <div class="container-fluid"><!-- main container -->
         <!--header--> 
-        <?php include "./../login_header.html" ?>
-
-
-
-   
-
-
-
+        <?php include "./../login_header.php" ?>
 
 
 <div class="row">
@@ -667,8 +663,12 @@
     </div>
 <!--end of Modal for user update profile-->
 
-
-
+<?php
+//echo'<pre>';
+//echo "Session Dump";
+//var_dump($_SESSION);
+//echo '</pre>'
+?>
 
 
 <!--Footer-->
@@ -684,4 +684,3 @@
 
   </body>
 </html>
-
