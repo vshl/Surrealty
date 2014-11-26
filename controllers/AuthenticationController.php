@@ -8,14 +8,17 @@
  * @version 1.0
  * 
  */
-require_once './include/DatabaseComm.php';
+require_once '../include/DatabaseComm.php';
+require_once '../classes/Logging.php';
 
 class AuthenticationController {
     
     private $dbcomm;
+    private $logger;
       
     public function __construct() {
         $this->dbcomm = new DatabaseComm();
+        $this->logger = new Logging();
     }
     
     public function __destruct() {
@@ -23,16 +26,19 @@ class AuthenticationController {
     }
 
     public function logonWithEmail( $email, $password ) {
-        $sqlQuery = "SELECT * FROM user WHERE email = '" . $email . "' AND password = '" . $password . "';";
+        $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" . $password . "';";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
-          
+               
+        
         while( $row = mysqli_fetch_assoc($result) ) 
         {            
+            session_start();
             $_SESSION['fname']   = $row['fname'];
             $_SESSION['lname']   = $row['lname'];
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['role']    = $row['role'];
+            $this->logger->logToFile("AuthController", "Info", "User: " . $row['user_id'] . "has logged on. Role Type: " . $row['role']);
             
             return 1;
         }        

@@ -95,7 +95,7 @@ Updated by :
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</h4>
                 </div>
-                <form action="./login/authenticate.php" methode="POST">
+                <form>
                     <div class="modal-body">
                         <p>Log in & track your saved homes and save preferences</p>
                           <div class="input-group" title="Email">
@@ -106,6 +106,7 @@ Updated by :
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                             <input class="form-control" name="password" id="password" type="password" placeholder="Enter your password">
                           </div>
+                        <p classe="text-warning" id="login_incorrect"></p>
                             <p class="text-warning">
                                 <a href="#myModal_RP" data-toggle="modal" class="pull-left">
                                     <h6><i class="glyphicon glyphicon-question-sign"></i>&nbsp;Forgot Password</h6>
@@ -114,7 +115,7 @@ Updated by :
                     </div> 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-primary" id="login_submit_btn">Login</button>
                     </div>
                 </form>
             </div>
@@ -290,7 +291,10 @@ Updated by :
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./../javascripts/script.js"></script> 
-        
+    <script src="./../javascripts/ajax.js"></script>
+    <script type="text/javascript">
+        $( "#login_submit_btn").click(loginAndRedirect);
+    </script>
     </div><!-- main container -->
  
 

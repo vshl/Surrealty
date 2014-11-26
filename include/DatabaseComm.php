@@ -58,6 +58,21 @@ class DatabaseComm {
         return $this->dbConn->error;
     }
     
+    public function logError(){
+        $this->logToFile("DB","Info", $this->dbConn->error);
+    }
+    
+	/**
+     * return the id of the last modified data set
+     * 
+     * @return int = id of the last affected dataset
+     */
+    
+    public function giveID() {
+       return $this->dbConn->insert_id;
+   }
+   
+   
     
         
 }
