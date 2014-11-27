@@ -16,26 +16,27 @@
  *  redesign class for usage of new 'users' table
  */
 
-define ("BUYER_ROLE_ID", 0);
 
-require_once './include/DatabaseComm.php';
-require_once './classes/Buyer.php';
+require_once '../include/DatabaseComm.php';
+require_once '../classes/Buyer.php';
 
 class BuyerController {
-   
+       
     public function __construct() {
-
     }
     
     public function __destruct() {
-        
     }
     
     /**
      * Not yet implemented
      */
     
-    public function addUser() {
+    public function addBuyer( $user) {
+         $buyer = new Buyer( $user['lname'], $user['fname'], $user['email'], $user['password'], $user['phone'], $user['image'] );
+        $buyerID = $buyer->saveBuyer();
+        
+        return $buyerID;
         
     }
     
@@ -50,8 +51,9 @@ class BuyerController {
     
     public function loadBuyerByID( $buyerID ) {
       $buyer = new Buyer();
-      if ($buyer->loadAgentByID($buyerID)){
-          return $buyer;
+      
+      if ($buyer->loadBuyerByID($buyerID)) {
+        return $buyer;
       }
       else{
           return 0;
@@ -91,7 +93,7 @@ class BuyerController {
     
     public function listAllBuyers($sortDirection = 'ASC', $sortField = 'lname') {
         $dbComm = new DatabaseComm();
-        $sqlQuery = "SELECT * FROM users ORDER BY $sortField $sortDirection WHERE role = " . BUYER_ROLE_ID . ";";
+        $sqlQuery = "SELECT * FROM user WHERE role = " . BUYER_ROLE_ID . " ORDER BY $sortField $sortDirection;";
         $result = $dbComm->executeQuery($sqlQuery);
         echo $dbComm->giveError();
         $buyer_array = array();
@@ -142,11 +144,11 @@ class BuyerController {
       * @return int statuscode(inherit from parent function) 0=error, 1=success
       */
     
-    public function deleteAgentByID( $buyerID ) {
+    public function deleteBuyerByID( $buyerID ) {
         
         if ( $buyerID >= 0) {       // check if ID is integer GEt zero
            $buyer = new Buyer(); 
-           return $buyer->deletBuyerByID($buyerID);
+           return $buyer->deleteBuyerByID($buyerID);
         }
         else { 
             return 0;

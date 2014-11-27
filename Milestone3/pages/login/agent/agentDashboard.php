@@ -1,7 +1,11 @@
 <?php
+// This section checks if logged in user has sufficent rights and redirect him
+// to home.php if not. 
+// pathMaker.php is necessary to calculate the prefix for the absolut path
+// F.Hahner 27.11.2014
 include ('../../../pathMaker.php');
 require_once($path.'/include/checkUser.php');
-checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php");
+checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +34,7 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
  <style type="text/css">
             body {
                 background: white; 
-               background-image: url("./../../../images/house1.jpg");
+                background-image: url("./../../../images/house1.jpg");
                 background-repeat: no-repeat;
                 background-position: center top
                 
@@ -97,35 +101,18 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
                 border-color: #000000;
                 background-color: #111111;
               }   
-
-
-              
-
-
         </style>
-  
   </head>
-  <body>
-
+<body>
 
 <div class="container-fluid"><!-- main container -->
         <!--header--> 
-        <?php include "./../login_header.html"?>
-
-
-
-
-   
-
-
-
-
+        <?php include "../../../include/header.php" ?>
 
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
 
 <ul class="nav nav-tabs" role="tablist">
-
   <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
   <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
           <span class="badge">2</span></a></li>
@@ -133,12 +120,10 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
   <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li>
 </ul>
  
-
 <div class="tab-content">
 <!-- Tab my listings -->
   <div role="tabpanel" class="tab-pane active" id="Listings">
    <div class="well">
-
                 <div class="page-header">
                 <h1>My Listings</h1> 
                 </div>
@@ -630,37 +615,17 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
                 </div>
 
 </div>
-                  
-                 
-                        
-
-          
-
-
-             
-
 
 </div>
 
 </div>
 <!--endof tab add property-->
 
-
-
-
-
-
 </div><!--endof tab contents-->
-
-
-
-
 
 
 </div><!--endglobal colon of the hole tabs-->
 </div> <!--endglobal row-->
-
-
 
 <!--Modal for replay  comment-->
  <div id="ReplyComment" class="modal fade">
@@ -706,10 +671,6 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
     </div>
 
 <!--end of Modal for replay  comment-->
-
-
-
-
 
 <!--Modal for user update profile-->
  <div id="UpdateProfile" class="modal fade">
@@ -781,47 +742,21 @@ checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php"
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
                                                 <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
                                               </div>
-                                  
-                                         
-                                        
-                                    
-                                    
-                                
-
-                    
-                    
+    
                 </div> 
-                    
-              
+      
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-save"></i> Save</button> </form>
-                                        
-                                        
-                                    
-                                    
-                                   
-                    
+
                 </div>
             </div>
         </div>
     </div>
 <!--end of Modal for user update profile-->
 
-
-
-
-
 <!--Footer-->
         <?php include "./../../../include/footer.html"?>
-
-
-
-
-
-
 </div>
-
-
-  </body>
+</body>
 </html>

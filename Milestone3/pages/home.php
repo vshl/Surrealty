@@ -33,7 +33,7 @@ Updated by :
 <body >
     <div class="container-fluid"  ><!-- main container -->
         <!--header--> 
-        <?php include "./../include/header.html"?>
+        <?php include "./../include/header.php"?>
         <!--search-->
         <div style="margin-top: 7% ; margin-bottom: 15%;">
         <div class="row ">
