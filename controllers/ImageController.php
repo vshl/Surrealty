@@ -12,7 +12,7 @@
  * @version 1.0
  * 
  */
-define ("PICTURE_DIR", "upload/");
+define ("PICTURE_DIR", "../images/");
 define ("MAX_FILESIZE", "2097152");      // bytes
 
 class ImageController {
@@ -80,25 +80,37 @@ class ImageController {
      * display a picture by id
      * 
      * @param string $type type/size of the picture
+     *                  Use: [SMALL|MEDIUM|LARGE|XLARGE]
      * @param string $pictureHash of the picture
      * @return string path to the picture
      */ 
     public function displayPicture($type, $pictureHash) {
+        
+        if ($pictureHash == NULL) {
+            return "../images/placeholder.jpg";
+        }
+        
         $filename = PICTURE_DIR . $pictureHash;
        
+        
         switch ($type) 
         {
-            case "SMALL":   $filename .= "_SMALL.jpeg"; 
+            case "SMALL":   $filename .= "_SMALL.jpg"; 
                 break;
-            case "MEDIUM":  $filename .= "_MEIDUM.jpeg"; 
+            case "MEDIUM":  $filename .= "_MEIDUM.jpg"; 
                 break;
-            case "LARGE":   $filename .= "_LARGE.jpeg"; 
+            case "LARGE":   $filename .= "_LARGE.jpg"; 
                 break;
-            case "XLARGE":  $filename .= "_XLARGE.jpeg"; 
+            case "XLARGE":  $filename .= "_XLARGE.jpg"; 
                 break;
         }
- 
-        return $filename;
+        
+        if (file_exists($filename)){
+            return $filename;
+        }
+        else {
+            return "../images/file_missing.png";
+        }
     }
     
  

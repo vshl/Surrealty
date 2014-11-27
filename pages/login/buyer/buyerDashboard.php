@@ -1,7 +1,7 @@
 <?php
 include ('../../../pathMaker.php');
 require_once($path.'/include/checkUser.php');
-checkUserRoleAndRedirect(array('BUYER'), "http://sfsuswe.com/~fhahner/index.php");
+checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +106,7 @@ checkUserRoleAndRedirect(array('BUYER'), "http://sfsuswe.com/~fhahner/index.php"
   <body>
       <div class="container-fluid"><!-- main container -->
         <!--header--> 
-        <?php include "./../login_header.html"?>
+        <?php include "../../../include/header.php" ?>
 
 
 
