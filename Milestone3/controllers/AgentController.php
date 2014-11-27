@@ -14,11 +14,10 @@
  * 09NOV2014 - F.HAHNER
  *  redesign class for usage of new 'users' table
  */
+include ('../pathMaker.php');
 
-define ("AGENT_ROLE_ID", 1);
-
-require_once './include/DatabaseComm.php';
-require_once './classes/Agent.php';
+require_once $path.'/include/DatabaseComm.php';
+require_once $path.'/classes/Agent.php';
 
 class AgentController {
     
