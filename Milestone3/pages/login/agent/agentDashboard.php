@@ -1,3 +1,8 @@
+<?php
+include ('../../../pathMaker.php');
+require_once($path.'/include/checkUser.php');
+checkUserRoleAndRedirect(array('AGENT'), "http://sfsuswe.com/~fhahner/index.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
