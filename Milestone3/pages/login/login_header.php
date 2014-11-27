@@ -39,7 +39,7 @@ and open the template in the editor.
                 <ul class="nav navbar-nav" style="font-size: 1.3em">
                     <?php
                     if (isset($_SESSION['fname'])) {
-                        echo "<li>Hello " . $_SESSION['fname'] . "<a href=\".././logout.php\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>LogOff</a></li>";
+                        echo "<li><font color=\"white\">Hello " . $_SESSION['fname'] . "</font><a href=\".././logout.php\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>LogOff</a></li>";
                     }
                     else {
                         echo "<li><a href=\"#myModal_SI\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>Login</a></li>";

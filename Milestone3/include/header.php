@@ -37,7 +37,7 @@ and open the template in the editor.
                     <li><a href="#myModal_SU" data-toggle="modal">Register</a></li>
                     <?php
                     if (isset($_SESSION['fname'])) {
-                        echo "Hello" . $_SESSION['fname'] . "<li><a href=\"#myModal_SI\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>Login</a></li>";
+                        echo "Hello<font color=\"white\">" . $_SESSION['fname'] . "</font><li><a href=\"#myModal_SI\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>Login</a></li>";
                     }
                     else {
                         echo "<li><a href=\"#myModal_SI\" data-toggle=\"modal\"><span class=\"glyphicon glyphicon-log-in\"></span>Login</a></li>";

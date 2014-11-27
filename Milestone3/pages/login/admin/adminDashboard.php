@@ -1,5 +1,7 @@
 <?php
-    session_start();
+include ('../../../pathMaker.php');
+require_once($path.'/include/checkUser.php');
+checkUserRoleAndRedirect(array('ADMIN'), "http://sfsuswe.com/~fhahner/index.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,6 +112,7 @@
         <!--header--> 
         <?php include "./../login_header.php" ?>
 
+        <br><br><br><br>
 
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
@@ -664,6 +667,7 @@
 <!--end of Modal for user update profile-->
 
 <?php
+echo dir(__FILE__);
 //echo'<pre>';
 //echo "Session Dump";
 //var_dump($_SESSION);
