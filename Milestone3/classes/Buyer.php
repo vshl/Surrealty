@@ -8,8 +8,9 @@
  * @version 1.0
  * 
  */
-require_once './include/DatabaseComm.php';
-require_once './classes/Person.php';
+
+require_once '../include/DatabaseComm.php';
+require_once 'Person.php';
 
 class Buyer extends Person {
     
@@ -21,7 +22,7 @@ class Buyer extends Person {
 
     public function __construct() {
         $args = func_get_args();
-        array_push( $args , "0" );      // add 1 to the array for the agent role
+        array_push( $args , BUYER_ROLE_ID );      // add 1 to the array for the agent role
         parent::__construct( $args  );
         $this->dbcomm = new DatabaseComm();
     }
@@ -40,18 +41,17 @@ class Buyer extends Person {
                     parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
                     parent::getEmail() . "', '" . parent::getPhone() . "', '" .
                     $this->enabled . "', NOW(), '". $this->address1 ."', '".
-                    $this->address2 ."', '". $this->zipCode ."', '" . parent::getRole() . "');";
+                    $this->address2 ."', '". $this->zipCode ."', '" . BUYER_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
-    
+
         if ($result != true)
         {
-            echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
             die("Error at buyer saving");
         }
         else
         {
-            return 1;
+          return $this->dbcomm->giveID();
         }
     }
     
@@ -60,16 +60,19 @@ class Buyer extends Person {
      * loadBuyerByID
      * Loads buyer data from Database and build an buyer object
      * @param type $buyerID ID of buyer
+     * 
+     * @return int statuscode 1=success; 0=failure
      */
     public function loadBuyerByID( $userID ) {
-        $sqlQuery = "SELECT * FROM user WHERE user_id = " . $userID . ";";
+        $sqlQuery = "SELECT * FROM user WHERE user_id = " . $userID . " AND role = " . BUYER_ROLE_ID . ";";
+        echo ($sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
 
         if ($this->dbcomm->affectedRows() == 1) 
         {
                 $row = mysqli_fetch_assoc($result);
                 // Copy data from database into buyer object
-                $this->enable    = $row['enable'];
+                $this->enable   = $row['enable'];
                 $this->address1 = $row['address1'];
                 $this->address2 = $row['address2'];
                 $this->zipCode  = $row['zipcode'];
@@ -126,7 +129,6 @@ class Buyer extends Person {
                     . "address2='" . $this->address2 ."', "
                     . "zipcode='" . $this->zipcode."', "
                     . "phone='" . parent::getPhone() . "', "
-                    . "role='" . parent::getRole() . "', "
                     . "modification_date=now()" . ", "
                     . "password='" . parent::getPassword() 
                     . "' WHERE user_id = " . parent::getID() .";";

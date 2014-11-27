@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * mehrere constructs zum automatischen bef�llen ?
@@ -13,6 +12,10 @@
  * 
  *
  */
+define ("BUYER_ROLE_ID", 0);
+define ("AGENT_ROLE_ID", 1);
+define ("ADMIN_ROLE_ID", 2);
+
 
 class Person {
     

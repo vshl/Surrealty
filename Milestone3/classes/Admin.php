@@ -8,6 +8,8 @@
  * @version 1.0
  * 
  */
+
+
 require_once './include/DatabaseComm.php';
 require_once 'Person.php';
 
@@ -18,7 +20,7 @@ class Admin extends Person {
     
     public function __construct() {
         $args = func_get_args();
-        array_push( $args , "2" );      // add 1 to the array for the agent role
+        array_push( $args , ADMIN_ROLE_ID );      // add 1 to the array for the agent role
         parent::__construct( $args  );
         $this->dbcomm = new DatabaseComm();
     }
@@ -36,7 +38,7 @@ class Admin extends Person {
                 parent::getLastname() . "', '" . parent::getFirstname() . "', '" . 
                 parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
                 parent::getEmail() . "', '" . parent::getPhone() . "', '" .
-                $this->enabled . "', NOW(), '" . parent::getRole() . "');";
+                $this->enabled . "', NOW(), '" . ADMIN_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
@@ -58,7 +60,7 @@ class Admin extends Person {
      */
     public function loadAdminByID( $userID ) {
         
-        $sqlQuery = "SELECT * FROM user WHERE user_id = " . $userID . ";";
+        $sqlQuery = "SELECT * FROM user WHERE user_id = " . $userID . " and role = ". ADMIN_ROLE_ID . ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($this->dbcomm->affectedRows() == 1) 
             {
@@ -114,8 +116,7 @@ class Admin extends Person {
                     . "image_name='" . parent::getPictureName() . "', "
                     . "email='" . parent::getEmail() . "', "
                     . "enable=" . $this->enabled . ", "
-                    . "phone='" . parent::getPhone() . "', "
-                    . "role='" . parent::getRole() . "', "
+                    . "phone='" . parent::getPhone() . "', "                 
                     . "modification_date=now()" . ", "
                     . "password='" . parent::getPassword() 
                     . "' WHERE user_id = " . parent::getID() .";";
