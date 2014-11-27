@@ -9,10 +9,9 @@
  * 
  */
 
-define ("AGENT_ROLE_ID", 1);
  
  
-require_once './include/DatabaseComm.php';
+require_once '../include/DatabaseComm.php';
 require_once 'Person.php';
 
 class Agent extends Person {
@@ -23,7 +22,7 @@ class Agent extends Person {
     
     public function __construct() {
         $args = func_get_args();
-        array_push( $args , "1" );      // add 1 to the array for the agent role
+        array_push( $args , AGENT_ROLE_ID );      // add 1 to the array for the agent role
         parent::__construct( $args  );
         $this->dbcomm = new DatabaseComm();
     }
@@ -120,7 +119,6 @@ class Agent extends Person {
                     . "email='" . parent::getEmail() . "', "
                     . "enable=" . $this->enabled . ", "
                     . "phone='" . parent::getPhone() . "', "
-                    . "role='" . parent::getRole() . "', "
                     . "modification_date=now()" . ", "
                     . "password='" . parent::getPassword() 
                     . "' WHERE user_id = " . parent::getID() .";";
