@@ -220,7 +220,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
               </div>
               <div class="col-xs-12 col-sm-3">
                   <h5><span class="badge">Adresse:</span></h5>
-                  <p>' . $user["address1"]. $user['adress2'] . ', ' . $user['state'] . ' , ' . $user['zipcode'] . $user['city'] . $user['country'] . '</p> 
+                  <p>' . $user["address1"]. $user['adress2'] . ', ' . $user['state'] . ' , ' . $user['zipcode'] . ' ' . $user['city'] . ' ' . $user['country'] . '</p> 
 
               </div>
               <div class="col-xs-12 col-sm-2">
