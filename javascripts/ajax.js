@@ -3,7 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-    function loginAndRedirect() {
+$(document).ready( function() {
+    $('a.deleteUser').click( function( event ) {
+     event.preventDefault();
+     if( confirm("You are about to delete a user, this procedure is irreversible.\n\nDo you want to proceed?")) {
+         var paramArr = {
+             action: "deleteUser",
+             user_id: $(this).attr("href")
+         };
+         result = callBackend(paramArr);
+
+    //check result and do stuff
+
+     } else {
+         return false;
+     }  
+
+    });
+});
+    
+function loginAndRedirect() {
         var email = $( "#email").val();
         var password = $ ("#password").val();
         var paramArr = {
