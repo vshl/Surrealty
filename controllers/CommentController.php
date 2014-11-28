@@ -8,8 +8,8 @@
  * @version 1.0
  * 
  */
-require_once './include/DatabaseComm.php';
-require_once './classes/Comment.php';
+require_once '../include/DatabaseComm.php';
+require_once '../classes/Comment.php';
 
 class CommentController {
     
@@ -49,11 +49,15 @@ class CommentController {
     }
     
     /**
+     * 
+     * ÜBERFLÜSSIG ??????? HAHNER, 28Nov 2014
+     * 
      * load all comments which belogsn to an agentID
      * 
      * @param String $agentID
      * @return Comment array 
      */
+       
     public function loadAllCommentsByAgentID($agentID) {
         $list = array();
         
@@ -107,6 +111,31 @@ class CommentController {
         unset ($comment);
     }
     
+    /**
+     * This function return an array with all comments belongs to one agent / user
+     * @param type $userID
+     * @return array [comment_id,property_id,comment,creation_date,created_by,answered_by,answer,answer_date,isSeen]
+     */
+    
+    public function listCommentsByUser($userID) {
+        if (!is_int($userID)) {
+            return 0;
+        }
+        $db = new DatabaseComm();
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $userID .";";
+        $result = $db->executeQuery($query);
+        $comments = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $comments[] = $row;
+            }
+        } else {
+            return 0;          
+        }
+        return $comments;
+    }
+    
+       
 }
 
 ?>

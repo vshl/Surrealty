@@ -285,9 +285,8 @@ Updated by :
 	<!-- footer -->
         <?php include "./../include/footer.html"?>
         
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./../javascripts/jquery-2.1.1.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./../javascripts/script.js"></script> 

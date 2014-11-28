@@ -31,8 +31,7 @@ function loginAndRedirect() {
             password: password
         };
         result = callBackend(paramArr);
-        if (result !== "0")
-        {
+        if (result !== "0") {
             window.location.replace(result);
         }
         else
@@ -44,9 +43,24 @@ function loginAndRedirect() {
         }
     }
 
-    
+  function readCommentsForUser(userID, showOld) {
+    var paramArr = {
+        action: "readCommentsForUser",
+        userID: userID,
+         showOld: showOld
+    };
+    var result = callBackend(paramArr);
+    if (result !== "0") {
+        $(" #comment_container").html(result);
+    }
+    else {
+        $(" #comment_container").text("Error loading comments!");
+    }
+} 
+
+
 function callBackend(param) {
-    var url = "../include/backend.php";
+    var url = "http://www.sfsuswe.com/~fhahner/include/backend.php";
     $.ajax( {
         url: url,
         type: "post",
@@ -62,8 +76,20 @@ function callBackend(param) {
           success: function( response ) {
               //$("#dashboard_content").html(response);
               data = response;
-          }
-          });
-          return data;
-            };
+             },
+          error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            } 
+          
+        });
+    return data;
+ };
+ /*
+  * readCommentsForAgent()
+  * @param userID -> (int) ID of logged on agent
+  * @param showOld -> (int) hide already red comments
+  */
+
+
 

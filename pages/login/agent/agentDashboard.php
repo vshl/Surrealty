@@ -24,11 +24,13 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
+<script src="../../../javascripts/jquery-2.1.1.js"></script>
+<script src="../../../javascripts/ajax.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
 
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
@@ -114,7 +116,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <ul class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
-  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
+  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>,1)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
           <span class="badge">2</span></a></li>
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
   <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li>
@@ -311,7 +313,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                 <h1>Comments</h1> 
                 </div>
 
-               <div style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
+               <div id="comment_container" style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
    
                 <div class="row well">
                     <div class="col-xs-6 col-sm-2">
