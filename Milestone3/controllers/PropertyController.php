@@ -54,5 +54,30 @@ class PropertyController {
         $result = $dbConn->executeQuery($query);
         return $result->fetch_assoc();
     }
+    
+    /**
+     * giveImageHashesByPropertyID
+     * 
+     * return an array with all the image hashes from a given property
+     * used in /include/backend.php to display a picture from property
+     * 
+     * @param int $propertyID
+     * @return array with images hashes
+     */
+    
+    public static function giveImageHashesByPropertyID($propertyID) {
+        if (!is_int($propertyID)) {
+            return 0;
+        }
+        $db = new DatabaseComm();
+        $query = "SELECT image_name FROM property_images WHERE property_id = " . $propertyID .";";
+        $result = $db->executeQuery($query);
+        $image_array = array();
+        while ($row = $result->fetch_assoc()) {
+            $image_array[] = $row;
+        }
+        unset ($db);
+        return $image_array;
+    }
 }
 ?>

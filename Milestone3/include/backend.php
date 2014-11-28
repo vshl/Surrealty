@@ -14,8 +14,10 @@ require_once '../controllers/AgentController.php';
 require_once '../controllers/BuyerController.php';
 //require_once 'AdminControler.php';
 require_once '../controllers/ImageController.php';
+require_once '../controllers/CommentController.php';
 require_once '../classes/Logging.php';
 require_once '../controllers/AuthenticationController.php';
+require_once '../controllers/PropertyController.php';
 
 
 
@@ -25,6 +27,10 @@ require_once '../controllers/AuthenticationController.php';
  */
 
 //read the choosen action from POST variable 'action'
+if (!isset($_POST['action'])) {
+    echo "Fehler";
+    return;
+}
 $functionChoice = $_POST['action'];
 
 
@@ -53,6 +59,9 @@ switch ($functionChoice) {
         break;
     case 'listAllBuyersAsTable':
         listAllBuyersAsTable();
+        break;
+    case 'readCommentsForUser':
+        readCommentsForUser($_POST['userID'], $_POST['showOld']);
         break;
     case 'deleteBuyerByID':
         deleteBuyerByID($_POST['userID']);
@@ -200,6 +209,41 @@ function loginAndRedirect() {
     
     
 }
+
+/**
+ * This function will load all comments belonging to a given user.
+ * @param int $userID -> the given user id (mostly agent)
+ * @param int $showOld -> 1 show already seen comments, 0 show only unseen comments
+ */
+function readCommentsForUser($userID, $showOld) {
+    $logger = new Logging();
+    $userID = intval($userID);
+    //$showOld = intval($showOld);
+    
+//    if ($showOld != 0 OR $showOld != 1) {
+//        echo "0";
+//        $logger->logToFile("readCommentsForUser", "info", "showOld isn't 1 or 0 but " . $showOld);
+//        return;
+//    }
+//    if (!is_int($userID)) {
+//        echo "0";
+//        $logger->logToFile("readCommentsForUser", "info", "userID isn't INT");
+//        return;
+//    }
+    
+    $cc = new CommentController();
+    $ic = new ImageController();
+    $pc = new PropertyController();
+    
+    //get data from comment
+    $comments = $cc->listCommentsByUser($userID);
+    for ($i=0, $c=count($comments); $i<$c-1; $i++) {
+        echo "PropertyID:" . $comments[$i]['property_id'] . "<br>Comment Text:". $comments[$i]['comment']."<br><hr>";
+    }
+    
+    
+}
+
 
 
 
