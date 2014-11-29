@@ -87,7 +87,7 @@ class AgentController {
             return 0;
         }
         $result->free();
-        $query = "SELECT * from user WHERE agent_id = $agent_id";
+        $query = "SELECT * from users WHERE agent_id = $agent_id";
         $result = $db->executeQuery($query);
         $row = $result->fetch_assoc();
         if ($row != NULL){ // found a fitting agent

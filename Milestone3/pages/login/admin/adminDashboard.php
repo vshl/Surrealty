@@ -20,10 +20,10 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
+<script src="../../../javascripts/jquery-2.1.1.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 <script src="../../../javascripts/ajax.js"></script>
@@ -139,15 +139,14 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by user typ:&nbsp;</span>
-                                                  <select class="select" value="" name="role">
-                                                     <option value="surface">Admin</option>
-                                                     <option value="rating">Agent</option>
-                                                     <option value="price">Buyer</option>
-                                                     <option value="date">None</option>
-                                                     <option value="date">All</option>
+                                                  <select class="select" value="" name="sort_role" id="sort_role">
+                                                     <option value="role">Role</option>
+                                                     <option value="zipcode">Zip Code</option>
+                                                     <option value="lname">Lastname</option>
+                                                     <option value="email">Email</option>
                                                   </select>&nbsp;&nbsp;
                                                   <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" value="" name="Date">
+                                                  <select class="select" value="" name="date">
                                                      <option value="surface">Creation_date</option>
                                                      <option value="rating">Modification_date</option>
                                                   </select>
@@ -167,79 +166,9 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             </div>
                                          </form>
                                           <hr>
-<div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;"> <!--container for all results rows-->              
+<div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;" id="userlist"> <!--container for all results rows-->              
 <!--a row of result inside tab-->
-<?php
-    require_once($path.'/include/DatabaseComm.php');
- 
-    $dbComm = new DatabaseComm();
-    $query = "SELECT * FROM users;";
-    $result = $dbComm->executeQuery($query);
-
-    $userlist = array();
-    while ($row = $result->fetch_assoc())  
-    {
-    
-        $user = array ("lname" => $row['lname'], 
-                    "fname" => $row['fname'], 
-                    "email" => $row['email'], 
-                    "phone" => $row['phone'],
-                    "address1" => $row['address1'],
-                    "adress2" => $row['address2'],
-                    "zipcode" => $row['zipcode'],
-                    "city" => $row['city'],
-                    "state" => $row['state'],
-                    "country" => $row['country'],
-                    "user_id" => $row['user_id'], 
-                    "image_name" => $row['image_name'], 
-                    "role" => $row['role'],
-                    "enable" => $row['enable'], 
-                    "modification_date" => $row['modification_date'],
-                    "creation_date" => $row['creation_date']);
-            array_push($userlist, $user);
-     }
-
-    foreach( $userlist as $user ) {
-        print ' 
-            <div class="row well"> 
-              <div class="col-xs-12 col-sm-1">
-                <br><br>
-                <a class="" href="#">
-                  <img class="img-circle img-responsive" src="./../../../images/images.jpg"  >
-                </a>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <h6><span class="badge">First Name:</span>&nbsp;' . $user['fname'] . '</h6>
-                <h6><span class="badge">Last Name:</span>&nbsp;' . $user['lname'] . '</h6>
-                <h6><span class="badge">Role:</span>&nbsp;' . ucwords (strtolower ($user['role']) ) . '</h6>
-                <h6>Creation_date: ' . $user['creation_date'] . '</h6>
-                <h6>Modification_date: ' . $user['modification_date'] . '</h6>
-
-
-
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                  <h5><span class="badge">Adresse:</span></h5>
-                  <p>' . $user["address1"]. $user['adress2'] . ', ' . $user['state'] . ' , ' . $user['zipcode'] . ' ' . $user['city'] . ' ' . $user['country'] . '</p> 
-
-              </div>
-              <div class="col-xs-12 col-sm-2">
-                  <h5><span class="badge"><i class="glyphicon glyphicon-envelope"></i></span>&nbsp;' . $user['email'] . '</h5>
-                  <h5><span class="badge"><i class="glyphicon glyphicon-phone-alt"></i></span>&nbsp;' . $user['phone'] . '</h5>
-                  <h5><span class="badge"><i class="glyphicon glyphicon-cog"></i></span>&nbsp;' . ($user['enable'] == 1 ?  'Enabled' : 'Disabled' ) . '</h5>
-              </div> 
-              <div class="col-xs-12 col-sm-3">
-                  <h5><span class="badge">Action:</span></h5>
-                  <h5><a class="deleteUser" href="'.$user['user_id'].'"><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href=""><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
-                  '<a href=""><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
-              </div> 
-            </div><!--endof row of result inside tab-->
-
-            <hr>';
-    }
-?>
-        
+       
 </div><!--end of container for all results rows-->
 
 

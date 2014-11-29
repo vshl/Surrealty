@@ -4,23 +4,38 @@
  * and open the template in the editor.
  */
 $(document).ready( function() {
-    $('a.deleteUser').click( function( event ) {
-     event.preventDefault();
-     if( confirm("You are about to delete a user, this procedure is irreversible.\n\nDo you want to proceed?")) {
-         var paramArr = {
-             action: "deleteUser",
-             user_id: $(this).attr("href")
-         };
-         result = callBackend(paramArr);
-
-    //check result and do stuff
-
-     } else {
-         return false;
-     }  
-
+ 
+    // Admin Dashboard bind delete button
+    $("#deleteUser").click( function (){
+       alert("test") ; // not working atm
     });
+    
+    
+    // Admin Dashboard bind change from sorting dropdown
+    $("#sort_role").change( function( event ) {
+        $("#userlist").text("Loading...");
+        showUserList( $(this).val());
+    });
+    
+    $("#sort_role").change();
 });
+
+
+function showUserList(order) {
+    var paramArr = {
+        action: "showUserlist",
+        order: order
+    }
+    $("#userlist").text("LOADING");
+    var result = callBackend(paramArr);
+
+    if (result !== "0") {
+        $("#userlist").html(result);
+    }
+    else {
+        $("#userlist").text("Error loading userlist!");
+    }
+}
     
 function loginAndRedirect() {
         var email = $( "#email").val();
@@ -60,7 +75,7 @@ function loginAndRedirect() {
 
 
 function callBackend(param) {
-    var url = "http://www.sfsuswe.com/~fhahner/include/backend.php";
+    var url = "http://sfsuswe.com/~bbleic/include/backend.php";
     $.ajax( {
         url: url,
         type: "post",
