@@ -140,15 +140,19 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                               <div class="input-group">
                                                 <span class="badge">Sort by user typ:&nbsp;</span>
                                                   <select class="select" value="" name="sort_role" id="sort_role">
-                                                     <option value="role">Role</option>
+                                                     <option value="admin">Admin</option>
+                                                     <option value="agent">Agent</option>
+                                                     <option value="buyer">Buyer</option>
+                                                     <option value="all">All</option>
+                                                  </select>&nbsp;&nbsp;
+                                                  <span class="badge">Sort by:&nbsp;</span>
+                                                  <select class="select" value="" name="sort_order">
+                                                     <option value="surface">Creation_date</option>
+                                                     <option value="rating">Modification_date</option>
+                                                      <option value="role">Role</option>
                                                      <option value="zipcode">Zip Code</option>
                                                      <option value="lname">Lastname</option>
                                                      <option value="email">Email</option>
-                                                  </select>&nbsp;&nbsp;
-                                                  <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" value="" name="date">
-                                                     <option value="surface">Creation_date</option>
-                                                     <option value="rating">Modification_date</option>
                                                   </select>
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
