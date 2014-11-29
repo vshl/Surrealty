@@ -64,7 +64,7 @@ switch ($functionChoice) {
         readCommentsForUser($_POST['userID'], $_POST['showOld']);
         break;
     case 'showUserlist':
-        showUserlist($_POST['order']);
+        showUserlist($_POST['role'], $_POST['order']);
         break;
     case 'deleteUserByID':
         deleteUserByID($_POST['user_id']);
@@ -262,7 +262,7 @@ function addBuyer() {
 }
 
 
-function showUserlist($order) {
+function showUserlist( $role, $order ) {
     include ('../pathMaker.php');
     require_once($path.'/include/DatabaseComm.php');
  
