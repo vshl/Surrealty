@@ -33,7 +33,7 @@ class AuthenticationController {
         
         while( $row = mysqli_fetch_assoc($result) ) 
         {            
-            session_start();
+            //session_start();
             $_SESSION['fname']   = $row['fname'];
             $_SESSION['lname']   = $row['lname'];
             $_SESSION['user_id'] = $row['user_id'];

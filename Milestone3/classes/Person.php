@@ -12,9 +12,9 @@
  * 
  *
  */
-define ("BUYER_ROLE_ID", 0);
-define ("AGENT_ROLE_ID", 1);
-define ("ADMIN_ROLE_ID", 2);
+define ("BUYER_ROLE_ID", "BUYER");
+define ("AGENT_ROLE_ID", "AGENT");
+define ("ADMIN_ROLE_ID", "ADMIN");
 
 
 class Person {

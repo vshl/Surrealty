@@ -7,7 +7,10 @@
  * 
  * @author Benjamin Bleicher <benjamin.bleichert@informatik.hs-fulda.de>
  * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
- * @version 1.0
+ * @version 1.1
+ * 
+ * 29Nov 2014
+ * FHA - Added UTF8 Support 
  */
 class DatabaseComm {
     
@@ -42,6 +45,7 @@ class DatabaseComm {
      */
     
     public function executeQuery( $query ) {
+        $this->dbConn->set_charset('utf8');
         return $this->dbConn->query( $query ); 
         //error_log($this->dbConn->error, 3, "c:\xampp\sql_error.log");
     }
