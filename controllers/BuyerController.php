@@ -93,7 +93,7 @@ class BuyerController {
     
     public function listAllBuyers($sortDirection = 'ASC', $sortField = 'lname') {
         $dbComm = new DatabaseComm();
-        $sqlQuery = "SELECT * FROM user WHERE role = " . BUYER_ROLE_ID . " ORDER BY $sortField $sortDirection;";
+        $sqlQuery = "SELECT * FROM users WHERE role = " . BUYER_ROLE_ID . " ORDER BY $sortField $sortDirection;";
         $result = $dbComm->executeQuery($sqlQuery);
         echo $dbComm->giveError();
         $buyer_array = array();

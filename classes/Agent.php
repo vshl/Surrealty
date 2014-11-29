@@ -36,7 +36,7 @@ class Agent extends Person {
      * uses information from 
      */
     public function saveAgent() {
-        $sqlQuery = "INSERT INTO user (fname, lname, image_name, password, email, phone, enable, creation_date, role) VALUES (" . "'" .
+        $sqlQuery = "INSERT INTO users (fname, lname, image_name, password, email, phone, enable, creation_date, role) VALUES (" . "'" .
                 parent::getLastname() . "', '" . parent::getFirstname() . "', '" . 
                 parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
                 parent::getEmail() . "', '" . parent::getPhone() . "', '" .
@@ -62,7 +62,7 @@ class Agent extends Person {
      */
     public function loadAgentByID( $userID ) {
         
-        $sqlQuery = "SELECT * FROM user WHERE agent_id = $agentid AND role = " . AGENT_ROLE_ID . ";";
+        $sqlQuery = "SELECT * FROM users WHERE agent_id = $agentid AND role = " . AGENT_ROLE_ID . ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($this->dbcomm->affectedRows() == 1) 
             {
@@ -85,7 +85,7 @@ class Agent extends Person {
      * @return int Statuscode ( 1 > Agent deleted, 0 > No Data for ID found ) 
      */
     public function deleteAgentByID( $agentID ){
-        $sqlQuery = "DELETE FROM user WHERE agent_id = $agentID;";
+        $sqlQuery = "DELETE FROM users WHERE agent_id = $agentID;";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($result != true)
         {
@@ -112,7 +112,7 @@ class Agent extends Person {
      * @return int Statuscode ( 1 > Agent updated, 0 > No Data for ID found )
      */
     public function updateAgent() {
-        $sqlQuery = "UPDATE user SET "
+        $sqlQuery = "UPDATE users SET "
                     . "fname='" . parent::getFirstname() . "', "
                     . "lname='" . parent::getLastname() . "', "
                     . "image_name='" . parent::getPictureName() . "', "

@@ -48,7 +48,7 @@ class AuthenticationController {
     
 
     public function resetPassword( $email ) {
-        $sqlQuery = "INSERT INTO user (reset_code, reset_date) VALUES ('" . $this->getRandomString( 32 ) . "', NOW()) WHERE email = '" . $email . "';";
+        $sqlQuery = "INSERT INTO users (reset_code, reset_date) VALUES ('" . $this->getRandomString( 32 ) . "', NOW()) WHERE email = '" . $email . "';";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         

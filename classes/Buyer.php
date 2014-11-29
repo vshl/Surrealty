@@ -36,7 +36,7 @@ class Buyer extends Person {
      * uses information from 
      */
     public function saveBuyer() {
-        $sqlQuery = "INSERT INTO user ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, role) VALUES ('" .
+        $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, role) VALUES ('" .
                     parent::getLastname() . "', '" . parent::getFirstname() . "', '" . 
                     parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
                     parent::getEmail() . "', '" . parent::getPhone() . "', '" .
@@ -64,7 +64,7 @@ class Buyer extends Person {
      * @return int statuscode 1=success; 0=failure
      */
     public function loadBuyerByID( $userID ) {
-        $sqlQuery = "SELECT * FROM user WHERE user_id = " . $userID . " AND role = " . BUYER_ROLE_ID . ";";
+        $sqlQuery = "SELECT * FROM users WHERE user_id = " . $userID . " AND role = " . BUYER_ROLE_ID . ";";
         echo ($sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
 
@@ -92,7 +92,7 @@ class Buyer extends Person {
      * @return int Statuscode ( 1 > buyer deleted, 0 > No Data for ID found ) 
      */
     public function deleteBuyerByID( $userID ){
-        $sqlQuery = "DELETE FROM user WHERE user_id = " . $userID . ";";
+        $sqlQuery = "DELETE FROM users WHERE user_id = " . $userID . ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($result != true)
         {
