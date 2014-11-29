@@ -75,7 +75,14 @@ function loginAndRedirect() {
 
 
 function callBackend(param) {
-    var url = "http://sfsuswe.com/~bbleic/include/backend.php";
+        
+    // here we will split string to get path names
+    // f.hahner 29Nov2014
+    var str = $(location).attr('href');
+    var res = str.split("/");
+    // res[2] = www.sfsuswe.com
+    // res[3] = ~fhahner
+    var url = "/" + res[3] + "/include/backend.php";
     $.ajax( {
         url: url,
         type: "post",
@@ -94,6 +101,7 @@ function callBackend(param) {
              },
           error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
+                alert(ajaxOptions);
                 alert(thrownError);
             } 
           
