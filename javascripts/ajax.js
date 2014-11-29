@@ -18,6 +18,8 @@ $(document).ready( function() {
     });
     
     $("#sort_role").change();
+    
+    
 });
 
 
@@ -58,11 +60,17 @@ function loginAndRedirect() {
         }
     }
 
-  function readCommentsForUser(userID, showOld) {
+function readCommentsForUser() {
+    if ($( "#chkbox_show_seen_comments").is(':checked')) {
+        showOld = 1;
+    }
+    else {
+        showOld = 0;
+    }
+    
     var paramArr = {
         action: "readCommentsForUser",
-        userID: userID,
-         showOld: showOld
+        showOld: showOld
     };
     var result = callBackend(paramArr);
     if (result !== "0") {
@@ -72,6 +80,39 @@ function loginAndRedirect() {
         $(" #comment_container").text("Error loading comments!");
     }
 } 
+
+function giveUnseenCommentsByUserID(userID) {
+    var paramArr = {
+        action: "giveUnseenCommentsByID",
+        userID: userID
+        };
+    var result = callBackend(paramArr);
+    if (result == 0) {
+        $(" #tab_count_unseen_comments").hide();
+    }
+    else {
+        $(" #tab_count_unseen_comments").text(result);
+    }
+}
+
+function switchCommentHideState(commentID) {
+    var paramArr = {
+        action: "switchCommentHideState",
+        commentID: commentID
+        };
+        callBackend(paramArr);
+        readCommentsForUser();
+    }
+
+function switchCommentPublicState(commentID) {
+    var paramArr = {
+        action: "switchCommentPublicState",
+        commentID: commentID
+        };
+        callBackend(paramArr);
+        readCommentsForUser();
+        
+ }
 
 
 function callBackend(param) {

@@ -30,7 +30,11 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
+<script>
+        $(document).ready( function() {
+            giveUnseenCommentsByUserID(<?php echo $_SESSION['user_id']; ?>);
+        });
+</script>
 
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
@@ -116,8 +120,8 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <ul class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
-  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>,1)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
-          <span class="badge">2</span></a></li>
+  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
+          <span id="tab_count_unseen_comments" class="badge">0</span></a></li>
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
   <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li>
 </ul>
@@ -312,7 +316,12 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                 <div class="page-header">
                 <h1>Comments</h1> 
                 </div>
-
+               <div class="checkbox">
+                <label>
+                 <span class="badge">&nbsp;&nbsp;Show hidden comments&nbsp;&nbsp;</span>
+                </label> 
+                   <input type="checkbox" name="" id="chkbox_show_seen_comments" onchange="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)">
+              </div>
                <div id="comment_container" style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
    
                 <div class="row well">
@@ -759,6 +768,6 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <!--Footer-->
         <?php include "./../../../include/footer.html"?>
-</div>
+    
 </body>
 </html>

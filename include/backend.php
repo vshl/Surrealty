@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /**
  * This is the ajax backend for the frontend.
  * We use one common backend for all the dashboards.
@@ -61,7 +61,7 @@ switch ($functionChoice) {
         listAllBuyersAsTable();
         break;
     case 'readCommentsForUser':
-        readCommentsForUser($_POST['userID'], $_POST['showOld']);
+        readCommentsForUser($_SESSION['user_id'], $_POST['showOld']);
         break;
     case 'showUserlist':
         showUserlist($_POST['role'], $_POST['order']);
@@ -71,6 +71,15 @@ switch ($functionChoice) {
         break;
     case 'deleteBuyerByID':
         deleteBuyerByID($_POST['userID']);
+        break;
+    case 'giveUnseenCommentsByID':
+        giveUnseenCommentsByID($_SESSION['user_id']);
+        break;
+    case 'switchCommentPublicState':
+        switchCommentPublicState($_POST['commentID']);
+        break;
+    case 'switchCommentHideState':
+        switchCommentHideState($_POST['commentID']);
         break;
     default:
         echo "<b>Error at switch-case<b><br>";
@@ -219,9 +228,9 @@ function loginAndRedirect() {
 /**
  * This function will load all comments belonging to a given user.
  * @param int $userID -> the given user id (mostly agent)
- * @param int $showOld -> 1 show already seen comments, 0 show only unseen comments
+ * @param int $showHidden-> 1 show all comments, 0 suppres hidden comments
  */
-function readCommentsForUser($userID, $showOld) {
+function readCommentsForUser($userID, $showHidden) {
     $logger = new Logging();
     $userID = intval($userID);
     //$showOld = intval($showOld);
@@ -240,16 +249,97 @@ function readCommentsForUser($userID, $showOld) {
     $cc = new CommentController();
     $ic = new ImageController();
     $pc = new PropertyController();
+    $bc = new BuyerController();
+    
+    $disp = "";
     
     //get data from comment
-    $comments = $cc->listCommentsByUser($userID);
-    for ($i=0, $c=count($comments); $i<$c-1; $i++) {
-        echo "PropertyID:" . $comments[$i]['property_id'] . "<br>Comment Text:". $comments[$i]['comment']."<br><hr>";
-    }
     
+    $comments = $cc->listCommentsByUser($userID, intval($showHidden));
+    $logger->logToFile("showComments", "info", "got " . count($comments) . "comments from controller ");
+    if (is_int($comments)) {
+        echo "No unhidden comments found";
+        return;
+    }
+    for ($i=0, $c=count($comments); $i<$c; $i++) {
+        $logger->logToFile("showComments", "info", "load data for comment" . $i);
+        //load and prepare buyer information
+        $buyer = $bc->loadBuyerByID($comments[$i]['created_by']);
+        $buyer_name = $buyer->getFirstname() . " " . $buyer->getLastname();
+        $buyer_image_path = $ic->displayPicture("SMALL", $buyer->getPictureName());
+        
+        //load and prepare property information
+        $property_images = $pc->giveImageHashesByPropertyID(intval($comments[$i]['property_id']));
+        $logger->logToFile("showComments", "info", "Try to load prop image:" . $property_images[0]['image_name']);
+        $property_image_path = $ic->displayPicture("MEDIUM", $property_images[0]['image_name']);
+        
+        $disp .= "<div class=\"row well\">
+                    <div class=\"col-xs-6 col-sm-2\">
+                        <a class=\"\" href=\"#\">
+                            <img class=\"img-circle img-responsive\" src=\"../../" . $property_image_path . "\">
+                            <h5><span class=\"badge\">Property ID:" . $comments[$i]['property_id'] ."</span></h5>
+                        </a>
+                    </div>
+                <div class=\"clearfix visible-xs-block\"></div>
+                <div class=\"col-xs-6 col-sm-6\">
+                    <label><img class=\"img-circle thumbusercomment\" src=\"../../" . $buyer_image_path . "\">&nbsp;" . $buyer_name ." has commented:</label>
+                    <p>" . $comments[$i]['comment'] . "</p>
+                    <p><b>Answer:</b><br>" . $comments[$i]['answer'] . "</p>
+                </div>
+                
+                <!-- Add the extra clearfix for only the required viewport -->
+                <div class=\"clearfix visible-xs-block\"></div>
+                <div class=\"col-xs-6 col-sm-4\">
+                    <br><br><br> 
+                    <div>";
+                        if ($comments[$i]['answer'] == "") {
+                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\"><span class=\"badge\"><i class=\"glyphicon glyphicon-send\"></i>Reply&nbsp;</span></a>";
+                        }
+                        else {
+                            $disp .= "&nbsp;";
+                        }
+        $disp .=        "<a href=\"#\"><span class=\"badge\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</span></a>";
+                        if ($comments[$i]['isHidden'] == 1) {
+                            $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</span></a>";
+                        }
+                        else {
+                            $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</span></a>";
+                        }
+                        if (!$comments[$i]['answer'] == ""){
+                            if ($comments[$i]['isPublic'] == 1) {
+                                $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make private\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span></a>";
+                            }
+                            else {
+                                $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make public\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span></a>";
+                            }
+                        }
+                        
+        $disp .=        "</div>
+                </div>
+                </div><!--endof row inside tab-->";
+    };
+    echo $disp;
     
 }
 
+
+function switchCommentPublicState($commentID) {
+    //$logger = new Logging();
+    //$logger->logToFile("switchCommentPublicState", "info", "Wanna switch for com# " . $commentID) ;
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $cc->switchCommentPublic($commentID);
+    unset($cc);
+}
+
+function switchCommentHideState($commentID) {
+    $logger = new Logging();
+    $logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $cc->switchCommentHideState($commentID);
+    unset($cc);
+}
 
 
 
@@ -376,6 +466,14 @@ function deleteUserByID( $user_id ) {
         }
 
     }
+}
+
+function giveUnseenCommentsByID($user_id) {
+    $logger = new Logging();
+    $user_id = intval($user_id);
+    $cc = new CommentController();
+    $logger->logToFile("countComments", "info", $cc->giveCountOfUnansweredComments($user_id) );
+    echo $cc->giveCountOfUnansweredComments($user_id);
 }
 
 ?>

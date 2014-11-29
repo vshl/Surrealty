@@ -8,6 +8,9 @@
  * @version 1.0
  * 
  */
+
+require_once '../classes/Logging.php';
+
 class Comment {
     
     private $commentID;
@@ -16,13 +19,15 @@ class Comment {
     private $creationDate;
     private $createdByUserID;
     private $answeredByAgentID;
-    private $showPublic;
+    private $isPublic;
+    private $isHidden;
     private $answerText;
     private $dbcomm;
     
     
     public function __construct() {
-        $this->showPublic = false;
+        $this->isPublic = false;
+        $this->isHidden = false;
         $this->dbcomm = new DatabaseComm();
         $this->answerText = null;
         $this->answeredByAgentID = null;
@@ -38,7 +43,9 @@ class Comment {
      * @return int Statuscode ( 1 > comment loaded, 0 > No Data for ID found ) 
      */
     public function loadCommentByID($commentID) {
+        //$logger = new Logging();
         $sqlQuery = "SELECT * FROM comments WHERE comment_id = ".$commentID.";";
+        //$logger->logToFile("Comment, loadCommentByID)", "info", "SQL Query: " . $sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($this->dbcomm->affectedRows() == 1) 
             {
@@ -50,8 +57,10 @@ class Comment {
                 $this->creationDate = $row['creation_date'];
                 $this->createdByUserID = $row['created_by'];
                 $this->answeredByAgentID = $row['answered_by'];
-                $this->answerText = $row['answer'];  // to be renamed in mysql
-                
+                $this->answerText = $row['answer'];
+                $this->isPublic = $row['isPublic'];
+                $this->isHidden = $row['isHidden']; // to be renamed in mysql
+                $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText());
                 return 1;
             }
             else
@@ -85,15 +94,27 @@ class Comment {
     }
   
     function updateComment() {
+        //$logger = new Logging();
+        
         $sqlQuery = "UPDATE comments SET " .
                 "property_id='" . $this->propertyID . "', " . 
                 "comment='" . $this->commentText . "', " . 
                 "creation_date='" . $this->creationDate . "', " .
                 "created_by='" . $this->createdByUserID . "', " .
-                "answer='" . $this->answerText . "', " .
-                "answered_by='" . $this->answeredByAgentID . "' " . 
+                "answer='" . $this->answerText . "', ";
+                if ($this->answeredByAgentID == "") {
+                    $sqlQuery .= "answered_by = NULL, ";
+                }
+                else {
+                    $sqlQuery .= "answered_by= '" . $this->answeredByAgentID . "', ";
+                }
+                
+                  
+        $sqlQuery .= "isPublic='" . $this->isPublic . "', " .
+                "isHidden='" . $this->isHidden . "' " .
                 "WHERE comment_id = " . $this->commentID . ";";
-             
+        
+        //$logger->logToFile("Comment, updateComment", "info", "try to update with " .$sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
@@ -161,10 +182,14 @@ class Comment {
         $this->createdByUserID = $userID;
     }
     
-    public function setShowPublic($showPublic) {
-        $this->showPublic = $showPublic;
+    public function setIsPublic($isPublic) {
+        $this->isPublic = $isPublic;
     }
     
+    public function setIsHidden($isHidden) {
+        $this->isHidden = $isHidden;
+    }
+          
     public function setAnswerText($answerText) {
         $this->answerText = $answerText;
     }
@@ -197,8 +222,12 @@ class Comment {
         return $this->createdByUserID;
     }
     
-    public function getShowPublic() {
-        return $this->showPublic;
+    public function getIsPublic() {
+        return $this->isPublic;
+    }
+    
+    public function getIsHidden() {
+        return $this->isHidden;
     }
     
     public function getAnswerText() {

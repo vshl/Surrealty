@@ -64,8 +64,7 @@ class Buyer extends Person {
      * @return int statuscode 1=success; 0=failure
      */
     public function loadBuyerByID( $userID ) {
-        $sqlQuery = "SELECT * FROM users WHERE user_id = " . $userID . " AND role = " . BUYER_ROLE_ID . ";";
-        echo ($sqlQuery);
+        $sqlQuery = "SELECT * FROM users WHERE user_id = " . $userID . " AND role = '" . BUYER_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
 
         if ($this->dbcomm->affectedRows() == 1) 

@@ -97,7 +97,7 @@ class ImageController {
         {
             case "SMALL":   $filename .= "_SMALL.jpg"; 
                 break;
-            case "MEDIUM":  $filename .= "_MEIDUM.jpg"; 
+            case "MEDIUM":  $filename .= "_MEDIUM.jpg"; 
                 break;
             case "LARGE":   $filename .= "_LARGE.jpg"; 
                 break;
