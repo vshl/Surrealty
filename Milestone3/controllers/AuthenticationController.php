@@ -38,7 +38,7 @@ class AuthenticationController {
             $_SESSION['lname']   = $row['lname'];
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['role']    = $row['role'];
-            $this->logger->logToFile("AuthController", "Info", "User: " . $row['user_id'] . "has logged on. Role Type: " . $row['role']);
+            $this->logger->logToFile("AuthController", "Info", "User: " . $row['user_id'] . "has logged on. Role Type: " . $row['role'] . "from ip:" . $_SERVER['REMOTE_ADDR']);
             
             return 1;
         }        

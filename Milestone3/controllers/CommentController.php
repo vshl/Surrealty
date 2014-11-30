@@ -84,6 +84,16 @@ class CommentController {
         return $list;
 
     }
+    
+    public function loadCommentByCommentID($commentID) {
+        $comment_id = intval($commentID);
+        $comment = new Comment();
+        $result = $comment->loadCommentByID($comment_id);
+        if ($result == 0) {
+            return 0;
+        }
+        return $comment;
+    }
     /**
      * switch the public status of a given comment
      * @param type $commentID
@@ -107,9 +117,11 @@ class CommentController {
     }
     
     public function switchCommentHideState( $commentID) {
+        $logger = new Logging();
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
         $cur_state = intval($comment->getIsHidden());
+        $logger->logToFile("switchCommentHideState", "info", "switch hide state from: " .$cur_state);
         if ($cur_state == 1) {   
             $comment->setIsHidden(0);
         }
@@ -140,8 +152,9 @@ class CommentController {
         $comment->loadCommentByID($commentID);
         $comment->setAgentID($agentID);
         $comment->setAnswerText($answerText);
-        $comment->updateComment();
+        $result = $comment->updateComment();
         unset ($comment);
+        return $result;
     }
     
     /**

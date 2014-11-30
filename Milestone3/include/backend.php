@@ -84,6 +84,12 @@ switch ($functionChoice) {
     case 'switchCommentHideState':
         switchCommentHideState($_POST['commentID']);
         break;
+    case 'returnAnswerToComment':
+        returnAnswerToComment($_POST['commentID'], $_POST['answerText']);
+        break;
+    case 'removeComment':
+        removeComment($_POST['commentID'], $_SESSION['user_id']);
+        break;
     default:
         echo "<b>Error at switch-case<b><br>";
         print_r($_POST);
@@ -266,10 +272,13 @@ function readCommentsForUser($userID, $showHidden) {
     }
     for ($i=0, $c=count($comments); $i<$c; $i++) {
         $logger->logToFile("showComments", "info", "load data for comment" . $i);
-        //load and prepare buyer information
+        
+//load and prepare buyer information
         $buyer = $bc->loadBuyerByID($comments[$i]['created_by']);
         $buyer_name = $buyer->getFirstname() . " " . $buyer->getLastname();
         $buyer_image_path = $ic->displayPicture("SMALL", $buyer->getPictureName());
+        $buyer_address = $buyer->getAddress1(). ", " . $buyer->getZipCode(). ", " . $buyer->getCity();
+        $buyer_phone = $buyer->getPhone();
         
         //load and prepare property information
         $property_images = $pc->giveImageHashesByPropertyID(intval($comments[$i]['property_id']));
@@ -285,9 +294,11 @@ function readCommentsForUser($userID, $showHidden) {
                     </div>
                 <div class=\"clearfix visible-xs-block\"></div>
                 <div class=\"col-xs-6 col-sm-6\">
-                    <label><img class=\"img-circle thumbusercomment\" src=\"../../" . $buyer_image_path . "\">&nbsp;" . $buyer_name ." has commented:</label>
-                    <p>" . $comments[$i]['comment'] . "</p>
-                    <p><b>Answer:</b><br>" . $comments[$i]['answer'] . "</p>
+                    <label><img id=\"comment_".$comments[$i]['comment_id']."_userimage\" class=\"img-circle thumbusercomment\" src=\"../../" . $buyer_image_path . "\">&nbsp;<span id=\"comment_".$comments[$i]['comment_id']."_username\">" . $buyer_name ."</span> has commented:</label>
+                    <span id=\"comment_".$comments[$i]['comment_id']."_address\" style=\"display:none\">" . $buyer_address . "</span>
+                    <span id=\"comment_".$comments[$i]['comment_id']."_phone\" style=\"display:none\">" . $buyer_phone . "</span>    
+                    <p id=\"comment_".$comments[$i]['comment_id']."_comment\">" . $comments[$i]['comment'] . "</p>
+                    <p id=\"comment_".$comments[$i]['comment_id']."_answer\"><b>Answer:</b><br>" . $comments[$i]['answer'] . "</p>
                 </div>
                 
                 <!-- Add the extra clearfix for only the required viewport -->
@@ -296,10 +307,10 @@ function readCommentsForUser($userID, $showHidden) {
                     <br><br><br> 
                     <div>";
                         if ($comments[$i]['answer'] == "") {
-                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\"><span class=\"badge\"><i class=\"glyphicon glyphicon-send\"></i>Reply&nbsp;</span></a>";
+                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-send\"></i>Reply&nbsp;</span></a>";
                         }
                         else {
-                            $disp .= "&nbsp;";
+                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-pencil\"></i>Modify&nbsp;</span></a>";
                         }
         $disp .=        "<a href=\"#\"><span class=\"badge\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</span></a>";
                         if ($comments[$i]['isHidden'] == 1) {
@@ -316,6 +327,7 @@ function readCommentsForUser($userID, $showHidden) {
                                 $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make public\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span></a>";
                             }
                         }
+        $disp .=        "<a href=\"#\" onclick=\"removeComment(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-trash\"></i>&nbsp;Remove</span></a>";                
                         
         $disp .=        "</div>
                 </div>
@@ -336,14 +348,45 @@ function switchCommentPublicState($commentID) {
 }
 
 function switchCommentHideState($commentID) {
-    $logger = new Logging();
-    $logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
+    //$logger = new Logging();
+    //$logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
     $commentID = intval($commentID);
     $cc = new CommentController();
     $cc->switchCommentHideState($commentID);
+    $logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
     unset($cc);
+    //unset($logger);
 }
 
+function returnAnswerToComment($commentID, $answerText) {
+    $logger = new Logging();
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $logger->logToFile("answerComment", "info", "update comment with: " . $commentID . " " . $_SESSION['user_id']. " " . $answerText);
+    $result = $cc->setAnwser($commentID, $_SESSION['user_id'], $answerText);
+    echo $result;
+    unset($cc);
+    unset($logger);
+    
+}
+
+function removeComment($commentID, $userID) {
+    $userID = intval($userID);
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $comment = $cc->loadCommentByCommentID($commentID);
+    if (is_int($comment)) {
+        echo 0;
+    }
+    // a short check if userID is allowed to delete comment.
+    if ($comment->getAgentID() == $userID) {
+        $cc->deleteCommentByID($commentID);
+        echo 1;
+    }
+    else {
+        echo 0;
+    }
+}
 
 
 function addBuyer() {

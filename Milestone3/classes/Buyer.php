@@ -15,9 +15,9 @@ require_once 'Person.php';
 class Buyer extends Person {
     
     private $enabled;
-    private $address1;
-    private $address2;
-    private $zipCode;
+    //private $address1;
+    //private $address2;
+    //private $zipCode;
     private $dbcomm;
 
     public function __construct() {
@@ -36,12 +36,21 @@ class Buyer extends Person {
      * uses information from 
      */
     public function saveBuyer() {
-        $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, role) VALUES ('" .
-                    parent::getLastname() . "', '" . parent::getFirstname() . "', '" . 
-                    parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
-                    parent::getEmail() . "', '" . parent::getPhone() . "', '" .
-                    $this->enabled . "', NOW(), '". $this->address1 ."', '".
-                    $this->address2 ."', '". $this->zipCode ."', '" . BUYER_ROLE_ID . "');";
+        $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, state, country, city, role) VALUES ('" .
+                    parent::getLastname() . "', '" . 
+                    parent::getFirstname() . "', '" . 
+                    parent::getPictureName() . "', '" . 
+                    parent::getPassword() . "', '" . 
+                    parent::getEmail() . "', '" . 
+                    parent::getPhone() . "', '" .
+                    $this->enabled . "', NOW(), '". 
+                    parent::getAddress1() ."', '".
+                    parent::getAddress2() ."', '".   
+                    parent::getZipcode() ."', '" . 
+                    parent::getState() ."', '" . 
+                    parent::getCountry() ."', '" . 
+                    parent::getCity() ."', '" . 
+                    BUYER_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
 
         if ($result != true)
@@ -59,7 +68,7 @@ class Buyer extends Person {
     /**
      * loadBuyerByID
      * Loads buyer data from Database and build an buyer object
-     * @param type $buyerID ID of buyer
+     * @param type $userID ID of buyer
      * 
      * @return int statuscode 1=success; 0=failure
      */
@@ -72,10 +81,10 @@ class Buyer extends Person {
                 $row = mysqli_fetch_assoc($result);
                 // Copy data from database into buyer object
                 $this->enable   = $row['enable'];
-                $this->address1 = $row['address1'];
-                $this->address2 = $row['address2'];
-                $this->zipCode  = $row['zipcode'];
-                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['image_name'], $row['role']);
+                //$this->address1 = $row['address1'];
+                //$this->address2 = $row['address2'];
+                //$this->zipCode  = $row['zipcode'];
+                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
                 parent::setID($row['user_id']);
                 return 1;
         }
@@ -118,19 +127,22 @@ class Buyer extends Person {
      * @return int Statuscode ( 1 > buyer updated, 0 > No Data for ID found )
      */
     public function updateBuyer() {
-        $sqlQuery = "UPDATE buyer SET "
-                    . "fname='" . parent::getFirstname() . "', "
-                    . "lname='" . parent::getLastname() . "', "
-                    . "image_name='" . parent::getPictureName() . "', "
-                    . "email='" . parent::getEmail() . "', "
-                    . "enable=" . $this->enabled . ", "
-                    . "address1='" . $this->address1 ."', "
-                    . "address2='" . $this->address2 ."', "
-                    . "zipcode='" . $this->zipcode."', "
-                    . "phone='" . parent::getPhone() . "', "
-                    . "modification_date=now()" . ", "
-                    . "password='" . parent::getPassword() 
-                    . "' WHERE user_id = " . parent::getID() .";";
+        $sqlQuery = "UPDATE users SET "
+                    . "fname='"         . parent::getFirstname() .  "', "
+                    . "lname='"         . parent::getLastname() .   "', "
+                    . "image_name='"    . parent::getPictureName() ."', "
+                    . "email='"         . parent::getEmail() .      "', "
+                    . "enable="         . $this->enabled .          ", "
+                    . "address1='"      . parent::getAddress1() .   "', "
+                    . "address2='"      . parent::getAddress2() .   "', "
+                    . "zipcode='"       . parent::getZipcode() .    "', "
+                    . "phone='"         . parent::getPhone() .      "', "
+                    . "city='"          . parent::getCity() .       "', "
+                    . "state='"         . parent::getState() .      "', "
+                    . "country='"       . parent::getCountry() .    "', "
+                    . "modification_date=now()" .                   ", "
+                    . "password='"      . parent::getPassword() 
+                    . "' WHERE user_id = " . parent::getID() .      ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
@@ -153,20 +165,26 @@ class Buyer extends Person {
         $this->enabled = $enabled;
     }
     
-     public function giveArray() {
+    public function giveArray() {
         $array = array(
-            "fistname" => $this->getFirstname(),
-            "lastname" => $this->getLastname(),
-            "email" => $this->getEmail(),
-            "password" => $this->getPassword(),
-            "user_id" => $this->getID(),
-            "image" => $this->getPictureName(),
-            "phone" => $this->getPhone(),
+            "fistname"  => $this->getFirstname(),
+            "lastname"  => $this->getLastname(),
+            "email"     => $this->getEmail(),
+            "password"  => $this->getPassword(),
+            "user_id"   => $this->getID(),
+            "image"     => $this->getPictureName(),
+            "phone"     => $this->getPhone(),
+            "country"   => $this->getCountry(),
+            "address1"  => $this->getAddress1(),
+            "address2"  => $this->getAddress2(),
+            "city"      => $this->getCity(),
+            "state"     => $this->getState(),
             "enabled" => $this->enabled,
             "role" => $this->getRole(),
         );
         return $array;  
     }
+    
 }
 
 

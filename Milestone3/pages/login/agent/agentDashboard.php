@@ -26,10 +26,11 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
 <script src="../../../javascripts/ajax.js"></script>
-<script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
+<!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../../../javascripts/jquery.toaster.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <script>
         $(document).ready( function() {
             giveUnseenCommentsByUserID(<?php echo $_SESSION['user_id']; ?>);
@@ -649,25 +650,25 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                 <div class="modal-body">
                     
                     <div class="text-center"> 
-                    <img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser">
+                    <img id="reply_image" src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser">
                     
                     
-                    <h4 class="text-left">MAX Mustermann</h4>
-                    <h6 class="text-left">Adresse: florengasse 36 Fulda 36039 Germany</h6>
-                    <h6 class="text-left">Tel:16112014</h6>
+                    <h4 id="reply_name" class="text-left">MAX Mustermann</h4>
+                    <h6 id="reply_address" class="text-left">Adresse: florengasse 36 Fulda 36039 Germany</h6>
+                    <h6 id="reply_telephon" class="text-left">Tel:16112014</h6>
                     </div>
 
 
-                    <form action="" methode="">
+                    
 
                       <div class="input-group" title="comment">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
-                        <textarea class="form-control" name="" id=""  placeholder="Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the parBootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par Bootstrap is responsive and since version" disabled="disabled"></textarea>
+                        <textarea class="form-control" name="" id="reply_comment"  placeholder="Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the parBootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par Bootstrap is responsive and since version" disabled="disabled"></textarea>
                       </div>
             
                       <div class="input-group" title="commentreply">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <textarea class="form-control" name="answer" id="answer"  placeholder="type your answer to this comment"></textarea>
+                        <textarea class="form-control" name="answer" id="reply_answer" placeholder="type your answer to this comment"></textarea>
                       </div>
                     
                 </div> 
@@ -675,7 +676,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
               
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>&nbsp;submit</button></form>
+                    <button type="submit" id="reply_submit_btn" class="btn btn-primary" onClick=""><span class="glyphicon glyphicon-send"></span>&nbsp;submit</button>
                 </div>
             </div>
         </div>
