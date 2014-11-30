@@ -393,9 +393,9 @@ function showUserlist( $role, $order, $ascdesc ) {
     }
     
     if( $ascdesc == "asc") {
-        $userlist = array_orderby($userlist, $order, SORT_ASC, "lname", SORT_ASC, "fname", SORT_ASC);
+        $userlist = array_orderby($userlist, $order, SORT_ASC, "lname", SORT_ASC);
     } else {
-        $userlist = array_orderby($userlist, $order, SORT_DESC, "lname", SORT_DESC, "fname", SORT_DESC);
+        $userlist = array_orderby($userlist, $order, SORT_DESC, "lname", SORT_DESC );
     }
       
     foreach( $userlist as $user ) {
@@ -446,7 +446,7 @@ function array_orderby() {
         if (is_string($field)) {
             $tmp = array();
             foreach ($data as $key => $row)
-                $tmp[$key] = $row[$field];
+                $tmp[$key] = strtolower($row[$field]);
             $args[$n] = $tmp;
             }
     }

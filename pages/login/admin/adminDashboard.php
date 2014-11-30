@@ -143,7 +143,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                      <option value="admin">Admin</option>
                                                      <option value="agent">Agent</option>
                                                      <option value="buyer">Buyer</option>
-                                                     <option value="all">All</option>
+                                                     <option value="all" selected>All</option>
                                                   </select>&nbsp;&nbsp;
                                                   <span class="badge">Sort by:&nbsp;</span>
                                                   <select class="select" value="" name="sort_order" id="sort_order">
@@ -151,16 +151,16 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                      <option value="modification_date">Modification_date</option>
                                                       <option value="role">Role</option>
                                                      <option value="zipcode">Zip Code</option>
-                                                     <option value="lname">Lastname</option>
+                                                     <option value="lname" selected>Lastname</option>
                                                      <option value="email">Email</option>
                                                   </select>
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="ascdesc" value="asc" checked="checked">
+                                                          <input type="radio" name="ascdesc" value="asc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="ascdesc" value="desc">
+                                                          <input type="radio" name="ascdesc" value="desc" checked="checked">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>&nbsp;&nbsp;
