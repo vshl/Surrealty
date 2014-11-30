@@ -146,9 +146,9 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                      <option value="all">All</option>
                                                   </select>&nbsp;&nbsp;
                                                   <span class="badge">Sort by:&nbsp;</span>
-                                                  <select class="select" value="" name="sort_order">
-                                                     <option value="surface">Creation_date</option>
-                                                     <option value="rating">Modification_date</option>
+                                                  <select class="select" value="" name="sort_order" id="sort_order">
+                                                     <option value="creation_date">Creation_date</option>
+                                                     <option value="modification_date">Modification_date</option>
                                                       <option value="role">Role</option>
                                                      <option value="zipcode">Zip Code</option>
                                                      <option value="lname">Lastname</option>
@@ -156,11 +156,11 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                   </select>
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="options" value="asc">
+                                                          <input type="radio" name="ascdesc" value="asc" checked="checked">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="options" value="dsc">
+                                                          <input type="radio" name="ascdesc" value="desc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>&nbsp;&nbsp;
@@ -172,7 +172,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                           <hr>
 <div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;" id="userlist"> <!--container for all results rows-->              
 <!--a row of result inside tab-->
-       
+        
 </div><!--end of container for all results rows-->
 
 

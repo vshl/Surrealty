@@ -5,38 +5,82 @@
  */
 $(document).ready( function() {
  
-    // Admin Dashboard bind delete button
-    $("#deleteUser").click( function (){
-       alert("test") ; // not working atm
-    });
-    
     
     // Admin Dashboard bind change from sorting dropdown
     $("#sort_role").change( function( event ) {
-        $("#userlist").text("Loading...");
-        showUserList( $(this).val());
+        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
+    });
+    $("#sort_order").change( function( event ) {
+        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
     });
     
+    $("input[name='ascdesc']").change( function( event ) {
+        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
+    });
+
     $("#sort_role").change();
-    
-    
+  
 });
 
 
-function showUserList(order) {
+function deleteUser(user_id) {
+    event.preventDefault();
+    // insert modal box here
+    
+    if( confirm("You are going to delete a user ("+ user_id+"). Are you sure?") ) 
+    {
+        var paramArr = {
+          action: "deleteUserByID",
+          user_id: user_id
+        }
+ 
+        var result = callBackend(paramArr);
+       
+        if (result !== "0") {
+            alert("User deleted"+result);
+            $("#sort_role").change();
+        }
+        else
+        {
+            alert("somethign went wrong!");
+        }
+    } 
+    else
+    {
+        return fase;
+    }
+        
+}
+
+function enableUser(user_id, enable) {
+    event.preventDefault();
+    var paramArr = {
+       action: "enableUserByID",
+       user_id: user_id,
+       enable: enable
+     }
+
+     var result = callBackend(paramArr);
+
+     if (result !== "0") {
+         $("#sort_role").change();;
+     }
+     else
+     {
+         alert("somethign went wrong!");
+     }
+}
+
+
+function showUserList( role, order, ascdesc) {
     var paramArr = {
         action: "showUserlist",
-        order: order
+        role: role,
+        order: order,
+        ascdesc: ascdesc 
     }
-    $("#userlist").text("LOADING");
-    var result = callBackend(paramArr);
-
-    if (result !== "0") {
-        $("#userlist").html(result);
-    }
-    else {
-        $("#userlist").text("Error loading userlist!");
-    }
+ 
+    callAsyncBackend(paramArr, "userlist");
 }
     
 function loginAndRedirect() {
@@ -123,7 +167,7 @@ function callBackend(param) {
     var res = str.split("/");
     // res[2] = www.sfsuswe.com
     // res[3] = ~fhahner
-    var url = "/" + res[3] + "/include/backend.php";
+    var url = "/" + res[3] + "/include/backend.php";    
     $.ajax( {
         url: url,
         type: "post",
@@ -149,6 +193,28 @@ function callBackend(param) {
         });
     return data;
  };
+ 
+ 
+ 
+ function callAsyncBackend(paramArr, target) {
+    var str = $(location).attr('href');
+    var res = str.split("/");
+    var url = "/" + res[3] + "/include/backend.php";    
+    $.ajax( {
+        url: url,
+        type: "post",
+        data: paramArr,
+        dataType: "html",
+        async: true,
+        timeout: 150000,
+
+        success: function( response ) {
+            $("#"+target).html(response);
+        }
+ 
+    });
+ };
+ 
  /*
   * readCommentsForAgent()
   * @param userID -> (int) ID of logged on agent
