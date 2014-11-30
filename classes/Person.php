@@ -27,6 +27,12 @@ class Person {
     private $phone;
     private $role;
     private $id;
+    private $address1;
+    private $address2;
+    private $city;
+    private $zipcode;
+    private $state;
+    private $country;
     
     
     /**
@@ -44,17 +50,34 @@ class Person {
         $args = func_get_args() ;
         
         //direct call
-        if( func_num_args() == 7  ) {
+        if( func_num_args() == 13  ) {
             call_user_func_array( array( $this, '__construct2' ), $args );
         }
         //call from a child
-       elseif( count($args[0]) ==  7  ) {
+       elseif( count($args[0]) ==  13  ) {
             call_user_func_array( array( $this, '__construct2' ), $args[0] );
         }
         
     }
     
-    public function __construct2( $lastname, $firstname, $email, $password, $phone, $pictureName, $role ) {
+    /**
+     * 
+     * @param type $lastname
+     * @param type $firstname
+     * @param type $email
+     * @param type $password
+     * @param type $phone
+     * @param type $pictureName
+     * @param type $role
+     * @param type $address1
+     * @param type $address2
+     * @param type $zipcode
+     * @param type $city
+     * @param type $state
+     * @param type $country
+     */
+    
+    public function __construct2( $lastname, $firstname, $email, $password, $phone, $pictureName, $role, $address1, $address2, $zipcode, $city, $state, $country ) {
         $this->lastname     = $lastname;
         $this->firstname    = $firstname;
         $this->email        = $email;
@@ -62,6 +85,13 @@ class Person {
         $this->phone        = $phone;
         $this->pictureName  = $pictureName;
         $this->role         = $role;
+        $this->address1     = $address1;
+        $this->address2     = $address2;
+        $this->city         = $city;
+        $this->zipcode      = $zipcode;
+        $this->state        = $state;
+        $this->country      = $country;
+                
     }
     
     public function __destruct() {
@@ -131,6 +161,56 @@ class Person {
     public function getRole() {
         return $this->role;
     }
+    
+    public function getAddress1() {
+        return $this->address1;
+    }
+
+    public function getAddress2() {
+        return $this->address2;
+    }
+
+    public function getCity() {
+        return $this->city;
+    }
+
+    public function getZipcode() {
+        return $this->zipcode;
+    }
+
+    public function getState() {
+        return $this->state;
+    }
+
+    public function setAddress1($address1) {
+        $this->address1 = $address1;
+    }
+
+    public function setAddress2($address2) {
+        $this->address2 = $address2;
+    }
+
+    public function setCity($city) {
+        $this->city = $city;
+    }
+
+    public function setZipcode($zipcode) {
+        $this->zipcode = $zipcode;
+    }
+
+    public function setState($state) {
+        $this->state = $state;
+    }
+    public function getCountry() {
+        return $this->country;
+    }
+
+    public function setCountry($country) {
+        $this->country = $country;
+    }
+
+
+
 
 }
 

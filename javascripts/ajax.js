@@ -140,13 +140,51 @@ function giveUnseenCommentsByUserID(userID) {
     }
 }
 
+function returnAnswerToComment(commentID) {
+    var answerText = $(" #reply_answer").val();
+    var paramArr = {
+        action: "returnAnswerToComment",
+        answerText: answerText,
+        commentID: commentID
+        };
+    result = callBackend(paramArr);
+    if (result == 1) {
+        $.toaster({ priority : 'success', title : 'Comment System', message : 'Reply successfully transmitted' });
+    }
+    else {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result });
+    }
+    readCommentsForUser();
+    }
+    
+function removeComment(commentID) {
+    if( confirm("You are going to delete a comment. Are you sure?") ) 
+    {
+        var paramArr = {
+            action: "removeComment",
+            commentID: commentID
+            };
+        result = callBackend(paramArr);
+        if (result == 1) {
+            $.toaster({ priority : 'success', title : 'Comment System', message : 'Comment successfully removed' });
+        }
+        else {
+            $.toaster({ priority : 'warning', title : 'Comment System', message : result });
+        }
+        readCommentsForUser();
+    }
+}
+
+
 function switchCommentHideState(commentID) {
     var paramArr = {
         action: "switchCommentHideState",
         commentID: commentID
         };
-        callBackend(paramArr);
+        result =callBackend(paramArr);
+        $.toaster({ priority : 'success', title : 'Comment System', message : 'Comment Hide state change'});
         readCommentsForUser();
+        
     }
 
 function switchCommentPublicState(commentID) {
@@ -215,6 +253,24 @@ function callBackend(param) {
  
     });
  };
+ 
+ function transferCommentDataToReplyModal(commentID) {
+     // Copy Username
+     $(" #reply_name").text($(" #comment_" + commentID + "_username").text());
+     // Copy Picutre Source Information
+     //alert($(" #comment_" + commentID + "_userimage").attr('src'));
+     $(" #reply_image").attr('src', $(" #comment_" + commentID + "_userimage").attr('src'));
+     // Copy comment text string
+     $(" #reply_comment").text($(" #comment_" + commentID + "_comment").text());
+     // Copy answer text string
+     if (!$(" #comment_" + commentID + "_answer").text() == "") {
+         $(" #reply_answer").text($(" #comment_" + commentID + "_answer").text());
+     }
+     // Copy address and phone text string
+     $(" #reply_address").text($(" #comment_" + commentID + "_address").text());
+     $(" #reply_phone").text($(" #comment_" + commentID + "_phone").text());
+     $(" #reply_submit_btn").attr('onClick', "returnAnswerToComment(" + commentID + ") ");
+ }
  
  /*
   * readCommentsForAgent()

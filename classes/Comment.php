@@ -43,7 +43,7 @@ class Comment {
      * @return int Statuscode ( 1 > comment loaded, 0 > No Data for ID found ) 
      */
     public function loadCommentByID($commentID) {
-        //$logger = new Logging();
+        $logger = new Logging();
         $sqlQuery = "SELECT * FROM comments WHERE comment_id = ".$commentID.";";
         //$logger->logToFile("Comment, loadCommentByID)", "info", "SQL Query: " . $sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
@@ -60,7 +60,7 @@ class Comment {
                 $this->answerText = $row['answer'];
                 $this->isPublic = $row['isPublic'];
                 $this->isHidden = $row['isHidden']; // to be renamed in mysql
-                $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText());
+                $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText() . "from IP: " . $_SERVER['REMOTE_ADDR']);
                 return 1;
             }
             else
@@ -93,35 +93,36 @@ class Comment {
         }
     }
   
-    function updateComment() {
-        //$logger = new Logging();
+    public function updateComment() {
+        $logger = new Logging();
         
         $sqlQuery = "UPDATE comments SET " .
-                "property_id='" . $this->propertyID . "', " . 
-                "comment='" . $this->commentText . "', " . 
-                "creation_date='" . $this->creationDate . "', " .
-                "created_by='" . $this->createdByUserID . "', " .
-                "answer='" . $this->answerText . "', ";
-                if ($this->answeredByAgentID == "") {
-                    $sqlQuery .= "answered_by = NULL, ";
-                }
-                else {
-                    $sqlQuery .= "answered_by= '" . $this->answeredByAgentID . "', ";
-                }
+                    "property_id='" . $this->propertyID     . "', " . 
+                    "comment='" . $this->commentText        . "', " . 
+                    "creation_date='" . $this->creationDate . "', " .
+                    "created_by='" . $this->createdByUserID . "', " .
+                    "answer='" . $this->answerText          . "', ";
+                    
+                    if ($this->answeredByAgentID == "") {
+                        $sqlQuery .= "answered_by = NULL, ";
+                        }
+                    else {
+                        $sqlQuery .= "answered_by= '" . $this->answeredByAgentID . "', ";
+                    }
                 
-                  
-        $sqlQuery .= "isPublic='" . $this->isPublic . "', " .
-                "isHidden='" . $this->isHidden . "' " .
-                "WHERE comment_id = " . $this->commentID . ";";
+        $sqlQuery .="isPublic='" . $this->isPublic . "', " .
+                    "isHidden='" . $this->isHidden . "' " .
+                    "WHERE comment_id = " . $this->commentID . ";";
         
-        //$logger->logToFile("Comment, updateComment", "info", "try to update with " .$sqlQuery);
+        $logger->logToFile("Comment, updateComment", "info", "try to update with " .$sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
         {
-            echo $sqlQuery;
-            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            die("Error at comment update");
+            //echo $sqlQuery;
+            //echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+            //die("Error at comment update");
+            return 0;
         }
         else
         {

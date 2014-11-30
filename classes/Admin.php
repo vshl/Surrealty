@@ -34,18 +34,28 @@ class Admin extends Person {
      * uses information from 
      */
     public function saveAdmin() {
-        $sqlQuery = "INSERT INTO users (fname, lname, image_name, password, email, phone, enable, creation_date, role) VALUES (" . "'" .
-                parent::getLastname() . "', '" . parent::getFirstname() . "', '" . 
-                parent::getPictureName() . "', '" . parent::getPassword() . "', '" . 
-                parent::getEmail() . "', '" . parent::getPhone() . "', '" .
-                $this->enabled . "', NOW(), '" . ADMIN_ROLE_ID . "');";
+        $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, state, country, city, role) VALUES ('" .
+                    parent::getLastname() . "', '" . 
+                    parent::getFirstname() . "', '" . 
+                    parent::getPictureName() . "', '" . 
+                    parent::getPassword() . "', '" . 
+                    parent::getEmail() . "', '" . 
+                    parent::getPhone() . "', '" .
+                    $this->enabled . "', NOW(), '". 
+                    parent::getAddress1() ."', '".
+                    parent::getAddress2() ."', '".   
+                    parent::getZipcode() ."', '" . 
+                    parent::getState() ."', '" . 
+                    parent::getCountry() ."', '" . 
+                    parent::getCity() ."', '" . 
+                    ADMIN_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
         {
             echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            die("Error at agent saving");
+            die("Error at admin saving");
         }
         else
         {
@@ -56,7 +66,7 @@ class Admin extends Person {
     /**
      * loadAdminByID
      * Loads Admin data from Database and build an admin object
-     * @param type $adminid ID of admin
+     * @param type $userID ID of admin
      */
     public function loadAdminByID( $userID ) {
         
@@ -67,7 +77,8 @@ class Admin extends Person {
                 $row = mysqli_fetch_assoc($result);
                 // Copy data from database into agent object
                 $this->enabled = $row['enable'];
-                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['user_id'], $row['image_name'], $row['role']);
+                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
+                parent::setID($row['user_id']);
                 return 1;
             }
             else
@@ -89,7 +100,7 @@ class Admin extends Person {
         {
             echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            die("Error at agent delete");
+            die("Error at admin delete");
         }
         else
         {
@@ -111,22 +122,28 @@ class Admin extends Person {
      */
     public function updateAdmin() {
         $sqlQuery = "UPDATE users SET "
-                    . "fname='" . parent::getFirstname() . "', "
-                    . "lname='" . parent::getLastname() . "', "
-                    . "image_name='" . parent::getPictureName() . "', "
-                    . "email='" . parent::getEmail() . "', "
-                    . "enable=" . $this->enabled . ", "
-                    . "phone='" . parent::getPhone() . "', "                 
-                    . "modification_date=now()" . ", "
-                    . "password='" . parent::getPassword() 
-                    . "' WHERE user_id = " . parent::getID() .";";
+                    . "fname='"         . parent::getFirstname() .  "', "
+                    . "lname='"         . parent::getLastname() .   "', "
+                    . "image_name='"    . parent::getPictureName() ."', "
+                    . "email='"         . parent::getEmail() .      "', "
+                    . "enable="         . $this->enabled .          ", "
+                    . "address1='"      . parent::getAddress1() .   "', "
+                    . "address2='"      . parent::getAddress2() .   "', "
+                    . "zipcode='"       . parent::getZipcode() .    "', "
+                    . "phone='"         . parent::getPhone() .      "', "
+                    . "city='"          . parent::getCity() .       "', "
+                    . "state='"         . parent::getState() .      "', "
+                    . "country='"       . parent::getCountry() .    "', "
+                    . "modification_date=now()" .                   ", "
+                    . "password='"      . parent::getPassword() 
+                    . "' WHERE user_id = " . parent::getID() .      ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
         {
             echo "<br><b>" . $sqlQuery . "</b>";
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            die("Error at agent saving");
+            die("Error at admin saving");
         }
         else
         {
@@ -147,14 +164,19 @@ class Admin extends Person {
      */
     
     public function giveArray() {
-        $array = array (
-            "fistname" => $this->getFirstname(),
-            "lastname" => $this->getLastname(),
-            "email" => $this->getEmail(),
-            "password" => $this->getPassword(),
-            "agent_id" => $this->getID(),
-            "image_name" => $this->getPictureName(),
-            "phone"     => $this->getPhone(), 
+        $array = array(
+            "fistname"  => $this->getFirstname(),
+            "lastname"  => $this->getLastname(),
+            "email"     => $this->getEmail(),
+            "password"  => $this->getPassword(),
+            "user_id"   => $this->getID(),
+            "image"     => $this->getPictureName(),
+            "phone"     => $this->getPhone(),
+            "country"   => $this->getCountry(),
+            "address1"  => $this->getAddress1(),
+            "address2"  => $this->getAddress2(),
+            "city"      => $this->getCity(),
+            "state"     => $this->getState(),
             "enabled" => $this->enabled,
             "role" => $this->getRole(),
         );
