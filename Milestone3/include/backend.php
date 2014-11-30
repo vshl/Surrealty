@@ -64,10 +64,13 @@ switch ($functionChoice) {
         readCommentsForUser($_SESSION['user_id'], $_POST['showOld']);
         break;
     case 'showUserlist':
-        showUserlist($_POST['role'], $_POST['order']);
+        showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
         break;
     case 'deleteUserByID':
         deleteUserByID($_POST['user_id']);
+        break;
+    case 'enableUserByID': 
+        enableUserByID($_POST['user_id'], $_POST['enable']);
         break;
     case 'deleteBuyerByID':
         deleteBuyerByID($_POST['userID']);
@@ -352,7 +355,7 @@ function addBuyer() {
 }
 
 
-function showUserlist( $role, $order ) {
+function showUserlist( $role, $order, $ascdesc ) {
     include ('../pathMaker.php');
     require_once($path.'/include/DatabaseComm.php');
  
@@ -380,13 +383,23 @@ function showUserlist( $role, $order ) {
                     "enable" => $row['enable'], 
                     "modification_date" => $row['modification_date'],
                     "creation_date" => $row['creation_date']);
+        
+        if( strtoupper($role) == $user['role'] || $role == 'all' ) {
             array_push($userlist, $user);
+        } else {
+            unset($user);
+            continue;
+        }
     }
-
-    $userlist = array_orderby($userlist, $order, SORT_ASC, "lname", SORT_ASC, "fname", SORT_ASC);
     
+    if( $ascdesc == "asc") {
+        $userlist = array_orderby($userlist, $order, SORT_ASC, "lname", SORT_ASC, "fname", SORT_ASC);
+    } else {
+        $userlist = array_orderby($userlist, $order, SORT_DESC, "lname", SORT_DESC, "fname", SORT_DESC);
+    }
+      
     foreach( $userlist as $user ) {
-        print ' 
+        print '
             <div class="row well"> 
               <div class="col-xs-12 col-sm-1">
                 <br><br>
@@ -414,9 +427,9 @@ function showUserlist( $role, $order ) {
               </div> 
               <div class="col-xs-12 col-sm-3">
                   <h5><span class="badge">Action:</span></h5>
-                  <h5><a class="deleteUser" href="#'.$user['user_id'].'" id="deleteUser"><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href=""><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
-                  '<a href=""><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
+                  <h5><a href="" onclick="javascript:deleteUser(\''. $user['user_id'] .'\');" ><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', 1);"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
+                  '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', 0);"><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
               </div> 
             </div><!--endof row of result inside tab-->
 
@@ -446,17 +459,44 @@ function deleteUserByID( $user_id ) {
     include ('../pathMaker.php');
     require_once($path.'/include/DatabaseComm.php');
    
-    $sqlQuery = "DELETE FROM users WHERE user_id = " . $userID . ";";
-    $result = $this->dbcomm->executeQuery($sqlQuery);
-    
+    $sqlQuery = "DELETE FROM users WHERE user_id = " . $user_id . ";";
+    $dbcomm = new DatabaseComm();
+    $result = $dbcomm->executeQuery($sqlQuery);
+ 
     if ($result != true)
     {
-        echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-        die("Error at buyer delete");
+        echo "<br><b>" . $dbcomm->giveError() . "</b>";
+        return 0;
     }
     else
     {
-        if ($this->dbcomm->affectedRows() == 1) 
+        if ( $dbcomm->affectedRows() == 1) 
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+
+function enableUserByID($user_id, $enable) {
+    include ('../pathMaker.php');
+    require_once($path.'/include/DatabaseComm.php');
+   
+    $sqlQuery = "UPDATE users SET enable = " . $enable . " WHERE user_id = " . $user_id . ";";
+    $dbcomm = new DatabaseComm();
+    $result = $dbcomm->executeQuery($sqlQuery);
+
+    if ($result != true)
+    {
+        echo "<br><b>" . $dbcomm->giveError() . "</b>";
+        return 0;
+    }
+    else
+    {
+        if ( $dbcomm->affectedRows() == 1) 
         {
             return 1;
         }
@@ -465,7 +505,7 @@ function deleteUserByID( $user_id ) {
             return 0;
         }
 
-    }
+    }    
 }
 
 function giveUnseenCommentsByID($user_id) {
