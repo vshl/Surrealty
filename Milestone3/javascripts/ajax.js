@@ -7,19 +7,20 @@ $(document).ready( function() {
  
     
     // Admin Dashboard bind change from sorting dropdown
-    $("#sort_role").change( function( event ) {
+    $("#sort_role").change( function() {
         showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
     });
-    $("#sort_order").change( function( event ) {
+    $("#sort_order").change( function() {
         showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
     });
     
-    $("input[name='ascdesc']").change( function( event ) {
+    $("input[name='ascdesc']").change( function() {
         showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
     });
 
+   
+    $("input:radio[name=ascdesc][value=asc]").attr('checked', 'checked');
     $("#sort_role").change();
-  
 });
 
 
