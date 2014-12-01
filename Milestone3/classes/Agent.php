@@ -72,7 +72,7 @@ class Agent extends Person {
      */
     public function loadAgentByID( $userID ) {
         
-        $sqlQuery = "SELECT * FROM users WHERE user_id = $userID AND role = " . AGENT_ROLE_ID . ";";
+        $sqlQuery = "SELECT * FROM users WHERE user_id = $userID AND role = '" . AGENT_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($this->dbcomm->affectedRows() == 1) 
@@ -97,7 +97,7 @@ class Agent extends Person {
      * @return int Statuscode ( 1 > Agent deleted, 0 > No Data for ID found ) 
      */
     public function deleteAgentByID( $agentID ){
-        $sqlQuery = "DELETE FROM users WHERE user_id = $agentID;";
+        $sqlQuery = "DELETE FROM users WHERE user_id = ".$agentID." AND role = '" . AGENT_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($result != true)
         {
@@ -159,6 +159,27 @@ class Agent extends Person {
      */
     public function setEnabled( $enabled ){
         $this->enabled = $enabled;
+       
+        $sqlQuery = "UPDATE users SET enable = " . $enabled . " WHERE user_id = " . $this->getID() . " AND role = '" . AGENT_ROLE_ID . "';";;
+        $result = $this->dbcomm->executeQuery($sqlQuery);
+
+        if ($result != true)
+        {
+            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+            return 0;
+        }
+        else
+        {
+            if ( $this->dbcomm->affectedRows() == 1) 
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }  
     }
     
     /**

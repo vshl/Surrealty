@@ -10,8 +10,10 @@ session_start();
  * 
  */
 
+require_once '../controllers/AdminController.php';
 require_once '../controllers/AgentController.php';
 require_once '../controllers/BuyerController.php';
+
 //require_once 'AdminControler.php';
 require_once '../controllers/ImageController.php';
 require_once '../controllers/CommentController.php';
@@ -67,13 +69,13 @@ switch ($functionChoice) {
         showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
         break;
     case 'deleteUserByID':
-        deleteUserByID($_POST['user_id']);
+        deleteUserByID($_POST['userID'], $_POST['role']);
         break;
     case 'enableUserByID': 
-        enableUserByID($_POST['user_id'], $_POST['enable']);
+        enableUserByID($_POST['userID'], $_POST['role'], $_POST['enable']);
         break;
     case 'deleteBuyerByID':
-        deleteBuyerByID($_POST['userID']);
+        deleteBuyerByID($_POST['user_id'] );
         break;
     case 'giveUnseenCommentsByID':
         giveUnseenCommentsByID($_SESSION['user_id']);
@@ -183,9 +185,9 @@ function loadBuyerByID($user_id){
     }  
 }
 
-function deleteBuyerByID($userID) {
+function deleteBuyerByID($user_id) {
     $bc = new BuyerController();
-    $result = $bc->deleteBuyerByID($userID);
+    $result = $bc->deleteBuyerByID($user_id);
     unset ($bc);
     echo $result;
     
@@ -470,9 +472,9 @@ function showUserlist( $role, $order, $ascdesc ) {
               </div> 
               <div class="col-xs-12 col-sm-3">
                   <h5><span class="badge">Action:</span></h5>
-                  <h5><a href="" onclick="javascript:deleteUser(\''. $user['user_id'] .'\');" ><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', 1);"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
-                  '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', 0);"><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
+                  <h5><a href="" onclick="javascript:deleteUserByID(\''. $user['user_id'] .'\', \''. $user['role'] .'\');" ><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 1);"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
+                  '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 0);"><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
               </div> 
             </div><!--endof row of result inside tab-->
 
@@ -498,57 +500,46 @@ function array_orderby() {
     return array_pop($args);
 }
 
-function deleteUserByID( $user_id ) {
-    include ('../pathMaker.php');
-    require_once($path.'/include/DatabaseComm.php');
-   
-    $sqlQuery = "DELETE FROM users WHERE user_id = " . $user_id . ";";
-    $dbcomm = new DatabaseComm();
-    $result = $dbcomm->executeQuery($sqlQuery);
- 
-    if ($result != true)
-    {
-        echo "<br><b>" . $dbcomm->giveError() . "</b>";
-        return 0;
+function deleteUserByID( $userID, $role ) {
+    switch ( $role ) {
+        case 'ADMIN':
+            $ac = new AdminController();
+            $ac->deleteAdminByID($userID);
+            unset($ac);
+            break;
+        case 'AGENT':
+            $ac = new AgentController();
+            $ac->deleteAgentByID($userID);
+            unset($ac);
+            break;
+        case 'BUYER':
+            $bc = new BuyerController();
+            $bc->deleteBuyerByID($userID);
+            unset($bc);
+            break;
+        default :
+            echo 0;
     }
-    else
-    {
-        if ( $dbcomm->affectedRows() == 1) 
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+    
 }
 
-function enableUserByID($user_id, $enable) {
-    include ('../pathMaker.php');
-    require_once($path.'/include/DatabaseComm.php');
-   
-    $sqlQuery = "UPDATE users SET enable = " . $enable . " WHERE user_id = " . $user_id . ";";
-    $dbcomm = new DatabaseComm();
-    $result = $dbcomm->executeQuery($sqlQuery);
-
-    if ($result != true)
-    {
-        echo "<br><b>" . $dbcomm->giveError() . "</b>";
-        return 0;
-    }
-    else
-    {
-        if ( $dbcomm->affectedRows() == 1) 
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-
-    }    
+function enableUserByID($userID, $role, $enable) {
+    switch ( $role ) {
+        case 'ADMIN':
+            $ac = new AdminController();
+            echo $ac->enableAdminByID($userID, $enable);
+            break;
+        case 'AGENT':
+            $ac = new AgentController();
+            echo $ac->enableAgentByID($userID, $enable);
+            break;
+        case 'BUYER':
+            $bc = new BuyerController();
+            echo $bc->enableBuyerByID($userID, $enable);
+            break;
+        default :
+            echo "0";
+    }   
 }
 
 function giveUnseenCommentsByID($user_id) {

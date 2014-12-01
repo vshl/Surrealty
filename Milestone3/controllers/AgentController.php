@@ -132,7 +132,7 @@ class AgentController {
     {
         if ($enabled == 0 || $enabled == 1){
             $agent = new Agent();
-            if ($agent->loadAgentByID($agentid)){
+            if ($agent->loadAgentByID($agentID)){
                 $agent->setEnabled($enabled);
                 return 1;
             }

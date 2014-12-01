@@ -24,26 +24,27 @@ $(document).ready( function() {
 });
 
 
-function deleteUser(user_id) {
+function deleteUserByID(userID, role) {
     event.preventDefault();
     // insert modal box here
     
-    if( confirm("You are going to delete a user ("+ user_id+"). Are you sure?") ) 
+    if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
     {
         var paramArr = {
           action: "deleteUserByID",
-          user_id: user_id
+          userID: userID,
+          role: role
         }
  
-        var result = callBackend(paramArr);
-       
+       var result = callBackend(paramArr);
+   //    alert(result);
         if (result !== "0") {
-            alert("User deleted"+result);
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
             $("#sort_role").change();
         }
         else
         {
-            alert("somethign went wrong!");
+             $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
         }
     } 
     else
@@ -53,22 +54,24 @@ function deleteUser(user_id) {
         
 }
 
-function enableUser(user_id, enable) {
+function enableUser(userID, role, enable) {
     event.preventDefault();
     var paramArr = {
        action: "enableUserByID",
-       user_id: user_id,
+       userID: userID,
+       role: role,
        enable: enable
      }
 
      var result = callBackend(paramArr);
 
      if (result !== "0") {
-         $("#sort_role").change();;
+        $("#sort_role").change();;
+        $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully enabled/disabled' });
      }
      else
      {
-         alert("somethign went wrong!");
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
      }
 }
 

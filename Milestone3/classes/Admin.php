@@ -9,8 +9,7 @@
  * 
  */
 
-
-require_once './include/DatabaseComm.php';
+require_once '../include/DatabaseComm.php';
 require_once 'Person.php';
 
 class Admin extends Person {
@@ -70,7 +69,7 @@ class Admin extends Person {
      */
     public function loadAdminByID( $userID ) {
         
-        $sqlQuery = "SELECT * FROM users WHERE user_id = " . $userID . " and role = ". ADMIN_ROLE_ID . ";";
+        $sqlQuery = "SELECT * FROM users WHERE user_id = " . $userID . " AND role = '". ADMIN_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($this->dbcomm->affectedRows() == 1) 
             {
@@ -156,6 +155,27 @@ class Admin extends Person {
      */
     public function setEnabled( $enabled ){
         $this->enabled = $enabled;
+       
+        $sqlQuery = "UPDATE users SET enable = " . $enabled . " WHERE user_id = " . $this->getID() . " and role = 'ADMIN';";;
+        $result = $this->dbcomm->executeQuery($sqlQuery);
+
+        if ($result != true)
+        {
+            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+            return 0;
+        }
+        else
+        {
+            if ( $this->dbcomm->affectedRows() == 1) 
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }  
     }
     
     /**

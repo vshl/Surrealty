@@ -100,7 +100,7 @@ class Buyer extends Person {
      * @return int Statuscode ( 1 > buyer deleted, 0 > No Data for ID found ) 
      */
     public function deleteBuyerByID( $userID ){
-        $sqlQuery = "DELETE FROM users WHERE user_id = " . $userID . ";";
+        $sqlQuery = "DELETE FROM users WHERE user_id = " . $userID . " AND role = '" . BUYER_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($result != true)
         {
@@ -163,6 +163,27 @@ class Buyer extends Person {
      */
     public function setEnabled( $enabled ){
         $this->enabled = $enabled;
+       
+        $sqlQuery = "UPDATE users SET enable = " . $enabled . " WHERE user_id = " . $this->getID() . " AND role = '" . BUYER_ROLE_ID . "';";;
+        $result = $this->dbcomm->executeQuery($sqlQuery);
+
+        if ($result != true)
+        {
+            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+            return 0;
+        }
+        else
+        {
+            if ( $this->dbcomm->affectedRows() == 1) 
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }    
     }
     
     public function giveArray() {
