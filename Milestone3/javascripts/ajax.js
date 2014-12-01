@@ -7,22 +7,30 @@ $(document).ready( function() {
  
     
     // Admin Dashboard bind change from sorting dropdown
-    $("#sort_role").change( function() {
-        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
+    $("#user_sort_role").change( function() {
+        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
-    $("#sort_order").change( function() {
-        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
+    $("#user_sort_order").change( function() {
+        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
     
-    $("input[name='ascdesc']").change( function() {
-        showUserList( $("#sort_role").val(), $("#sort_order").val(), $("input:radio[name=ascdesc]:checked").val() );
+    $("input[name='user_ascdesc']").change( function() {
+        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
 
    
-    $("input:radio[name=ascdesc][value=asc]").attr('checked', 'checked');
-    $("#sort_role").change();
+    $("input:radio[name=user_ascdesc][value=asc]").attr('checked', 'checked');
+    $("#user_sort_role").change();
+    fillProfile();
 });
 
+function fillProfile() {
+    var paramArr = {
+      action: "loadUserInformation"
+    }
+       
+   callAsyncBackend(paramArr, "myprofile");
+}
 
 function deleteUserByID(userID, role) {
     event.preventDefault();

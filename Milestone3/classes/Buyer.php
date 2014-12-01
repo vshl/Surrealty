@@ -200,6 +200,7 @@ class Buyer extends Person {
             "address2"  => $this->getAddress2(),
             "city"      => $this->getCity(),
             "state"     => $this->getState(),
+            "zipcode"   => $this->getZipcode(),
             "enabled" => $this->enabled,
             "role" => $this->getRole(),
         );

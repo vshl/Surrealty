@@ -139,14 +139,14 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by user typ:&nbsp;</span>
-                                                  <select class="select" value="" name="sort_role" id="sort_role">
+                                                  <select class="select" value="" name="sort_role" id="user_sort_role">
                                                      <option value="admin">Admin</option>
                                                      <option value="agent">Agent</option>
                                                      <option value="buyer">Buyer</option>
                                                      <option value="all" selected>All</option>
                                                   </select>&nbsp;&nbsp;
                                                   <span class="badge">Sort by:&nbsp;</span>
-                                                  <select class="select" value="" name="sort_order" id="sort_order">
+                                                  <select class="select" value="" name="sort_order" id="user_sort_order">
                                                      <option value="creation_date">Creation_date</option>
                                                      <option value="modification_date">Modification_date</option>
                                                       <option value="role">Role</option>
@@ -156,11 +156,11 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                   </select>
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="ascdesc" value="asc">
+                                                          <input type="radio" name="user_ascdesc" value="asc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="ascdesc" value="desc" checked="checked">
+                                                          <input type="radio" name="user_ascdesc" value="desc" checked="checked">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>&nbsp;&nbsp;
@@ -272,12 +272,12 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
    <div class="well">
 
                 <div class="page-header">
-                <h1>Admin Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;Admin_First&Last_name&nbsp;&nbsp;<img src="./../../../images/images.jpg" class="img-circle thumbuser"></small></h1> 
+                <h1>Admin Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="./../../../images/images.jpg" class="img-circle thumbuser"></small></h1> 
                 </div>   
 
 
                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well" id="myprofile">
 
 
 
