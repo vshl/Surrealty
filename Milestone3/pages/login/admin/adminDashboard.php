@@ -194,17 +194,17 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" value="" name="Date">
+                                                  <select class="select" value="" name="Date" id="property_sort_order">
                                                      <option value="surface">Creation_date</option>
                                                      <option value="rating">Modification_date</option>
                                                   </select>                                                    
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="options" value="asc">
+                                                          <input type="radio" name="options" value="asc" id="property_ascdesc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="options" value="dsc">
+                                                          <input type="radio" name="options" value="dsc" id="property_ascdesc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>
@@ -215,44 +215,9 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                          </form>
                                           <hr>
 
-              <div style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;"> <!--container for all results rows-->              
+              <div style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;" id="unproven_properties"> <!--container for all results rows-->              
    
-                <div class="row well">
 
-                        <div class="col-xs-12 col-sm-2">
-                                <a class="" href="#">
-                                  <img class="img-circle img-responsive" src="./../../../images/house2.jpg"  >
-                                </a>
-                        </div>
-                        <div class="col-xs-12 col-sm-3">
-                                <h5><span class="badge">Property ID:xxxx</span></h5>
-                                  <h6>Creation-date:16-11-2014</h6>
-                                  <h6>Modification-date:16-11-2014</h6>
-                                  <h6>Created_by: Agent name</h6>
-                                  <h6>Price:400.000$</h6>
-                                  <br>
-
-                                                           
-                        </div>
-                        <div class="col-xs-12 col-sm-3">
-                                  <h5><span class="badge">Adresse:</span></h5>
-                                  <p><br>203 East 50th St., Suite 1157 New York, NY 10022 USA</p> 
-                        </div>
-                        <div class="col-xs-12 col-sm-2">
-                                  <h5><span class="badge">Facts:</span></h5>
-                                  <h6>Rooms:4</h6>
-                                  <h6>Surface:1614 m&sup2;</h6>
-                                  <h6>Pool:</h6>
-                                  <h6>Balcon:</h6>
-                        </div> 
-                        <div class="col-xs-12 col-sm-2">
-                                  <h5><span class="badge">Action:</span></h5>
-                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Aprove</span></a></h5>
-                                  
-                        </div> 
-
-                </div><!--endof row of result inside tab-->
 
                
 

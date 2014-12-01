@@ -649,7 +649,53 @@ function loadUserInformationByID($userID, $role) {
 }
 
 function showUnprovenProperties() {
+    $pc =  new PropertyController();
+    $properties = $pc->giveUnprovenProperties();
     
+    
+    foreach( $properties as $property ) {
+        $ac = new AgentController();
+        $agent = $ac->loadAgentByID($property['created_by']);
+        
+      print '
+                    <div class="row well">
+
+                        <div class="col-xs-12 col-sm-2">
+                                <a class="" href="#">
+                                  <img class="img-circle img-responsive" src="./../../../images/house2.jpg"  >
+                                </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                                <h5><span class="badge">Property ID:'.$property['property_id'].'</span></h5>
+                                  <h6>Creation-date: '.$property['creation_date'].'</h6>
+                                  <h6>Modification-date: '.$property['modification_date'].'</h6>
+                                  <h6>Created_by: '.$agent->getFirstname().' '.$agent->getLastname().'</h6>
+                                  <h6>Price: '.$property['price'].'$</h6>
+                                  <br>
+
+                                                           
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                                  <h5><span class="badge">Adresse:</span></h5>
+                                  <p><br>203 East 50th St., Suite 1157 New York, NY 10022 '.$property['country'].'</p> 
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                                  <h5><span class="badge">Facts:</span></h5>
+                                  <h6>Baths: '.$property['baths'].'</h6>
+                                   <h6>Beds: '.$property['beds'].'</h6>
+                                  <h6>Surface: '.$property['area'].' m&sup2;</h6>
+                                  <h6>Pool: '.$property['pool'].'</h6>
+                                  <h6>Balcon: '.$property['balcony'].'</h6>
+                        </div> 
+                        <div class="col-xs-12 col-sm-2">
+                                  <h5><span class="badge">Action:</span></h5>
+                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Aprove</span></a></h5>
+                                  
+                        </div> 
+
+                </div><!--endof row of result inside tab-->';
+    }
     
 }
 ?>
