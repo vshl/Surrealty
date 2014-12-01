@@ -5,6 +5,7 @@
  * to respond to these requests.
  *
  * @author Vishal Ravi Shankar <vshankar@mail.sfsu.edu>
+ * @author Benjamin Bleichert <benjamin.bleichert@informatik.hs-fulda.de>
  * @version 1.0
  */
 
@@ -78,6 +79,29 @@ class PropertyController {
         }
         unset ($db);
         return $image_array;
+    }
+    
+        /**
+     * giveImageHashesByPropertyID
+     * 
+     * sseaches all unproven properties and return
+     * it via multi array 
+     *
+     * @return multi array with all unproven properties
+     */    
+    public function giveUnprovenProperties() {
+        $dbComm = new DatabaseComm();
+        $sqlQuery = "SELECT * FROM property WHERE approved = 0;";
+        $result = $dbComm->executeQuery($sqlQuery);
+       
+        $properties = array();
+        
+        while($row = $result->fetch_assoc()) {
+            $properties[] = $row;
+        }
+        unset ($dbComm);
+        return $properties;
+    
     }
 }
 ?>
