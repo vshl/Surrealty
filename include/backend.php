@@ -68,6 +68,9 @@ switch ($functionChoice) {
     case 'showUserlist':
         showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
         break;
+    case 'showUnprovenProperties':
+        showUnprovenProperties();
+        break;
     case 'deleteUserByID':
         deleteUserByID($_POST['userID'], $_POST['role']);
         break;
@@ -76,6 +79,9 @@ switch ($functionChoice) {
         break;
     case 'deleteBuyerByID':
         deleteBuyerByID($_POST['user_id'] );
+        break;
+    case 'loadUserInformation':
+        loadUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
         break;
     case 'giveUnseenCommentsByID':
         giveUnseenCommentsByID($_SESSION['user_id']);
@@ -550,4 +556,100 @@ function giveUnseenCommentsByID($user_id) {
     echo $cc->giveCountOfUnansweredComments($user_id);
 }
 
+
+function loadUserInformationByID($userID, $role) {
+    switch ( $role ) {
+        case 'ADMIN':
+            $ac = new AdminController();
+            $user = $ac->loadAdminByID($userID);
+            $info = $user->giveArray();
+            break;
+        case 'AGENT':
+            $ac = new AgentController();
+            $user = $ac->loadAgentByID($userID);
+            $info = $user->giveArray();
+            break;
+        case 'BUYER':
+            $bc = new BuyerController();
+            $user = $bc->loadBuyerByID($userID);
+            $info = $user->giveArray();
+            break;
+        default :
+            return "0";
+    }   
+
+        print '
+              <form action="" methode="">
+
+
+                      <div class="input-group" title="firstname">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input class="form-control" name="firstname" id="" type="" placeholder="your first name" value="'.$info["fistname"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="lastname">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input class="form-control" name="lastname" id="" type="" placeholder="your last name" value="'.$info["lastname"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="email">
+                        <span class="input-group-addon">@</span>
+                        <input class="form-control" name="email" id="" type="" placeholder="your e-mail" value="'.$info["email"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="Password">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input class="form-control" name="password" id="password" type="password" placeholder="your password" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="phone">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
+                        <input class="form-control" name="phone" id="" type="" placeholder="your phone number" value="'.$info["phone"].'" disabled="disabled">
+                      </div>
+
+
+
+                      <div class="input-group" title="addr1">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                        <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" value="'.$info["address1"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="addr2">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                        <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" value="'.$info["address2"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="zip">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+                        <input class="form-control" name="zip" id="" type="" placeholder="your zip code" value="'.$info["zipcode"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="city">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                        <input class="form-control" name="city" id="" type="" placeholder="your city name" value="'.$info["city"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="state">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                        <input class="form-control" name="state" id="" type="" placeholder="your state name" value="'.$info["state"].'" disabled="disabled">
+                      </div>
+
+                      <div class="input-group" title="image">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                        <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add" disabled="disabled"></span>
+                      </div>
+
+                  <a href="#UpdateProfile" class="modal-toggle" data-toggle="modal">
+                    <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-wrench"></i> Modify</button>
+                  </a>
+
+
+
+         </form>';
+}
+
+function showUnprovenProperties() {
+    
+    
+}
 ?>
