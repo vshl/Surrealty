@@ -103,5 +103,53 @@ class PropertyController {
         return $properties;
     
     }
+    
+    public function approvePropertyByID($propertyID) {
+        $dbComm = new DatabaseComm();
+        $sqlQuery = "UPDATE property SET approved = 1 WHERE property_id = '".$propertyID."';";
+        $result = $dbComm->executeQuery($sqlQuery);
+        
+        if ($result != true)
+        {
+            echo "<br><b>" . $dbComm->giveError() . "</b>";
+        }
+        else
+        {
+            if ($dbComm->affectedRows() == 1) 
+            {
+                   // set property enable one...
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+    }
+    
+    public function deletePropertyByID($propertyID) {
+        $dbComm = new DatabaseComm();
+        $sqlQuery = "DELETE FROM property WHERE property_id = '".$propertyID."';";
+        $result = $dbComm->executeQuery($sqlQuery);
+        
+        if ($result != true)
+        {
+            echo "<br><b>" . $dbComm->giveError() . "</b>";
+        }
+        else
+        {
+            if ($dbComm->affectedRows() == 1) 
+            {
+                   // set property enable one...
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+    }
 }
 ?>

@@ -5,31 +5,45 @@
  */
 $(document).ready( function() {
  
+    $("#manageUserTab").click( function() {    
+        $("#user_sort_role").change( function() {
+            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+        });
+        
+        $("#user_sort_order").change( function() {
+            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+        });
+
+        $("input[name='user_ascdesc']").change( function() {
+            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+        });
+        
+        $("#user_sort_role").change();
+        $("input:radio[name=user_ascdesc][value=asc]").attr('checked', 'checked');
+    });
     
     // Admin Dashboard bind change from sorting dropdown
-    $("#user_sort_role").change( function() {
-        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
-    });
-    $("#user_sort_order").change( function() {
-        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+    
+    $("#approvePropertiesTab").click( function() {
+        alert(''+$("#propery_sort_oder").val() +'  & ' + $("input:radio[name=property_ascdesc]:checked").val())
+        $("#property_sort_order").change( function () {
+            showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val());
+        });
+   
+        $("input[name='property_ascdesc']").change( function() {
+             showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val() );
+             $("#property_sort_order").change();
+        });
+        $("#property_sort_order").change();
+       
     });
     
-    $("input[name='user_ascdesc']").change( function() {
-        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+    
+    $("#profileTab").click( function() {
+        fillProfile();
     });
-
-    $("#property_sort_order").change( function () {
-        showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val());
-    });
-   
-    $("input[name='property_ascdesc']").change( function() {
-         showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val() );
-    });
-     
-    $("input:radio[name=user_ascdesc][value=asc]").attr('checked', 'checked');
-    $("#user_sort_role").change();
-    $("#property_sort_order").change();
-    fillProfile();
+    
+    showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
 
 function fillProfile() {
@@ -38,6 +52,44 @@ function fillProfile() {
     }
        
    callAsyncBackend(paramArr, "myprofile");
+}
+
+function approvePropertyByID(propertyID) {
+    event.preventDefault();
+    var paramArr = {
+      action: "approvePropertyByID",
+      propertyID: propertyID
+    }
+       
+    var result = callBackend(paramArr);
+
+    if (result !== "0") {
+        $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'Property successfully approved' });
+        $("#property_sort_order").change();
+    }
+    else
+    {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+    }
+}
+
+function deletePropertyByID(propertyID) {
+    event.preventDefault();
+    var paramArr = {
+      action: "deletePropertyByID",
+      propertyID: propertyID
+    }
+       
+    var result = callBackend(paramArr);
+  
+    if (result !== "0") {
+        $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'Property successfully deleted' });
+        $("#property_sort_order").change();
+    }
+    else
+    {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+    }
 }
 
 function deleteUserByID(userID, role) {
