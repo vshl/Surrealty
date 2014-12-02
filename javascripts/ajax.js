@@ -35,9 +35,7 @@ $(document).ready( function() {
              $("#property_sort_order").change();
         });
         
-        $("#property_sort_order").change();
-        alert(''+$("#property_sort_order").val() +'  & ' + $("input:radio[name=property_ascdesc]:checked").val())
-       
+        $("#property_sort_order").change();      
     });
     
     
