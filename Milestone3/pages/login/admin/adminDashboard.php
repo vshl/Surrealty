@@ -156,15 +156,15 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                   </select>
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="user_ascdesc" value="asc">
+                                                          <input type="radio" name="user_ascdesc" value="asc"  checked="checked">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="user_ascdesc" value="desc" checked="checked">
+                                                          <input type="radio" name="user_ascdesc" value="desc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>&nbsp;&nbsp;
-                                                  <input type="text"placeholder="search term" name="srch-term" id="">
+                                                  <input type="text" placeholder="search term" name="srch-term" id="">
                                                   &nbsp;&nbsp;<button type="submit" class="btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
                                               </div>
                                             </div>
@@ -194,17 +194,17 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" value="" name="property_sort_order" id="property_sort_order">
+                                                  <select class="select" name="property_sort_order" id="property_sort_order">
                                                      <option value="creation_date" selected>Creation_date</option>
                                                      <option value="modification_date">Modification_date</option>
                                                   </select>                                                    
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="property_ascdesc" value="asc" id="property_ascdesc">
+                                                          <input type="radio" name="property_ascdesc" value="asc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="property_ascdesc" value="dsc" id="property_ascdesc">
+                                                          <input type="radio" name="property_ascdesc" value="desc" checked="checked">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>
