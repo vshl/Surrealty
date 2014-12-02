@@ -18,7 +18,6 @@ $(document).ready( function() {
             showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
         });
         
-        $("input:radio[name=user_ascdesc][value=asc]").attr('checked', 'checked');
         $("#user_sort_role").change();
         
     });
@@ -26,18 +25,18 @@ $(document).ready( function() {
     // Admin Dashboard bind change from sorting dropdown
     
     $("#approvePropertiesTab").click( function() {
-        alert(''+$("#propery_sort_oder").val() +'  & ' + $("input:radio[name=property_ascdesc]:checked").val())
+        
         $("#property_sort_order").change( function () {
-            showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val());
+            showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
         });
    
         $("input[name='property_ascdesc']").change( function() {
-             showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val() );
+             showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
              $("#property_sort_order").change();
         });
         
-        $("input:radio[name=property_ascdesc][value=asc]").attr('checked', 'checked');
         $("#property_sort_order").change();
+        alert(''+$("#property_sort_order").val() +'  & ' + $("input:radio[name=property_ascdesc]:checked").val())
        
     });
     
