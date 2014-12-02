@@ -121,9 +121,9 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 <ul class="nav nav-tabs" role="tablist">
 
-  <li role="presentation" class="active"><a href="#Users" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Manage Users</a></li>
-  <li role="presentation"><a href="#Property" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-home"></i>&nbsp;Approve Property</a></li>
-  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
+  <li role="presentation" class="active"><a href="#Users" role="tab" data-toggle="tab" id="manageUserTab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Manage Users</a></li>
+  <li role="presentation"><a href="#Property" role="tab" data-toggle="tab" id="approvePropertiesTab"><i class="glyphicon glyphicon-home"></i>&nbsp;Approve Property</a></li>
+  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
 </ul>
  
 
@@ -194,17 +194,17 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" value="" name="Date" id="property_sort_order">
+                                                  <select class="select" value="" name="property_sort_order" id="property_sort_order">
                                                      <option value="surface">Creation_date</option>
                                                      <option value="rating">Modification_date</option>
                                                   </select>                                                    
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
-                                                          <input type="radio" name="options" value="asc" id="property_ascdesc">
+                                                          <input type="radio" name="property_ascdesc" value="asc" id="property_ascdesc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes"></span>
                                                         </label>
                                                         <label class="btn btn-default ">
-                                                          <input type="radio" name="options" value="dsc" id="property_ascdesc">
+                                                          <input type="radio" name="property_ascdesc" value="dsc" id="property_ascdesc">
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>

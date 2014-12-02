@@ -69,7 +69,7 @@ switch ($functionChoice) {
         showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
         break;
     case 'showUnprovenProperties':
-        showUnprovenProperties();
+        showUnprovenProperties($_POST['order'], $_POST['ascdesc']);
         break;
     case 'deleteUserByID':
         deleteUserByID($_POST['userID'], $_POST['role']);
@@ -79,6 +79,12 @@ switch ($functionChoice) {
         break;
     case 'deleteBuyerByID':
         deleteBuyerByID($_POST['user_id'] );
+        break;
+    case 'deletePropertyByID':
+        deletePropertyByID($_POST['propertyID']);
+        break;
+    case 'approvePropertyByID':
+        approvePropertyByID($_POST['propertyID']);
         break;
     case 'loadUserInformation':
         loadUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
@@ -648,11 +654,11 @@ function loadUserInformationByID($userID, $role) {
          </form>';
 }
 
-function showUnprovenProperties() {
+function showUnprovenProperties($oder, $ascdesc) {
     $pc =  new PropertyController();
     $properties = $pc->giveUnprovenProperties();
-    
-    
+   
+
     foreach( $properties as $property ) {
         $ac = new AgentController();
         $agent = $ac->loadAgentByID($property['created_by']);
@@ -689,13 +695,23 @@ function showUnprovenProperties() {
                         </div> 
                         <div class="col-xs-12 col-sm-2">
                                   <h5><span class="badge">Action:</span></h5>
-                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                                  <h5><a href=""><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Aprove</span></a></h5>
+                                  <h5><a href="" onclick="javascript:deletePropertyByID(\''. $property['property_id'] .'\');"><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                                  <h5><a href="" onclick="javascript:approvePropertyByID(\''. $property['property_id'] .'\');"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Approve</span></a></h5>
                                   
                         </div> 
 
                 </div><!--endof row of result inside tab-->';
     }
     
+}
+
+function deletePropertyByID($propertyID) {
+    $pc = new PropertyController();
+    echo $pc->deletePropertyByID($propertyID);
+}
+
+function approvePropertyByID($propertyID) {
+    $pc = new PropertyController();
+    echo $pc->approvePropertyByID($propertyID);
 }
 ?>
