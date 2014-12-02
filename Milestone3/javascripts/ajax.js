@@ -18,8 +18,9 @@ $(document).ready( function() {
             showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
         });
         
-        $("#user_sort_role").change();
         $("input:radio[name=user_ascdesc][value=asc]").attr('checked', 'checked');
+        $("#user_sort_role").change();
+        
     });
     
     // Admin Dashboard bind change from sorting dropdown
@@ -34,6 +35,8 @@ $(document).ready( function() {
              showUnprovenProperties( $("#propery_sort_oder").val(), $("input:radio[name=property_ascdesc]:checked").val() );
              $("#property_sort_order").change();
         });
+        
+        $("input:radio[name=property_ascdesc][value=asc]").attr('checked', 'checked');
         $("#property_sort_order").change();
        
     });

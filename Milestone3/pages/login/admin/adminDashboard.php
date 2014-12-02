@@ -195,8 +195,8 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                               <div class="input-group">
                                                 <span class="badge">Sort by Date:&nbsp;</span>
                                                   <select class="select" value="" name="property_sort_order" id="property_sort_order">
-                                                     <option value="surface">Creation_date</option>
-                                                     <option value="rating">Modification_date</option>
+                                                     <option value="creation_date" selected>Creation_date</option>
+                                                     <option value="modification_date">Modification_date</option>
                                                   </select>                                                    
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
