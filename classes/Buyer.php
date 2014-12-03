@@ -34,22 +34,51 @@ class Buyer extends Person {
     /**
      * Create a new buyer in database
      * uses information from 
-     */
-    public function saveBuyer() {
+     */ 
+    //Florian Version
+//    public function saveBuyer() {
+//        $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, state, country, city, role) VALUES ('" .
+//                    parent::getLastname() . "', '" . 
+//                    parent::getFirstname() . "', '" . 
+//                    parent::getPictureName() . "', '" . 
+//                    parent::getPassword() . "', '" . 
+//                    parent::getEmail() . "', '" . 
+//                    parent::getPhone() . "', '" .
+//                    $this->enabled . "', NOW(), '". 
+//                    parent::getAddress1() ."', '".
+//                    parent::getAddress2() ."', '".   
+//                    parent::getZipcode() ."', '" . 
+//                    parent::getState() ."', '" . 
+//                    parent::getCountry() ."', '" . 
+//                    parent::getCity() ."', '" . 
+//                    BUYER_ROLE_ID . "');";
+//        $result = $this->dbcomm->executeQuery($sqlQuery);
+//
+//        if ($result != true)
+//        {
+//            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+//            die("Error at buyer saving");
+//        }
+//        else
+//        {
+//          return $this->dbcomm->giveID();
+//        }
+//    }
+     public function saveBuyer($user) {
         $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, state, country, city, role) VALUES ('" .
-                    parent::getLastname() . "', '" . 
-                    parent::getFirstname() . "', '" . 
-                    parent::getPictureName() . "', '" . 
-                    parent::getPassword() . "', '" . 
-                    parent::getEmail() . "', '" . 
-                    parent::getPhone() . "', '" .
+                    $user['lname']  . "', '" . 
+                    $user['fname']  . "', '" . 
+                    $user['image_name']  . "', '" . 
+                    $user['password']  . "', '" . 
+                    $user['email']  . "', '" . 
+                    $user['phone']  . "', '" .
                     $this->enabled . "', NOW(), '". 
-                    parent::getAddress1() ."', '".
-                    parent::getAddress2() ."', '".   
-                    parent::getZipcode() ."', '" . 
-                    parent::getState() ."', '" . 
-                    parent::getCountry() ."', '" . 
-                    parent::getCity() ."', '" . 
+                    $user['address1']  ."', '".
+                    $user['address2']  ."', '".   
+                    $user['zipcode']  ."', '" . 
+                    $user['state']  ."', '" . 
+                    $user['country']  ."', '" . 
+                    $user['fname']  ."', '" . 
                     BUYER_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
 
@@ -63,7 +92,6 @@ class Buyer extends Person {
           return $this->dbcomm->giveID();
         }
     }
-    
     
     /**
      * loadBuyerByID
