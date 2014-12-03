@@ -182,6 +182,41 @@ function loginAndRedirect() {
         }
     }
 
+function RegisterAndRedirect() {
+        
+        var fname = $( "#fname").val();
+        var lname = $ ("#lname").val();
+        var email = $("#email1").val();
+        var password = $ ("#password1").val();
+        var phone = $("#phone").val();
+        var image_name = $ ("#image_name").val();
+        var address1 = $("#address1").val();
+        var address2 = $ ("#address2").val();
+        var zipcode = $("#zipcode").val();
+        var city = $ ("#city").val();
+        var state = $("#state").val();
+        var country = $ ("#country").val();
+        var paramArr = {
+            action: "RegisterAndRedirect",
+            fname: fname,
+            lname: lname,
+            email: email,
+            password: password,
+            phone: phone,
+            image_name: image_name,
+            address1: address1,
+            address2: address2,
+            zipcode: zipcode,
+            city: city,
+            state: state,
+            country: country
+            
+        };
+        
+        result = callBackend(paramArr);
+        
+    }
+
 function readCommentsForUser() {
     if ($( "#chkbox_show_seen_comments").is(':checked')) {
         showOld = 1;
