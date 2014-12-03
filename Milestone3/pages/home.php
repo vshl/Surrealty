@@ -165,7 +165,7 @@ Updated by :
                             <h3>Enter your contact information and our agent will contact you.</h3> 
                             </div>
                             <div class="modal-body">
-                            <form role="form">
+                            <form role="form" id="sellAgentForm">
                                 <div class="form-group">
                                     <label for="inputName">Name</label> 
                                     <input type="text" class="form-control" id="inputName" placeholder="Enter name">
@@ -184,7 +184,7 @@ Updated by :
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                                <button type="button" id="btn_sell_property" onclick="sellProperty()" Cclass="btn btn-primary pull-right">Submit</button>
                                 </div>
                             </form> 
                             </div>        
@@ -195,7 +195,7 @@ Updated by :
 
 
 
-      <!-- Modal sign_up HTML -->
+     <!-- Modal sign_up HTML -->
     <div id="myModal_SU" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -235,7 +235,7 @@ Updated by :
 
                           <div class="input-group" title="image">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add"></span>
+                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
                           </div>
 
                           <div class="input-group" title="addr1">
@@ -430,7 +430,7 @@ Additionally, customers can register their accounts with the application. Creati
             </div>
         </div>
     </div>
-<!--end of Modal for contact us-->        
+<!--end of Modal for contact us--> 
         
 
 	<!-- footer -->
@@ -440,8 +440,10 @@ Additionally, customers can register their accounts with the application. Creati
     <script src="./../javascripts/jquery-2.1.1.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./../javascripts/jquery.validate.js"</script>
     <script src="./../javascripts/script.js"></script> 
     <script src="./../javascripts/ajax.js"></script>
+    <script src="./../javascripts/jquery.toaster.js"></script>
     <script type="text/javascript">
         $( "#login_submit_btn").click(loginAndRedirect);
     </script>

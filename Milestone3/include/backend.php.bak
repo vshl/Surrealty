@@ -21,14 +21,6 @@ require_once '../classes/Logging.php';
 require_once '../controllers/AuthenticationController.php';
 require_once '../controllers/PropertyController.php';
 
-//useful consts
-
-CONST FLAG_BUYER_NOT_READ_ANSWER    = 1;    // Buyer hasn't seen the answer yet
-CONST FLAG_BUYER_HIDE_COMMENT       = 2;    // Buyer hides this comment
-CONST FLAG_AGENT_REPLIED_COMMENT    = 4;    // Agent has replied this comment
-CONST FLAG_AGENT_HIDE_COMMENT       = 8;    // Agent hides this comment
-CONST FLAG_COMMENT_IS_PUBLIC        = 16;   // This comment is public
-
 
 
 /**
@@ -67,17 +59,14 @@ switch ($functionChoice) {
     case 'loginAndRedirect':
         loginAndRedirect();
         break;
-  case 'RegisterAndRedirect':
+    case 'RegisterAndRedirect':
         RegisterAndRedirect();
         break;
     case 'listAllBuyersAsTable':
         listAllBuyersAsTable();
         break;
     case 'readCommentsForUser':
-        if ($_SESSION['role'] == "AGENT") {
-           readCommentsForAgent($_SESSION['user_id'], $_POST['showOld']); 
-        }
-               
+        readCommentsForUser($_SESSION['user_id'], $_POST['showOld']);
         break;
     case 'showUserlist':
         showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
@@ -91,7 +80,10 @@ switch ($functionChoice) {
     case 'enableUserByID': 
         enableUserByID($_POST['userID'], $_POST['role'], $_POST['enable']);
         break;
- case 'deletePropertyByID':
+    case 'deleteBuyerByID':
+        deleteBuyerByID($_POST['user_id'] );
+        break;
+    case 'deletePropertyByID':
         deletePropertyByID($_POST['propertyID']);
         break;
     case 'approvePropertyByID':
@@ -100,8 +92,8 @@ switch ($functionChoice) {
     case 'loadUserInformation':
         loadUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
         break;
-    case 'giveUnseenCommentsByAgentID':
-        giveUnseenCommentsByAgentID($_SESSION['user_id']);
+    case 'giveUnseenCommentsByID':
+        giveUnseenCommentsByID($_SESSION['user_id']);
         break;
     case 'switchCommentPublicState':
         switchCommentPublicState($_POST['commentID']);
@@ -114,12 +106,6 @@ switch ($functionChoice) {
         break;
     case 'removeComment':
         removeComment($_POST['commentID'], $_SESSION['user_id']);
-        break;
-    case 'readPublicCommentsForProperty':
-        readPublicCommentsForProperty($_POST['propertyID']);
-        break;
-    case 'sellProperty':
-        sellProperty($_POST['message']);
         break;
     default:
         echo "<b>Error at switch-case<b><br>";
@@ -214,6 +200,14 @@ function loadBuyerByID($user_id){
     }  
 }
 
+function deleteBuyerByID($user_id) {
+    $bc = new BuyerController();
+    $result = $bc->deleteBuyerByID($user_id);
+    unset ($bc);
+    echo $result;
+    
+}
+
 function loginByEMail() {
     print_r($_POST);
     $email = $_POST['email'];
@@ -292,13 +286,14 @@ function RegisterAndRedirect() {
     $res = $ac->registerNewUser($user);
 
 }
-/** 
-  *
- *  @param int $showHidden-> 1 show all comments, 0 suppres hidden comments
+/**
+ * This function will load all comments belonging to a given user.
+ * @param int $userID -> the given user id (mostly agent)
+ * @param int $showHidden-> 1 show all comments, 0 suppres hidden comments
  */
-function readCommentsForAgent($agentID, $showHidden) {
+function readCommentsForUser($userID, $showHidden) {
     $logger = new Logging();
-    $agentID = intval($agentID);
+    $userID = intval($userID);
     //$showOld = intval($showOld);
     
 //    if ($showOld != 0 OR $showOld != 1) {
@@ -321,7 +316,7 @@ function readCommentsForAgent($agentID, $showHidden) {
     
     //get data from comment
     
-    $comments = $cc->listCommentsByAgent($agentID, intval($showHidden));
+    $comments = $cc->listCommentsByUser($userID, intval($showHidden));
     $logger->logToFile("showComments", "info", "got " . count($comments) . "comments from controller ");
     if (is_int($comments)) {
         echo "No unhidden comments found";
@@ -370,14 +365,14 @@ function readCommentsForAgent($agentID, $showHidden) {
                             $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-pencil\"></i>Modify&nbsp;</span></a>";
                         }
         $disp .=        "<a href=\"#\"><span class=\"badge\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</span></a>";
-                        if ($cc->isFlagSet($comments[$i]['flags'], FLAG_AGENT_HIDE_COMMENT)) {
+                        if ($comments[$i]['isHidden'] == 1) {
                             $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</span></a>";
                         }
                         else {
                             $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</span></a>";
                         }
                         if (!$comments[$i]['answer'] == ""){
-                            if ($cc->isFlagSet($comments[$i]['flags'], FLAG_COMMENT_IS_PUBLIC)) {
+                            if ($comments[$i]['isPublic'] == 1) {
                                 $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make private\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span></a>";
                             }
                             else {
@@ -394,67 +389,36 @@ function readCommentsForAgent($agentID, $showHidden) {
     
 }
 
-function readPublicCommentsForProperty($propertyID) {
-    $propertyID = intval($propertyID);
-    // load a array with the matching comments
-    $cc = new CommentController();
-    $bc = new BuyerController();
-    $ac = new AgentController();
-    
-    $comments = $cc->loadAllCommentsByProperty($propertyID);
-    if (is_int($comments)) {
-        $disp = "<div class=\"row well\"><h4>No commets for this property avaiable</h4></div>";
-    }
-    else {
-        $disp = "";
-        for ($i=0, $c=count($comments); $i<$c; $i++) {
-            $buyer = $bc->loadBuyerByID($comments[$i]['created_by']);
-            $agent = $ac->loadAgentByID($comments[$i]['answered_by']);
-            
-            $disp .=    "<div class=\"row well\"> " .
-                        "<b>" .$buyer->getFirstname() . " " . $buyer->getLastname() . "</b> asked: " . $comments[$i]['comment'];
-            $disp .=    "<br>".
-                        "<b>" . $agent->getFirstname() . " " . $agent->getLastname() . "</b> replied: " . $comments[$i]['answer'];
-            $disp .=    "</div>";
-            
-           
-            }
-    }
-    echo $disp;
-}
-
 
 function switchCommentPublicState($commentID) {
     //$logger = new Logging();
     //$logger->logToFile("switchCommentPublicState", "info", "Wanna switch for com# " . $commentID) ;
-    
     $commentID = intval($commentID);
     $cc = new CommentController();
-    $cc->switchCommentPublic($commentID, $_SESSION['role']);
+    $cc->switchCommentPublic($commentID);
     unset($cc);
 }
 
 function switchCommentHideState($commentID) {
-    
     //$logger = new Logging();
     //$logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
     $commentID = intval($commentID);
     $cc = new CommentController();
-    $cc->switchCommentHideState($commentID, $_SESSION['role']);
+    $cc->switchCommentHideState($commentID);
+    $logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
     unset($cc);
-    
-//unset($logger);
+    //unset($logger);
 }
 
 function returnAnswerToComment($commentID, $answerText) {
-    //$logger = new Logging();
+    $logger = new Logging();
     $commentID = intval($commentID);
     $cc = new CommentController();
-    //$logger->logToFile("answerComment", "info", "update comment with: " . $commentID . " " . $_SESSION['user_id']. " " . $answerText);
+    $logger->logToFile("answerComment", "info", "update comment with: " . $commentID . " " . $_SESSION['user_id']. " " . $answerText);
     $result = $cc->setAnwser($commentID, $_SESSION['user_id'], $answerText);
     echo $result;
     unset($cc);
-    //unset($logger);
+    unset($logger);
     
 }
 
@@ -628,12 +592,12 @@ function enableUserByID($userID, $role, $enable) {
     }   
 }
 
-function giveUnseenCommentsByAgentID($agentID) {
+function giveUnseenCommentsByID($user_id) {
     $logger = new Logging();
-    $agentID = intval($agentID);
+    $user_id = intval($user_id);
     $cc = new CommentController();
-    $logger->logToFile("countComments", "info", $cc->giveCountOfUnansweredCommentForAgent($agentID) );
-    echo $cc->giveCountOfUnansweredCommentForAgent($agentID);
+    $logger->logToFile("countComments", "info", $cc->giveCountOfUnansweredComments($user_id) );
+    echo $cc->giveCountOfUnansweredComments($user_id);
 }
 
 
@@ -787,20 +751,5 @@ function deletePropertyByID($propertyID) {
 function approvePropertyByID($propertyID) {
     $pc = new PropertyController();
     echo $pc->approvePropertyByID($propertyID);
-}
-
-function sellProperty($message) {
-    $result = sendMail("fhahner@sfsuswe.com", "Person want to sell property", $message);
-    if ($result) {
-        echo 1;
-    }
-    else {
-        echo 0;
-    }
-}
-
-function sendMail($to,$subject,$message) {
-    $message = wordwrap($message);
-    return mail($to,$subject,$message);
 }
 ?>
