@@ -195,7 +195,7 @@ Updated by :
 
 
 
-     <!-- Modal sign_up HTML -->
+      <!-- Modal sign_up HTML -->
     <div id="myModal_SU" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -203,64 +203,69 @@ Updated by :
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-edit"></span>&nbsp;Sign Up</h4>
                     </div>
-                <form action= "./register.php" methode="POST">
+                <form>
                     <div class="modal-body">
                         <p>Sign up to surrealty and enjoy membership features</p>
-                        
+                        <p classe="text-warning" id="login_incorrect"></p>
                        
                         <div class="input-group" title="firstname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="firstname" id="" type="" placeholder="type your first name">
+                            <input class="form-control" name="firstname" id="fname" type="" placeholder="type your first name">
                           </div>
 
                           <div class="input-group" title="lastname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="lastname" id="" type="" placeholder="type your last name">
+                            <input class="form-control" name="lastname" id="lname" type="" placeholder="type your last name">
                           </div>
 
                           <div class="input-group" title="email">
                             <span class="input-group-addon">@</span>
-                            <input class="form-control" name="email" id="" type="" placeholder="type your e-mail">
+                            <input class="form-control" name="email1" id="email1" type="" placeholder="type your e-mail">
                           </div>
 
                           <div class="input-group" title="Password">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" name="password" id="password" type="password" placeholder="type your password">
+                            <input class="form-control" name="password" id="password1" type="password" placeholder="type your password">
                           </div>
 
                           <div class="input-group" title="phone">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                            <input class="form-control" name="phone" id="" type="" placeholder="type your phone number">
+                            <input class="form-control" name="phone" id="phone" type="" placeholder="type your phone number">
                           </div>
 
                           <div class="input-group" title="image">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
+                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add"></span>
                           </div>
 
                           <div class="input-group" title="addr1">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr1" id="" type="" placeholder="type your first adresse">
+                            <input class="form-control" id="address1" type="" placeholder="type your first adresse">
                           </div>
 
                           <div class="input-group" title="addr2">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr2" id="" type="" placeholder="type your seconde adresse">
+                            <input class="form-control" id="address2" type="" placeholder="type your seconde adresse">
                           </div>
 
                           <div class="input-group" title="zip">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                            <input class="form-control" name="zip" id="" type="" placeholder="type your zip code">
+                            <input class="form-control" id="zipcode" type="" placeholder="type your zip code">
                           </div>
 
                           <div class="input-group" title="city">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                            <input class="form-control" name="city" id="" type="" placeholder="type your city name">
+                            <input class="form-control" id="city" type="" placeholder="type your city name">
                           </div>
 
                           <div class="input-group" title="state">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                            <input class="form-control" name="state" id="" type="" placeholder="type your state name">
+                            <input class="form-control" id="state" type="" placeholder="type your state name">
+                          </div>
+                          
+                          <div class="input-group" title="country">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                            <input class="form-control" id="country" type="" placeholder="type your country name">
                           </div>
 
                           <p class="text-warning"><small><input type="checkbox" checked="checked" disabled="disabled"/>
@@ -271,13 +276,12 @@ Updated by :
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Sign up</button></form>
+                        <button type="submit" class="btn btn-primary" id="signup">Sign up</button></form>
                 </div>
                     </form>
             </div>
         </div>
     </div>
-        
         
         
         
@@ -293,6 +297,9 @@ Updated by :
     <script src="./../javascripts/ajax.js"></script>
     <script type="text/javascript">
         $( "#login_submit_btn").click(loginAndRedirect);
+    </script>
+    <script type="text/javascript">
+        $( "#signup").click(RegisterAndRedirect);
     </script>
     </div><!-- main container -->
  
