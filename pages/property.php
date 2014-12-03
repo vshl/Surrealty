@@ -1,11 +1,11 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+// This section checks if logged in user has sufficent rights and redirect him
+// to home.php if not. 
+// pathMaker.php is necessary to calculate the prefix for the absolut path
+// F.Hahner 27.11.2014
+include ('../pathMaker.php');
+require_once($path.'/include/checkUser.php');
+//checkUserRoleAndRedirect(array('BUYER', 'AGENT', 'ADMIN'), "../home.php");
 ?>
 
 <?php
@@ -55,14 +55,23 @@ if (($result->num_rows ) == 1)
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="../javascripts/jquery-2.1.1.js"></script>
+    <script src="../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../frameworks/bootstrap/dist/js/npm.js"></script>
+    <script src="../javascripts/ajax.js"></script>
     <!--  Importing property.css --> 
     <link href ="./../css/property.css" rel="stylesheet">
+    <script>
+        $( document ).ready(function() {
+            loadAllCommentsByProperty(<?php echo $property_id; ?>);
+        });
+    </script>
+    
     </head>
     <body>
         <div class="container-fluid"  ><!-- main container -->
         <!--header--> 
-        <?php include "./../include/header.html"?>
+        <?php include "./../include/header.php"?>
         <div style="margin-top: 6% ; margin-bottom: 0%;">
         <div class="row ">
         <div class="col-md-6 col-md-offset-3">
@@ -154,7 +163,7 @@ if (($result->num_rows ) == 1)
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 10%;">
+                <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
                     <h1 id="address">
                         <?php echo $address;?>
                     </h1>
@@ -185,6 +194,23 @@ if (($result->num_rows ) == 1)
                     </p>
                 </div>
             </div>
+        <!--- the following code is from florian. its a proof of concept for working comment section -->
+        <div class="row" style="margin-bottom: 5%;">
+            <div class="col-sm-4 col-md-4" id="new_comment_container">
+            <?php
+                if (!isset($_SESSION['role'])) {
+                    echo "<h4> please Login or register to use the comment function. Thank you</h4>";
+                }
+                ?>
+            </div>
+            
+            
+            <div class="col-sm-8 col-md-8" id="prop_comment_container">
+            </div>
+            
+        </div>
+            
+        
         <!-- footer -->
         <?php include "./../include/footer.html"?>
         

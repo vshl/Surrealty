@@ -32,24 +32,30 @@ class CommentController {
      * @return int
      */
     public function loadAllCommentsByProperty($propertyID) {
-        $list = array();
-        
+        $logger = new Logging();
         $sqlQuery = "SELECT * FROM comments WHERE property_id = ".$propertyID.";";
+        $logger->logToFile("loadPuvlicComments", "inf", $sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
-        
-        while ($row = $result->fetch_assoc())  
-        {
-                $comment = new Comment();
-                // Copy data from database into comment object
-                $comment->addDataToComment($row['property_id'], $row['created_by'], $row['comment'] );
-                $comment->setCommentID( $row['comment_id'] );
-                $comment->setCreationDate($row['creation_date']);
-                $comment->setAnswerText($row['answer']); 
-                array_push ($list, $comment);
-                unset ($comment);
+        $comments = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($this->isFlagSet($row['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
+                    
+                    $comments[] = $row;
+                    $logger->logToFile("loadPublicComment", "info", "one hit" .$row['comment_id']);
+                }
+            }
+            $logger->logToFile("loadPublicComment", "info", "counted comments: ". count($comments));
+            if (count($comments) > 0) {
+            return $comments;
+            }
+            else {
+                return 0;
+            }
         }
-        
-        return $list;
+        else {
+            return 0;
+        }
     }
     
     /**
