@@ -40,8 +40,8 @@ include ('../pathMaker.php');
                         <li><a href="#myModal_sell" data-toggle="modal">Sell</a></li>
                         <li><a href="#">Agents</a></li>
                         <li><a href="#">Advice</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">About</a></li> 
+                        <li><a href="#ContactUs" data-toggle="modal">Contact Us</a></li>
+                        <li><a href="#AboutUs" data-toggle="modal">About</a></li> 
                         <li><a href="#">Local</a></li>
                     </ul>
                     
