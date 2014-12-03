@@ -79,6 +79,27 @@ class AuthenticationController {
         return $sRandomString;
     }
     
+    
+    public function registerNewUser($user) {
+        
+    
+  $sqlQuery = "SELECT * FROM users WHERE users.email = '" . $user['email'] . "';";
+          $result = $this->dbcomm->executeQuery($sqlQuery);       
+         //  $row = mysqli_affected_rows($result);   
+       
+       if ($result->num_rows == 0)
+       {
+    
+             $_SESSION['fname'] = $user['fname'];
+             $_SESSION['role'] = "BUYER";          
+             $buyer = new Buyer();
+             
+            return $buyer->saveBuyer($user);
+
+        }   else {return 0;}
+
+    }
+    
 }
 
 
