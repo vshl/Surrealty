@@ -98,37 +98,29 @@ class CommentController {
      * switch the public status of a given comment
      * @param type $commentID
      */
-    public function switchCommentPublic( $commentID ) {
+    public function switchCommentPublic($commentID, $userRole ) {
         $logger = new Logging();
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
         $logger->logToFile("switchCommentPublic", "info", $comment->getCommendID());
-        $cur_state = intval($comment->getIsPublic());
-        if ($cur_state == 1) {   
-            $comment->setIsPublic(0);
+        if ($userRole == "AGENT") {
+            $comment->setCommentPublic(!$comment->isCommentPublic());
         }
-        else {
-            $comment->setIsPublic(1);
-        }
-            
         $comment->updateComment();
         unset ($logger);
         unset ($comment);
     }
     
-    public function switchCommentHideState( $commentID) {
+    public function switchCommentHideState($commentID, $userRole) {
         $logger = new Logging();
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
-        $cur_state = intval($comment->getIsHidden());
-        $logger->logToFile("switchCommentHideState", "info", "switch hide state from: " .$cur_state);
-        if ($cur_state == 1) {   
-            $comment->setIsHidden(0);
+        if ($userRole == "AGENT") {
+            $comment->setAgentHideComment(!$comment->isAgentHideComment());
         }
-        else {
-            $comment->setIsHidden(1);
+        if ($userRole == "BUYER") {
+            $comment->setBuyerHideComment(!$comment->isBuyerHideComment());
         }
-            
         $comment->updateComment();
         unset ($logger);
         unset ($comment);
@@ -152,56 +144,116 @@ class CommentController {
         $comment->loadCommentByID($commentID);
         $comment->setAgentID($agentID);
         $comment->setAnswerText($answerText);
-        $result = $comment->updateComment();
+        $comment->setAgentRepliedComment(TRUE);
+        $comment->setBuyerNotReadAnswer(TRUE);
+        $result = $comment->saveAnswerToComment();
         unset ($comment);
         return $result;
     }
     
     /**
-     * This function return an array with all comments belongs to one agent / user
-     * @param type $userID
+     * This function return an array with all comments belongs to one agent
+     * @param type $agentID
      * @param int $showHidden -> show hidden comments too [1 = show hidden comments; 0 = suppres hidden comments]
      * @return array [comment_id,property_id,comment,creation_date,created_by,answered_by,answer,answer_date,isSeen]
      */
     
-    public function listCommentsByUser($userID, $showHidden = 1) {
-        if (!is_int($userID)) {
+    public function listCommentsByAgent($agentID, $showHidden = 1) {
+        $logger = new Logging();
+        if (!is_int($agentID)) {
             return 0;
         }
         $db = new DatabaseComm();
-        if ($showHidden == 1) {
-            $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $userID .";";
-        }
-        else {
-            $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $userID ." AND com.isHidden = 0;"; 
-        }
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID .";";
+        $logger->logToFile("listCommentByAgent", "info", $query);
         $result = $db->executeQuery($query);
         $comments = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $comments[] = $row;
+                if ($showHidden == 1) {
+                    $comments[] = $row;
+                }
+                else {
+                    if (!$this->isFlagSet($row['flags'], 8)) {
+                        $comments[] = $row;
+                    }
+                }
             }
-        } else {
+        } 
+        else {
             return 0;          
         }
         return $comments;
     }
     
+   
+    
     /**
-     * return the unseen comments for a give $userID
+     * This function returns the count of unanswered Comments for a given agent
      * 
-     * @param int $userID
-     * @return int -> Number of unseen Comments
+     * @param type $agentID
+     * @return int
      */
     
-    public function giveCountOfUnansweredComments($userID) {
-        if (!is_int($userID)) {
-            return 20;
+    public function giveCountOfUnansweredCommentForAgent($agentID) {
+        $logger = new Logging();
+        if (!is_int($agentID)) {
+            return 0;
         }
         $db = new DatabaseComm();
-        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $userID ." AND com.answer = \"\";";
+        $query = "Select com.flags FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID . " ;";
         $result = $db->executeQuery($query);
-        return $result->num_rows;
+        $comments = array();
+        $logger->logToFile("count unansered comment", "info", "number of rows" .$result->num_rows);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ( ($row['flags'] == 0) OR ($row['flags'] == 2) ) {
+                    //$logger->logToFile("count unanswered comment", "info", "found unanswered com: " . $row['comment'] ." with flag " . $row['flags']);
+                    $comments = $row;
+                }
+            }
+            return count($comments);
+        }
+        else {
+            return 0;
+        }
+    }
+    
+    /** 
+     * this function return the count of unreaded replied comments for
+     * a give buyer
+     * 
+     * @param int $buyerID
+     * @return int Number of comments
+     */
+    
+    public function giveCountOfUnreadRepliesForBuyer($buyerID) {
+        if (!is_int($buyerID)) {
+            return 0;
+        }
+        $db = new DatabaseComm();
+        $query = "Select com.flags FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID . " ;";
+        $result = $db->executeQuery($query);
+        $comments = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ( ($row['flags'] == 0) OR ($row['flags'] == 2) ) {
+                    $comments = $row;
+                }
+            }
+            return count($comments);
+        }
+        else {
+            return 0;
+        }
+    }
+    
+    
+   
+    
+    public function isFlagSet($input, $flag)
+    {
+      return (($input & $flag) == $flag);
     }
     
        
