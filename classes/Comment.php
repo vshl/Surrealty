@@ -13,24 +13,32 @@ require_once '../classes/Logging.php';
 
 class Comment {
     
+    CONST FLAG_BUYER_NOT_READ_ANSWER    = 1;    // Buyer hasn't seen the answer yet
+    CONST FLAG_BUYER_HIDE_COMMENT       = 2;    // Buyer hides this comment
+    CONST FLAG_AGENT_REPLIED_COMMENT    = 4;    // Agent has replied this comment
+    CONST FLAG_AGENT_HIDE_COMMENT       = 8;    // Agent hides this comment
+    CONST FLAG_COMMENT_IS_PUBLIC        = 16;   // This comment is public
+    
     private $commentID;
     private $propertyID;
     private $commentText;
     private $creationDate;
     private $createdByUserID;
     private $answeredByAgentID;
-    private $isPublic;
-    private $isHidden;
     private $answerText;
+    private $answer_date;
     private $dbcomm;
+    private $flags;                             // Saves the flags for this comment
+    
     
     
     public function __construct() {
-        $this->isPublic = false;
-        $this->isHidden = false;
-        $this->dbcomm = new DatabaseComm();
-        $this->answerText = null;
-        $this->answeredByAgentID = null;
+        $this->isPublic             = false;
+        $this->isHidden             = false;
+        $this->dbcomm               = new DatabaseComm();
+        $this->answerText           = null;
+        $this->answeredByAgentID    = null;
+        $this->flags                = 0;
     }
     
     public function __destruct() {
@@ -58,9 +66,9 @@ class Comment {
                 $this->createdByUserID = $row['created_by'];
                 $this->answeredByAgentID = $row['answered_by'];
                 $this->answerText = $row['answer'];
-                $this->isPublic = $row['isPublic'];
-                $this->isHidden = $row['isHidden']; // to be renamed in mysql
-                $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText() . "from IP: " . $_SERVER['REMOTE_ADDR']);
+                $this->answer_date  =$row['answer_date'];
+                $this->flags = $row['flags'];
+                $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText() . " and flags: " . $this->flags);
                 return 1;
             }
             else
@@ -74,11 +82,15 @@ class Comment {
      * uses private attributes
      * @return int Statuscode ( 1 > comment saved, 0 > error while saving ) 
      */
-    public function saveComment() {
-        $sqlQuery = "INSERT INTO comments (property_id, comment, creation_date, created_by, answer, answered_by) VALUES ('" .
-                $this->propertyID . "', '" . $this->commentText . "', 
-                now() , '" . $this->createdByUserID . "', '" . 
-                $this->answerText . "', '" . $this->answeredByAgentID . "');";
+    public function saveNewComment() {
+        $sqlQuery = "INSERT INTO comments (property_id, comment, creation_date, created_by, flags) VALUES ('" .
+                $this->propertyID   . "', '" . 
+                $this->commentText  . "', 
+                             now() , '" . 
+                $this->createdByUserID . "', '" . 
+                //$this->answerText . "', '" .              // these two fields should be empty when comment is created
+                //$this->answeredByAgentID . "', '" .
+                $this->flags . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
@@ -93,6 +105,11 @@ class Comment {
         }
     }
   
+    /**
+     * This function should be used, if a comment or an answer has been modified. Not to use for answering
+     * @return int
+     */
+    
     public function updateComment() {
         $logger = new Logging();
         
@@ -110,8 +127,8 @@ class Comment {
                         $sqlQuery .= "answered_by= '" . $this->answeredByAgentID . "', ";
                     }
                 
-        $sqlQuery .="isPublic='" . $this->isPublic . "', " .
-                    "isHidden='" . $this->isHidden . "' " .
+        $sqlQuery .="flags= '" . $this->flags . "' " .
+                    
                     "WHERE comment_id = " . $this->commentID . ";";
         
         $logger->logToFile("Comment, updateComment", "info", "try to update with " .$sqlQuery);
@@ -129,6 +146,35 @@ class Comment {
             return 1;
         }   
     }
+    /**
+     * Use this function after you set the answer string within the class.
+     * The function will only save the modifications belong the answer
+     * @return int
+     */
+    
+    public function saveAnswerToComment() {
+        $logger = new Logging();
+        
+        $sqlQuery = "UPDATE comments SET " .
+                    "answer='" . $this->answerText                  . "', " .
+                    "answer_date = now(), "                         .
+                    "answered_by = '" . $this->answeredByAgentID    . "', " .
+                    "flags = '" . $this->flags                      . "' "  .
+                    "WHERE comment_id = " . $this->commentID        . ";";
+             
+        $logger->logToFile("Comment, answerComment", "info", "try to update with " .$sqlQuery);
+        $result = $this->dbcomm->executeQuery($sqlQuery);
+        
+        if ($result != true) {
+            return 0;
+        }
+        else {
+            return 1;
+        }   
+    }
+    
+    
+    
     /**
      * @param int $commentID of comment which has to be removed
      * @return int Statuscode ( 1 > comment deleted, 0 > No Data for ID found ) 
@@ -161,8 +207,6 @@ class Comment {
         $this->commentText = $comment;
     }
     
-   
-    
     public function setCommentID($commentID) {
         $this->commentID = $commentID;
     }
@@ -181,14 +225,6 @@ class Comment {
     
     public function setUserID($userID) {
         $this->createdByUserID = $userID;
-    }
-    
-    public function setIsPublic($isPublic) {
-        $this->isPublic = $isPublic;
-    }
-    
-    public function setIsHidden($isHidden) {
-        $this->isHidden = $isHidden;
     }
           
     public function setAnswerText($answerText) {
@@ -222,17 +258,98 @@ class Comment {
     public function getUserID() {
         return $this->createdByUserID;
     }
-    
-    public function getIsPublic() {
-        return $this->isPublic;
-    }
-    
-    public function getIsHidden() {
-        return $this->isHidden;
-    }
-    
+     
     public function getAnswerText() {
         return $this->answerText;
+    }
+    
+    public function isBuyerNotReadAnswer(){
+        return $this->isFlagSet(self::FLAG_BUYER_NOT_READ_ANSWER);
+    }
+    
+    /**
+     * Set the flag BUYER_NOT_READ_ANSWER
+     * 
+     * this flag shows if the buyer already read the answer from agent
+     * 
+     * @param boolean $value 
+     */
+    public function setBuyerNotReadAnswer($value) {
+        $this->setFlag(self::FLAG_BUYER_NOT_READ_ANSWER, $value);
+    }
+    
+    public function isCommentPublic() {
+        return $this->isFlagSet(self::FLAG_COMMENT_IS_PUBLIC);
+    }
+    
+    /**
+     * This function marks the comment as public
+     * 
+     * @param boolean $value
+     */
+    
+    public function setCommentPublic($value) {
+        $this->setFlag(self::FLAG_COMMENT_IS_PUBLIC, $value);
+    }
+    
+    public function isBuyerHideComment(){
+        return $this->isFlagSet(self::FLAG_BUYER_HIDE_COMMENT);
+    }
+    
+    /**
+     * This function marks the comment as hidden for the buyer
+     * 
+     * @param type $value
+     */
+    
+    public function setBuyerHideComment($value){
+        $this->setFlag(self::FLAG_BUYER_HIDE_COMMENT, $value);
+    }
+    
+    public function hasAgentRepliedComment(){
+        return $this->isFlagSet(self::FLAG_AGENT_REPLIED_COMMENT);
+    }
+    
+    /**
+     * This function flag the command as replied from agent
+     * 
+     * @param type $value
+     * 
+     */
+    
+    public function setAgentRepliedComment($value){
+        $this->setFlag(self::FLAG_AGENT_REPLIED_COMMENT, $value);
+    }
+    
+    public function isAgentHideComment(){
+        return $this->isFlagSet(self::FLAG_AGENT_HIDE_COMMENT);
+    }
+    
+    /**
+     * This function marks the comment as hidden for the agent
+     * 
+     * @param type $value
+     */
+            
+    public function setAgentHideComment($value) {
+        $this->setFlag(self::FLAG_AGENT_HIDE_COMMENT, $value);
+    }
+    
+    
+    
+    private function isFlagSet($flag)
+    {
+      return (($this->flags & $flag) == $flag);
+    }
+
+    private function setFlag($flag, $value)
+    {
+      if($value) {
+        $this->flags |= $flag;
+      }
+      else {
+        $this->flags &= ~$flag;
+      }
     }
 }
 ?>
