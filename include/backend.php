@@ -59,6 +59,9 @@ switch ($functionChoice) {
     case 'loginAndRedirect':
         loginAndRedirect();
         break;
+    case 'RegisterAndRedirect':
+        RegisterAndRedirect();
+        break;
     case 'listAllBuyersAsTable':
         listAllBuyersAsTable();
         break;
@@ -248,6 +251,41 @@ function loginAndRedirect() {
     
 }
 
+function RegisterAndRedirect() {
+     // strip_tags removes all html and php tags from string
+    
+    $fname = strip_tags($_POST['fname']);
+    $lname = strip_tags($_POST['lname']);
+    $email = strip_tags($_POST['email']);
+    $password = strip_tags($_POST['password']);
+    $phone = strip_tags($_POST['phone']);
+    $image_name = strip_tags($_POST['image_name']);
+    $address1 = strip_tags($_POST['address1']);
+    $address2 = strip_tags($_POST['address2']);
+    $zipcode = strip_tags($_POST['zipcode']);
+    $city = strip_tags($_POST['city']);
+    $state = strip_tags($_POST['state']);
+    $country = strip_tags($_POST['country']);
+      $user= array( 
+       fname => $fname ,
+       lname => $lname ,
+       email => $email ,
+       password => $password , 
+       phone => $phone ,
+       image_name => $image_name ,
+       address1 => $address1 ,
+       address2 => $address2 ,  
+       zipcode => $zipcode , 
+       city => $city ,
+       state => $state ,
+       country => $country        
+          
+      );
+           
+    $ac = new AuthenticationController();
+    $res = $ac->registerNewUser($user);
+
+}
 /**
  * This function will load all comments belonging to a given user.
  * @param int $userID -> the given user id (mostly agent)
