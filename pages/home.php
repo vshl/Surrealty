@@ -283,7 +283,154 @@ Updated by :
         </div>
     </div>
         
-        
+    <!--Modal for About us-->
+ <div id="AboutUs" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;About us</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/images/fh-fulda.png" width="70" height="70" class="pull-left">
+                    <img src="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/images/sfsu.png" width="70" height="70" class="pull-right">
+                    <div class="text-center"> 
+                        <h1>Software Engineering Class SFSU & FULDA Fall 2014 - Team 11</h1>
+                    
+                        <p> <h6>Surrealty is be a new online real-estate application for customers in search of real-estate properties on the Internet. The application's user experience gives the buyers a platform to perform a high level of interaction with the real-estate agents to find the right property based on their preferences.   
+
+With the help of an easy to use and intuitive search function, the application provides results that match listings based on the search operation they perform. The application also provides methods to filter their search results with controls that dictate criteria like location, zip code, type of property and neighborhood amenities.
+
+Additionally, customers can register their accounts with the application. Creating an account with the system provides additional features to the customers such as a dashboard that encompasses profile settings, managing bookmarks of the listings, and messaging system. The messaging system allows customers to posts questions to the real-estate agents to inquire further information about a property.
+                        </h6> </p>
+                        <small><a href="#Team" data-toggle="modal">Performed by</a></small>
+                    
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!--end of Modal for about us-->
+
+
+<!--Modal for Team-->
+ <div id="Team" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-star"></span>&nbsp;Our Team</h4>
+                </div>
+                <div class="modal-body">
+                <table class="table table-striped">
+                    
+                    <thead>
+                        <tr>
+                            <th data-field="First Name">First Name</th>
+                            <th data-field="Last Name">Last Name</th>
+                            <th data-field="University">University</th>
+                            <th data-field="Email">Email</th>	
+                                                
+                        </tr>    
+                    </thead>
+                    <tbody style="font-size: 12px;">
+                         <tr>
+                            <td>Florian</td>  
+                            <td>Hahner</td>
+                            <td>FULDA</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:fhahne@sfsuswe.com'>&nbsp;fhahne@sfsuswe.com</a></td>  
+                         </tr>
+                         <tr>
+                            <td>Benjamint</td>  
+                            <td>Bleicher</td>
+                            <td>FULDA</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:bbleic@sfsuswe.com'>&nbsp;bbleic@sfsuswe.com</a></td>  
+                         </tr>
+                         <tr>
+                            <td>Ahmed</td>  
+                            <td>Landolsi</td>
+                            <td>FULDA</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:landosiamed@sfsuswe.com'>&nbsp;landosiamed@sfsuswe.com</a></td>  
+                         </tr>
+                         <tr>
+                            <td>Abhijit</td>  
+                            <td>Parate</td>
+                            <td>SFSU</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:aparat@sfsuswe.com'>&nbsp;aparat@sfsuswe.com</a></td>  
+                         </tr>
+                         <tr>
+                            <td>Vishal</td>  
+                            <td>Ravi Shankar</td>
+                            <td>SFSU</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:vshank@sfsuswe.com'>&nbsp;vshank@sfsuswe.com</a></td>  
+                         </tr>
+                         <tr>
+                            <td>Johnnie</td>  
+                            <td>Lo</td>
+                            <td>SFSU</td>  
+                            <td><span class='glyphicon glyphicon-envelope'></span><a href='mailto:jlo@sfsuswe.com'>&nbsp;jlo@sfsuswe.com</a></td>  
+                         </tr>
+                    </tbody>
+                </table>    
+                    
+                    
+                </div> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!--end of Modal for Team-->
+
+
+
+<!--Modal for Contact us-->
+ <div id="ContactUs" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    
+                    <div class="navbar navbar-inverse"><h4 class="modal-title text-center">
+                            <img src="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/images/Logo_surreal.png" width="170" height="70"></h4>
+                    </div>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="text-center"> 
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <br>
+                                <h4 class="text-left"><span class="glyphicon glyphicon-tower"></span>&nbsp;Surrealty Real estate Agency</h4>
+                                <br>
+                                <h6 class="text-left"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Adresse:88 Kearny Street, Suite 600 94108 San Francisco</h6>
+                                
+                                <h6 class="text-left"><span class="glyphicon glyphicon-earphone"></span>&nbsp;Tel:16112014</h6>
+                                <h6 class="text-left"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Mail:surrealty@sfsuswe.com</h6>
+                                <h6 class="text-left"><span class="glyphicon glyphicon-home"></span>&nbsp;Managed properties:250</h6>
+                                <h6 class="text-left"><span class="glyphicon glyphicon-user"></span>&nbsp;Employed agent:10</h6>
+                            </div>
+                            <div class="col-lg-7">
+                                 <img src="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/images/map.jpg" width="450" height="250">
+                            </div>    
+                        </div>
+                            
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!--end of Modal for contact us-->        
         
 
 	<!-- footer -->
