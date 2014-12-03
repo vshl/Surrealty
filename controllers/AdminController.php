@@ -60,6 +60,7 @@ class AdminController {
             $admin = new Admin();
             if ($admin->loadAdminByID($adminID)){
                 $admin->setEnabled($enabled);
+                return 1;
             }
             else {
                 return 0;
