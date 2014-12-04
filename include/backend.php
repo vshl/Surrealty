@@ -70,7 +70,7 @@ switch ($functionChoice) {
   case 'RegisterAndRedirect':
         RegisterAndRedirect();
         break;
-    case 'sentResetCode':
+  case 'sentResetCode':
         sentResetCode($_POST['email']);
         break;
     case 'listAllBuyersAsTable':
@@ -94,7 +94,7 @@ switch ($functionChoice) {
     case 'enableUserByID': 
         enableUserByID($_POST['userID'], $_POST['role'], $_POST['enable']);
         break;
-    case 'deletePropertyByID':
+ case 'deletePropertyByID':
         deletePropertyByID($_POST['propertyID']);
         break;
     case 'approvePropertyByID':
@@ -123,6 +123,9 @@ switch ($functionChoice) {
         break;
     case 'sellProperty':
         sellProperty($_POST['message']);
+        break;
+    case 'createCommentByListingID':
+        sendCommentByPropertyID($_SESSION['user_id'], $_POST['listingID'], $_POST['comment']);
         break;
     default:
         echo "<b>Error at switch-case<b><br>";
@@ -518,9 +521,9 @@ function showUserlist( $role, $order, $ascdesc ) {
                     "delet" => $row['delet'],
                     "modification_date" => $row['modification_date'],
                     "creation_date" => $row['creation_date']);
-        if( $user['delet'] == 1)
+       if( $user['delet'] == 1)
             continue;
-        
+  
         if( strtoupper($role) == $user['role'] || $role == 'all' ) {
             array_push($userlist, $user);
         } else {
@@ -795,6 +798,13 @@ function approvePropertyByID($propertyID) {
     echo $pc->approvePropertyByID($propertyID);
 }
 
+function sendCommentByPropertyID($userID, $propertyID, $comment) {
+    $cc = new CommentController();
+    $result = $cc->addComment($userID, $propertyID, $comment);
+    echo $result;
+    
+}
+
 function sellProperty($message) {
     $result = sendMail("fhahner@sfsuswe.com", "Person want to sell property", $message);
     if ($result) {
@@ -809,7 +819,6 @@ function sendMail($to,$subject,$message) {
     $message = wordwrap($message);
     return mail($to,$subject,$message);
 }
-
 function sentResetCode($email) {
     $ac = new AuthenticationController();
     $code = $ac->sentResetCode($email);

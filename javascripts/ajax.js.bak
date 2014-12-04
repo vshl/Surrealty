@@ -15,21 +15,30 @@ $(document).ready( function() {
     $("input[name='user_ascdesc']").change( function() {
         showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
-
+    
+    
+    
     $("#property_sort_order").change( function () {
         showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
     });
 
-    $("input[name='property_ascdesc']").change( function() {
-         showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
-         $("#property_sort_order").change();
+    $("#resetpwd").submit( function() {
+        sentResetCode( $("#email_resetpwd").val() );
     });
         
+    $("input[name='property_ascdesc']").change( function() {
+        showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
+    });
+ 
+    
+    $("#approvePropertiesTab").click( function() {
+        $("#property_sort_order").change();
+    });
         
-    $("#manageUserTab").click( function() {    
+    $("#manageUserTab").click( function() {
         $("#user_sort_role").change();
     });
-    
+
     $("#approvePropertiesTab").click( function() {
         $("#property_sort_order").change();      
     });
@@ -37,16 +46,30 @@ $(document).ready( function() {
     $("#profileTab").click( function() {
         fillProfile();
     });
-    
-    
-    // for the first call of the dasgboard load the usertab
+        // for the first call of the dasgboard load the usertab
     showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
+
+function sentResetCode( email ) {
+ 
+    var paramArr = {
+        action: "sentResetCode",
+        email: email 
+    };
+
+    var result = callBackend(paramArr);
+    
+    if( result !== "0") {
+        $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is sent to your email address' });
+    } else {
+        $.toaster({ priority : 'warning', title : 'Password reset', message : 'Your email address is not in our database' });
+    }
+}
 
 function fillProfile() {
     var paramArr = {
       action: "loadUserInformation"
-    }
+    };
        
    callAsyncBackend(paramArr, "myprofile");
 }
@@ -56,7 +79,7 @@ function approvePropertyByID(propertyID) {
     var paramArr = {
       action: "approvePropertyByID",
       propertyID: propertyID
-    }
+    };
        
     var result = callBackend(paramArr);
 
@@ -66,7 +89,7 @@ function approvePropertyByID(propertyID) {
     }
     else
     {
-        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+       $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
     }
 }
 
@@ -75,25 +98,24 @@ function deletePropertyByID(propertyID) {
     var paramArr = {
       action: "deletePropertyByID",
       propertyID: propertyID
-    }
+    };
        
     var result = callBackend(paramArr);
   
     if (result !== "0") {
-       // $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'Property successfully deleted' });
+        $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'Property successfully deleted' });
         $("#property_sort_order").change();
     }
     else
     {
-      //  $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+        $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
     }
 }
 
 function deleteUserByID(userID, role) {
     event.preventDefault();
-    // insert modal box here
     
-    if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
+     if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
     {
         var paramArr = {
           action: "deleteUserByID",
@@ -104,19 +126,55 @@ function deleteUserByID(userID, role) {
        var result = callBackend(paramArr);
 
         if (result !== "0") {
-        //    $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
             $("#user_sort_order").change();
         }
         else
         {
-          //   $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
+            $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
         }
     } 
     else
     {
-        return fase;
+        return false;
     }
-        
+    
+    // insert modal box here
+   /*
+    $( "#dialog-confirm" ).html("<b>Wollen Sie wirklich(" + userID +")" + " loeschen?");
+        $( "#dialog-confirm" ).dialog({ 
+        resizable: false,
+        height: "auto",
+        modal: true,
+        title: "Delete " + userID + "?",
+        buttons: {
+            "Delete": function() {
+                 
+                var paramArr = {
+                    action: "deleteUserByID",
+                    userID: userID,
+                    role: role
+                }
+                var result = callBackend(paramArr);
+                if (result !== "0") {
+                   // $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
+            
+                }
+                else
+                {
+                   // $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
+                }
+                setTimeout(function(){
+                   $("#user_sort_order").change();
+                }, 1500);
+
+                $( this ).dialog( "close" );
+            },
+            "Cancel": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    }); */    
 }
 
 function enableUser(userID, role, enable) {
@@ -126,17 +184,21 @@ function enableUser(userID, role, enable) {
        userID: userID,
        role: role,
        enable: enable
-     }
+     };
 
      var result = callBackend(paramArr);
 
      if (result !== "0") {
         $("#user_sort_order").change();
-       // $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully enabled/disabled' });
-     }
+        if(enable) {
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully enabled' });
+        } else {
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully disabled' });
+        }
+    }
      else
      {
-       // $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+        $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
      }
 }
 
@@ -145,10 +207,10 @@ function showUnprovenProperties( order, ascdesc) {
         action: "showUnprovenProperties",
         order: order,
         ascdesc: ascdesc 
-    }
- 
+    };
     callAsyncBackend(paramArr, "unproven_properties");
 }
+
 
 function showUserList( role, order, ascdesc) {
     var paramArr = {
@@ -157,8 +219,7 @@ function showUserList( role, order, ascdesc) {
         order: order,
         ascdesc: ascdesc 
     }
- 
-    callAsyncBackend(paramArr, "userlist");
+     callAsyncBackend(paramArr, "userlist");
 }
     
 function loginAndRedirect() {
@@ -184,6 +245,8 @@ function loginAndRedirect() {
 
 function RegisterAndRedirect() {
         
+        var $Form = $('#registrationForm');
+      if ($Form[0].checkValidity()) {
         var fname = $( "#fname").val();
         var lname = $ ("#lname").val();
         var email = $("#email1").val();
@@ -196,6 +259,9 @@ function RegisterAndRedirect() {
         var city = $ ("#city").val();
         var state = $("#state").val();
         var country = $ ("#country").val();
+        
+        
+        
         var paramArr = {
             action: "RegisterAndRedirect",
             fname: fname,
@@ -214,9 +280,10 @@ function RegisterAndRedirect() {
         };
         
         result = callBackend(paramArr);
+        }
         
     }
-
+    
 function readCommentsForUser() {
     if ($( "#chkbox_show_seen_comments").is(':checked')) {
         showOld = 1;
@@ -238,9 +305,9 @@ function readCommentsForUser() {
     }
 } 
 
-function giveUnseenCommentsByUserID(userID) {
+function giveUnseenCommentsByAgentID(userID) {
     var paramArr = {
-        action: "giveUnseenCommentsByID",
+        action: "giveUnseenCommentsByAgentID",
         userID: userID
         };
     var result = callBackend(paramArr);
@@ -251,6 +318,32 @@ function giveUnseenCommentsByUserID(userID) {
         $(" #tab_count_unseen_comments").text(result);
     }
 }
+
+function  loadAllCommentsByProperty(propertyID) {
+    var paramArr = {
+        action: "readPublicCommentsForProperty",
+        propertyID: propertyID
+        };
+    var result = callBackend(paramArr);
+    $( "#prop_comment_container").html(result);
+}
+
+function sellProperty() {
+    var sellerName = $(" #inputName").val();
+    var sellerPhone = $(" #inputPhone").val();
+    var sellerMail = $(" #inputEmail").val();
+    var sellerMessage = $(" #inputMessage").val();
+        
+    var message = "Hello \n " + sellerName + " wants to sell a property. He/She leaves to following message: " + sellerMessage + "\n Please contact under: \n " + sellerPhone + "\n" + sellerMail;
+    var paramArr = {
+        action: "sellProperty",
+        message: message
+        };
+    result = callBackend(paramArr);
+    $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : result });
+}
+
+
 
 function returnAnswerToComment(commentID) {
     var answerText = $(" #reply_answer").val();
@@ -267,7 +360,7 @@ function returnAnswerToComment(commentID) {
         $.toaster({ priority : 'warning', title : 'Comment System', message : result });
     }
     readCommentsForUser();
-    }
+}
     
 function removeComment(commentID) {
     if( confirm("You are going to delete a comment. Are you sure?") ) 
@@ -296,8 +389,7 @@ function switchCommentHideState(commentID) {
         result =callBackend(paramArr);
         $.toaster({ priority : 'success', title : 'Comment System', message : 'Comment Hide state change'});
         readCommentsForUser();
-        
-    }
+}
 
 function switchCommentPublicState(commentID) {
     var paramArr = {
@@ -306,7 +398,6 @@ function switchCommentPublicState(commentID) {
         };
         callBackend(paramArr);
         readCommentsForUser();
-        
  }
 
 
@@ -358,7 +449,6 @@ function callBackend(param) {
         dataType: "html",
         async: true,
         timeout: 150000,
-
         success: function( response ) {
             $("#"+target).html(response);
         }
@@ -390,5 +480,11 @@ function callBackend(param) {
   * @param showOld -> (int) hide already red comments
   */
 
-
-
+function showUnprovenProperties( order, ascdesc) {
+    var paramArr = {
+        action: "showUnprovenProperties",
+        order: order,
+        ascdesc: ascdesc 
+    }
+    callAsyncBackend(paramArr, "unproven_properties");
+}
