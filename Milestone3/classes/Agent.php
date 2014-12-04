@@ -97,7 +97,7 @@ class Agent extends Person {
      * @return int Statuscode ( 1 > Agent deleted, 0 > No Data for ID found ) 
      */
     public function deleteAgentByID( $agentID ){
-        $sqlQuery = "DELETE FROM users WHERE user_id = ".$agentID." AND role = '" . AGENT_ROLE_ID . "';";
+        $sqlQuery = "UPDATE users SET delet = 1, enable = 0 WHERE user_id = ".$agentID." AND role = '" . AGENT_ROLE_ID . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         if ($result != true)
         {

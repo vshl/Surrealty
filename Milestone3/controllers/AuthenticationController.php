@@ -26,7 +26,7 @@ class AuthenticationController {
     }
 
     public function logonWithEmail( $email, $password ) {
-        $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" . $password . "';";
+        $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" . $password . "' AND enable = 1 AND delet = 0;";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
                
@@ -47,22 +47,52 @@ class AuthenticationController {
     }
     
 
-    public function resetPassword( $email ) {
-        $sqlQuery = "INSERT INTO users (reset_code, reset_date) VALUES ('" . $this->getRandomString( 32 ) . "', NOW()) WHERE email = '" . $email . "';";
+    public function sentResetCode( $email ) {
+        $code = $this->getRandomString( 32 ) ;
+        
+        $sqlQuery = "UPDATE users SET reset_code = '".$code."', ".
+                    "reset_date = NOW() WHERE email = '" . $email . "';";
+        
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
         {
-            echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
             die("Error at reset pwd");
         }
         else
         {
-            return 1;
+            return $code;
         }
           
+    }
+    
+    
+    public function resetPassword($email, $code) {
+        $newPassword = $this->getRandomString(10);
+        
+        // check if intime with timediff mysql
+        $sqlQuery = "SELECT * FROM users WHERE email = '". $email ."' AND reset_code = '". $code ."';"; // AND (TIMESTAMPDIFF(MINUTE, reset_date , NOW()) <= 2);";
+        
+        $result = $this->dbcomm->executeQuery($sqlQuery);
+        
+       if ($this->dbcomm->affectedRows() == 1) {
+            $row = mysqli_fetch_assoc($result);
+
+            $sqlQuery = "UPDATE users SET password = '".$newPassword."' WHERE user_id = '".$row['user_id']."';";
+            
+            $result = $this->dbcomm->executeQuery($sqlQuery);
+            
+            if ($this->dbcomm->affectedRows() == 1) {
+                return $newPassword;
+            } else {
+                return $this->dbcomm->giveError();
+            }
+        }
+        else {
+            return 0;
+        }
     }
     
     private function getRandomString($iLength = 32, $sCharacters = null) {   

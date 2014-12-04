@@ -12,10 +12,6 @@ Updated by :
 2> Abhiijt @18:38 on 11/11 > added logo back
 ----------------------------------------
  -->
-<?php
-
-?>
-
 <html>
 
 <head>
@@ -136,16 +132,16 @@ Updated by :
             <div class="modal-body">
               <p class="center">Please enter your e-mail, you will recive a mail with your new password</p>
   
-              <form action="PassRecover.php" methode="">
+              <form action="home.php" id="resetpwd" method="post">
                       <div class="input-group" title="Email">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="email" id="email" type="text" placeholder="type your e-mail"  class="form-control">
+                        <input name="email" id="email_resetpwd" type="text" placeholder="type your e-mail"  class="form-control">
                       </div>
   
             
             <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="resetpwd" class="btn btn-primary">Submit</button>
             </div>
             </form>      
             </div>
@@ -451,6 +447,32 @@ Additionally, customers can register their accounts with the application. Creati
     </script>
     </div><!-- main container -->
  
+ <?php
+    if(isset($_GET['code']) && isset($_GET['email'])) {
+       $code = stripslashes($_GET['code']);
+       $email = stripcslashes($_GET['email']);
+
+       include "./../controllers/AuthenticationController.php";
+
+       $ac      = new AuthenticationController();
+       $newpw   = $ac->resetPassword($email, $code);
+   
+       if($newpw !== "0") {
+           print "<script type=\"text/javascript\">" .
+                   " $.toaster({settings : { 'timeout' : 120000 } }); " .
+                   " $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is successfully reset. Your new password is: ".$newpw."' });" .
+                   " $.toaster.reset();" .
+                "</script>'";
+       } 
+    } else if(isset($_POST['email'])) {
+        $email = stripcslashes($_POST['email']);
+        print "<script type=\"text/javascript\">" .
+               " $.toaster({settings : { 'timeout' : 20000 } }); " .
+               "$.toaster({ priority : 'success', title : 'Email sent', message : 'We sent you an email with instructions for the password reset process. Your email: ".$email."' });" .
+                " $.toaster.reset();" .
+                "</script>'";
+    }
+?>
 
    
 </body>
