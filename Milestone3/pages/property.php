@@ -56,15 +56,22 @@ if (($result->num_rows ) == 1)
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="../javascripts/jquery-2.1.1.js"></script>
+    <script src="../javascripts/jquery.toaster.js"></script>
     <script src="../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../frameworks/bootstrap/dist/js/npm.js"></script>
+
     <script src="../javascripts/ajax.js"></script>
     <!--  Importing property.css --> 
     <link href ="./../css/property.css" rel="stylesheet">
     <script>
         $( document ).ready(function() {
             loadAllCommentsByProperty(<?php echo $property_id; ?>);
-        });
+            $(" #button_comment_submit").click( function() {
+                    createComment(<?php echo $property_id; ?>);
+                });
+            
+            
+            });
     </script>
     
     </head>
@@ -200,6 +207,14 @@ if (($result->num_rows ) == 1)
             <?php
                 if (!isset($_SESSION['role'])) {
                     echo "<h4> please Login or register to use the comment function. Thank you</h4>";
+                }
+                elseif ($_SESSION['role'] == 'BUYER') {
+                   echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
+                        "<div class=\"input-group input-group-lg\">" . 
+                        "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
+                        "<span class=\"input-group-btn\">" .
+                        "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
+                        "</span></div></form>";  
                 }
                 ?>
             </div>
@@ -378,11 +393,11 @@ if (($result->num_rows ) == 1)
         </div>
     </div>
 
-      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) 
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed 
+    <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script> -->
     <script src="./../javascripts/script.js"></script> 
      
       </div>

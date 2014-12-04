@@ -128,7 +128,7 @@ $lng = $coords['lng'];
         
         <div class="container-fluid" >
         <!--header-->
-        <?php include "./../include/header.html" ?>
+        <?php include "./../include/header.php" ?>
         <!--main content-->
         <div class="container-fluid "   style="margin-top: 6%; padding: 0px 0px 0px 0px;">
             <div class="row">

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready( function() {
+    $("#manageUserTab").click( function() {
     $("#user_sort_role").change( function() {
         showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
@@ -49,7 +50,7 @@ $(document).ready( function() {
         // for the first call of the dasgboard load the usertab
     showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
-
+});
 function sentResetCode( email ) {
  
     var paramArr = {
@@ -400,6 +401,18 @@ function switchCommentPublicState(commentID) {
         readCommentsForUser();
  }
 
+function createComment(listingID) {
+    var comment = $(" #comment_message").val();
+    var paramArr = {
+         action: "createCommentByListingID",
+         listingID: listingID,
+         comment: comment
+        };
+    result = callBackend(paramArr);
+    $.toaster({ priority : 'success', title : 'Comment System', message : result});
+ 
+    
+ }
 
 function callBackend(param) {
         

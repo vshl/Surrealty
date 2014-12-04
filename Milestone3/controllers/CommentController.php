@@ -135,8 +135,10 @@ class CommentController {
     public function addComment( $userID, $propertyID, $commentText ) {
         $comment = new Comment();
         $comment->addDataToComment($propertyID, $userID, $commentText );
-        $comment->saveComment();
+        $result = $comment->saveNewComment();
         unset ($comment);
+        return $result;
+       
     }
     
     public function deleteCommentByID( $commentID ) {
