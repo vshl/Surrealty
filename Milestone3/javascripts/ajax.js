@@ -245,6 +245,8 @@ function loginAndRedirect() {
 
 function RegisterAndRedirect() {
         
+        var $Form = $('#registrationForm');
+      if ($Form[0].checkValidity()) {
         var fname = $( "#fname").val();
         var lname = $ ("#lname").val();
         var email = $("#email1").val();
@@ -257,6 +259,9 @@ function RegisterAndRedirect() {
         var city = $ ("#city").val();
         var state = $("#state").val();
         var country = $ ("#country").val();
+        
+        
+        
         var paramArr = {
             action: "RegisterAndRedirect",
             fname: fname,
@@ -275,9 +280,10 @@ function RegisterAndRedirect() {
         };
         
         result = callBackend(paramArr);
+        }
         
     }
-
+    
 function readCommentsForUser() {
     if ($( "#chkbox_show_seen_comments").is(':checked')) {
         showOld = 1;
