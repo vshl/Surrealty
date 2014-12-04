@@ -191,7 +191,7 @@ Updated by :
 
 
 
-<!-- Modal sign_up HTML -->
+  <!-- Modal sign_up HTML -->
     <div id="myModal_SU" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -206,32 +206,32 @@ Updated by :
                        
                         <div class="input-group" title="firstname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i><sup>*</sup></span>
-                            <input class="form-control" name="firstname" id="fname" type="text" placeholder="type your first name" required>
+                            <input class="form-control" name="firstname" id="fname" type="text" placeholder="type your first name" maxlength="50" required>
                               </div>
 
                         <div class="input-group" title="lastname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i><sup>*</sup></span>
-                            <input class="form-control" name="lastname" id="lname" type="text" placeholder="type your last name" required>
+                            <input class="form-control" name="lastname" id="lname" type="text" placeholder="type your last name" maxlength="50" required>
                           </div>
 
                           <div class="input-group" title="email">
                             <span class="input-group-addon">@<sup>*</sup></span>
-                            <input class="form-control" name="email1" id="email1" type="email" placeholder="type your e-mail" required>
+                            <input class="form-control" name="email1" id="email1" type="email" placeholder="type your e-mail" maxlength="50" required>
                           </div>
 
                           <div class="input-group" title="Password">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i><sup>*</sup></span>
-                            <input class="form-control" name="password" id="password1" type="password" placeholder="type your password" required>
+                            <input class="form-control" name="password" id="password1" type="password" placeholder="type your password" maxlength="32" required>
                           </div>
 
                           <div class="input-group" title="phone">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;</span>
-                            <input class="form-control" name="phone" id="phone" type="tel" placeholder="type your phone number" maxlength="40" pattern="\d*">
+                            <input class="form-control" name="phone" id="phone" type="tel" placeholder="type your phone number" maxlength="50" pattern="\d*">
                           </div>
 
                           <div class="input-group" title="image">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i>&nbsp;</span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add" maxlength="40"></span>
+                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add" maxlength="50"></span>
                           </div>
 
                           <div class="input-group" title="addr1">
@@ -246,22 +246,22 @@ Updated by :
 
                           <div class="input-group" title="zip">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i><sup>*</sup></span>
-                            <input class="form-control" id="zipcode" type="text" placeholder="type your zip code" maxlength="15" pattern="\d*" required>
+                            <input class="form-control" id="zipcode" type="text" placeholder="type your zip code" maxlength="10" pattern="\d*" required>
                           </div>
 
                           <div class="input-group" title="city">
                               <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i><sup>*</sup></span>
-                            <input class="form-control" id="city" type="text" placeholder="type your city name" required>
+                              <input class="form-control" id="city" type="text" placeholder="type your city name" maxlength="50" required>
                           </div>
 
                           <div class="input-group" title="state">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i><sup>*</sup></span>
-                            <input class="form-control" id="state" type="text" placeholder="type your state name" required>
+                            <input class="form-control" id="state" type="text" placeholder="type your state name" maxlength="50" required>
                           </div>
                           
                           <div class="input-group" title="country">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i><sup>*</sup></span>
-                            <input class="form-control" id="country" type="text" placeholder="type your country name"  required>
+                            <input class="form-control" id="country" type="text" placeholder="type your country name" maxlength="50" required>
                           </div>
                         <p class="text-warning"><small><input type="checkbox" checked="checked" disabled="disabled"/>
                           &nbsp;&nbsp;&nbsp;I Aggree With <a href="terme.pdf">Terms &amp; Conditions</a></small></p>
