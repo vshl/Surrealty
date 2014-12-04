@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready( function() {
-    $("#manageUserTab").click( function() {
+
     $("#user_sort_role").change( function() {
         showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
@@ -16,8 +16,6 @@ $(document).ready( function() {
     $("input[name='user_ascdesc']").change( function() {
         showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
-    
-    
     
     $("#property_sort_order").change( function () {
         showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
@@ -50,7 +48,7 @@ $(document).ready( function() {
         // for the first call of the dasgboard load the usertab
     showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
-});
+
 function sentResetCode( email ) {
  
     var paramArr = {
