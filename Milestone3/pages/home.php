@@ -195,7 +195,7 @@ Updated by :
 
 
 
-     <!-- Modal sign_up HTML -->
+<!-- Modal sign_up HTML -->
     <div id="myModal_SU" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -203,74 +203,73 @@ Updated by :
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-edit"></span>&nbsp;Sign Up</h4>
                     </div>
-                <form>
+                <form id="registrationForm">
                     <div class="modal-body">
                         <p>Sign up to surrealty and enjoy membership features</p>
                         <p classe="text-warning" id="login_incorrect"></p>
                        
                         <div class="input-group" title="firstname">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="firstname" id="fname" type="" placeholder="type your first name">
-                          </div>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i><sup>*</sup></span>
+                            <input class="form-control" name="firstname" id="fname" type="text" placeholder="type your first name" required>
+                              </div>
 
-                          <div class="input-group" title="lastname">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="lastname" id="lname" type="" placeholder="type your last name">
+                        <div class="input-group" title="lastname">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i><sup>*</sup></span>
+                            <input class="form-control" name="lastname" id="lname" type="text" placeholder="type your last name" required>
                           </div>
 
                           <div class="input-group" title="email">
-                            <span class="input-group-addon">@</span>
-                            <input class="form-control" name="email1" id="email1" type="" placeholder="type your e-mail">
+                            <span class="input-group-addon">@<sup>*</sup></span>
+                            <input class="form-control" name="email1" id="email1" type="email" placeholder="type your e-mail" required>
                           </div>
 
                           <div class="input-group" title="Password">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" name="password" id="password1" type="password" placeholder="type your password">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i><sup>*</sup></span>
+                            <input class="form-control" name="password" id="password1" type="password" placeholder="type your password" required>
                           </div>
 
                           <div class="input-group" title="phone">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                            <input class="form-control" name="phone" id="phone" type="" placeholder="type your phone number">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;</span>
+                            <input class="form-control" name="phone" id="phone" type="tel" placeholder="type your phone number" maxlength="40" pattern="\d*">
                           </div>
 
                           <div class="input-group" title="image">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i>&nbsp;</span>
+                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add" maxlength="40"></span>
                           </div>
 
                           <div class="input-group" title="addr1">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" id="address1" type="" placeholder="type your first adresse">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i><sup>*</sup></span>
+                            <input class="form-control" id="address1" type="text" placeholder="type your first adresse" maxlength="100" required>
                           </div>
 
                           <div class="input-group" title="addr2">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" id="address2" type="" placeholder="type your seconde adresse">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i>&nbsp;</span>
+                            <input class="form-control" id="address2" type="text" placeholder="type your seconde adresse" maxlength="100">
                           </div>
 
                           <div class="input-group" title="zip">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                            <input class="form-control" id="zipcode" type="" placeholder="type your zip code">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i><sup>*</sup></span>
+                            <input class="form-control" id="zipcode" type="text" placeholder="type your zip code" maxlength="15" pattern="\d*" required>
                           </div>
 
                           <div class="input-group" title="city">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                            <input class="form-control" id="city" type="" placeholder="type your city name">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i><sup>*</sup></span>
+                            <input class="form-control" id="city" type="text" placeholder="type your city name" required>
                           </div>
 
                           <div class="input-group" title="state">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                            <input class="form-control" id="state" type="" placeholder="type your state name">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i><sup>*</sup></span>
+                            <input class="form-control" id="state" type="text" placeholder="type your state name" required>
                           </div>
                           
                           <div class="input-group" title="country">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                            <input class="form-control" id="country" type="" placeholder="type your country name">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i><sup>*</sup></span>
+                            <input class="form-control" id="country" type="text" placeholder="type your country name"  required>
                           </div>
-
-                          <p class="text-warning"><small><input type="checkbox" checked="checked" disabled="disabled"/>
+                        <p class="text-warning"><small><input type="checkbox" checked="checked" disabled="disabled"/>
                           &nbsp;&nbsp;&nbsp;I Aggree With <a href="terme.pdf">Terms &amp; Conditions</a></small></p>
-                        
+                          <p class="text-warning"><small>Please fill in all fields marked with <sup>*</sup></small></p>
                     </div> 
                         
 
