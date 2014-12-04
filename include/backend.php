@@ -70,6 +70,9 @@ switch ($functionChoice) {
   case 'RegisterAndRedirect':
         RegisterAndRedirect();
         break;
+    case 'sentResetCode':
+        sentResetCode($_POST['email']);
+        break;
     case 'listAllBuyersAsTable':
         listAllBuyersAsTable();
         break;
@@ -91,7 +94,7 @@ switch ($functionChoice) {
     case 'enableUserByID': 
         enableUserByID($_POST['userID'], $_POST['role'], $_POST['enable']);
         break;
- case 'deletePropertyByID':
+    case 'deletePropertyByID':
         deletePropertyByID($_POST['propertyID']);
         break;
     case 'approvePropertyByID':
@@ -512,8 +515,11 @@ function showUserlist( $role, $order, $ascdesc ) {
                     "image_name" => $row['image_name'], 
                     "role" => $row['role'],
                     "enable" => $row['enable'], 
+                    "delet" => $row['delet'],
                     "modification_date" => $row['modification_date'],
                     "creation_date" => $row['creation_date']);
+        if( $user['delet'] == 1)
+            continue;
         
         if( strtoupper($role) == $user['role'] || $role == 'all' ) {
             array_push($userlist, $user);
@@ -802,5 +808,18 @@ function sellProperty($message) {
 function sendMail($to,$subject,$message) {
     $message = wordwrap($message);
     return mail($to,$subject,$message);
+}
+
+function sentResetCode($email) {
+    $ac = new AuthenticationController();
+    $code = $ac->sentResetCode($email);
+
+    $success =  mail($email, "Password Reset", "Please follow the link to reset your Password.\nhttp://sfsuswe.com/~bbleic/pages/home.php?code=".$code."&email=".$email);
+   
+    if( $code !== "0" && $success) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 ?>

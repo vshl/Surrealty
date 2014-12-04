@@ -4,53 +4,72 @@
  * and open the template in the editor.
  */
 $(document).ready( function() {
-    $("#manageUserTab").click( function() {
-        $("#user_sort_role").change( function() {
-            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
-        });
-
-        $("#user_sort_order").change( function() {
-            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
-        });
-
-        $("input[name='user_ascdesc']").change( function() {
-            showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
-        });
-
-        $("#user_sort_role").change();
-    });
- // Admin Dashboard bind change from sorting dropdown
-    
-    $("#approvePropertiesTab").click( function() {
-        $("#property_sort_order").change( function () {
-            showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
-        });
-
-        $("input[name='property_ascdesc']").change( function() {
-            showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
-        $("#property_sort_order").change();
-        });
-        
-        
-        $("#manageUserTab").click( function() {    
-            $("#user_sort_role").change();
-        });
-    
-        $("#approvePropertiesTab").click( function() {
-            $("#property_sort_order").change();      
-        });
-    
-        $("#profileTab").click( function() {
-            fillProfile();
-        });
-        // for the first call of the dasgboard load the usertab
+    $("#user_sort_role").change( function() {
         showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
     });
+
+    $("#user_sort_order").change( function() {
+        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+    });
+
+    $("input[name='user_ascdesc']").change( function() {
+        showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
+    });
+    
+    
+    
+    $("#property_sort_order").change( function () {
+        showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
+    });
+
+    $("#resetpwd").submit( function() {
+        sentResetCode( $("#email_resetpwd").val() );
+    });
+        
+    $("input[name='property_ascdesc']").change( function() {
+        showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
+    });
+ 
+    
+    $("#approvePropertiesTab").click( function() {
+        $("#property_sort_order").change();
+    });
+        
+    $("#manageUserTab").click( function() {
+        $("#user_sort_role").change();
+    });
+
+    $("#approvePropertiesTab").click( function() {
+        $("#property_sort_order").change();      
+    });
+    
+    $("#profileTab").click( function() {
+        fillProfile();
+    });
+        // for the first call of the dasgboard load the usertab
+    showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
+
+function sentResetCode( email ) {
+ 
+    var paramArr = {
+        action: "sentResetCode",
+        email: email 
+    };
+
+    var result = callBackend(paramArr);
+    
+    if( result !== "0") {
+        $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is sent to your email address' });
+    } else {
+        $.toaster({ priority : 'warning', title : 'Password reset', message : 'Your email address is not in our database' });
+    }
+}
+
 function fillProfile() {
     var paramArr = {
       action: "loadUserInformation"
-    }
+    };
        
    callAsyncBackend(paramArr, "myprofile");
 }
@@ -60,7 +79,7 @@ function approvePropertyByID(propertyID) {
     var paramArr = {
       action: "approvePropertyByID",
       propertyID: propertyID
-    }
+    };
        
     var result = callBackend(paramArr);
 
@@ -70,7 +89,7 @@ function approvePropertyByID(propertyID) {
     }
     else
     {
-        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+       $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
     }
 }
 
@@ -79,7 +98,7 @@ function deletePropertyByID(propertyID) {
     var paramArr = {
       action: "deletePropertyByID",
       propertyID: propertyID
-    }
+    };
        
     var result = callBackend(paramArr);
   
@@ -89,15 +108,14 @@ function deletePropertyByID(propertyID) {
     }
     else
     {
-        $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+        $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
     }
 }
 
 function deleteUserByID(userID, role) {
     event.preventDefault();
-    // insert modal box here
     
-    if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
+     if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
     {
         var paramArr = {
           action: "deleteUserByID",
@@ -106,21 +124,57 @@ function deleteUserByID(userID, role) {
         }
  
        var result = callBackend(paramArr);
-   //    alert(result);
+
         if (result !== "0") {
-        //    $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
             $("#user_sort_order").change();
         }
         else
         {
-           //  $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
+            $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
         }
     } 
     else
     {
-        return fase;
+        return false;
     }
-        
+    
+    // insert modal box here
+   /*
+    $( "#dialog-confirm" ).html("<b>Wollen Sie wirklich(" + userID +")" + " loeschen?");
+        $( "#dialog-confirm" ).dialog({ 
+        resizable: false,
+        height: "auto",
+        modal: true,
+        title: "Delete " + userID + "?",
+        buttons: {
+            "Delete": function() {
+                 
+                var paramArr = {
+                    action: "deleteUserByID",
+                    userID: userID,
+                    role: role
+                }
+                var result = callBackend(paramArr);
+                if (result !== "0") {
+                   // $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
+            
+                }
+                else
+                {
+                   // $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
+                }
+                setTimeout(function(){
+                   $("#user_sort_order").change();
+                }, 1500);
+
+                $( this ).dialog( "close" );
+            },
+            "Cancel": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    }); */    
 }
 
 function enableUser(userID, role, enable) {
@@ -130,17 +184,21 @@ function enableUser(userID, role, enable) {
        userID: userID,
        role: role,
        enable: enable
-     }
+     };
 
      var result = callBackend(paramArr);
 
      if (result !== "0") {
-$("#user_sort_order").change();
-      //  $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully enabled/disabled' });
-     }
+        $("#user_sort_order").change();
+        if(enable) {
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully enabled' });
+        } else {
+            $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully disabled' });
+        }
+    }
      else
      {
-      //  $.toaster({ priority : 'warning', title : 'Comment System', message : result })
+        $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
      }
 }
 
@@ -149,7 +207,7 @@ function showUnprovenProperties( order, ascdesc) {
         action: "showUnprovenProperties",
         order: order,
         ascdesc: ascdesc 
-    }
+    };
     callAsyncBackend(paramArr, "unproven_properties");
 }
 

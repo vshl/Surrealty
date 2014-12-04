@@ -15,18 +15,19 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
     <!-- Bootstrap core CSS -->
 
+
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
 <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
-<script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../../../javascripts/ajax.js"></script>
+<!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
-<script src="../../../javascripts/ajax.js"></script>
+<script src="../../../javascripts/jquery.toaster.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
@@ -170,7 +171,8 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             </div>
                                          </form>
                                           <hr>
-<div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;" id="userlist"> <!--container for all results rows-->              
+<div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;" id="userlist"> 
+    <!--container for all results rows-->              
 <!--a row of result inside tab-->
         
 </div><!--end of container for all results rows-->
