@@ -457,13 +457,19 @@ Additionally, customers can register their accounts with the application. Creati
        $ac      = new AuthenticationController();
        $newpw   = $ac->resetPassword($email, $code);
    
-       if($newpw !== "0") {
+       if($newpw !== 0) {
            print "<script type=\"text/javascript\">" .
                    " $.toaster({settings : { 'timeout' : 120000 } }); " .
                    " $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is successfully reset. Your new password is: ".$newpw."' });" .
                    " $.toaster.reset();" .
                 "</script>'";
-       } 
+       } else {
+            print "<script type=\"text/javascript\">" .
+                   " $.toaster({settings : { 'timeout' : 120000 } }); " .
+                   " $.toaster({ priority : 'warning', title : 'Password reset', message : 'Password reset process failed. You have just 10 minutes time to checkout your emails and follow the instructions!' });" .
+                   " $.toaster.reset();" .
+                "</script>'";
+       }
     } else if(isset($_POST['email'])) {
         $email = stripcslashes($_POST['email']);
         print "<script type=\"text/javascript\">" .
