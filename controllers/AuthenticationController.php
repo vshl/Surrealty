@@ -72,15 +72,15 @@ class AuthenticationController {
     public function resetPassword($email, $code) {
         $newPassword = $this->getRandomString(10);
         
-        // check if intime with timediff mysql
-        $sqlQuery = "SELECT * FROM users WHERE email = '". $email ."' AND reset_code = '". hash("sha256", $code) ."';"; // AND (TIMESTAMPDIFF(MINUTE, reset_date , NOW()) <= 2);";
+        // 10minutes to reset the pwd
+        $sqlQuery = "SELECT * FROM users WHERE email = '". $email ."' AND reset_code = '". hash("sha256", $code) ."' AND UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(reset_date) < 600;";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
        if ($this->dbcomm->affectedRows() == 1) {
             $row = mysqli_fetch_assoc($result);
 
-            $sqlQuery = "UPDATE users SET password = '".  hash("sha256", $newPassword) ."' WHERE user_id = '".$row['user_id']."';";
+            $sqlQuery = "UPDATE users SET password = '".  hash("sha256", $newPassword) ."', reset_code = '' WHERE user_id = '".$row['user_id']."';";
             
             $result = $this->dbcomm->executeQuery($sqlQuery);
             
