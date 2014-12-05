@@ -26,7 +26,7 @@ class AuthenticationController {
     }
 
     public function logonWithEmail( $email, $password ) {
-        $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" . $password . "' AND enable = 1 AND delet = 0;";
+        $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" .  hash("sha256", $password) . "' AND enable = 1 AND delet = 0;";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
                
@@ -50,7 +50,7 @@ class AuthenticationController {
     public function sentResetCode( $email ) {
         $code = $this->getRandomString( 32 ) ;
         
-        $sqlQuery = "UPDATE users SET reset_code = '".$code."', ".
+        $sqlQuery = "UPDATE users SET reset_code = '" . hash("sha256",$code) . "', ".
                     "reset_date = NOW() WHERE email = '" . $email . "';";
         
         
@@ -73,14 +73,14 @@ class AuthenticationController {
         $newPassword = $this->getRandomString(10);
         
         // check if intime with timediff mysql
-        $sqlQuery = "SELECT * FROM users WHERE email = '". $email ."' AND reset_code = '". $code ."';"; // AND (TIMESTAMPDIFF(MINUTE, reset_date , NOW()) <= 2);";
+        $sqlQuery = "SELECT * FROM users WHERE email = '". $email ."' AND reset_code = '". hash("sha256", $code) ."';"; // AND (TIMESTAMPDIFF(MINUTE, reset_date , NOW()) <= 2);";
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
        if ($this->dbcomm->affectedRows() == 1) {
             $row = mysqli_fetch_assoc($result);
 
-            $sqlQuery = "UPDATE users SET password = '".$newPassword."' WHERE user_id = '".$row['user_id']."';";
+            $sqlQuery = "UPDATE users SET password = '".  hash("sha256", $newPassword) ."' WHERE user_id = '".$row['user_id']."';";
             
             $result = $this->dbcomm->executeQuery($sqlQuery);
             
@@ -112,9 +112,9 @@ class AuthenticationController {
     
     public function registerNewUser($user) {
         
-    
-  $sqlQuery = "SELECT * FROM users WHERE users.email = '" . $user['email'] . "';";
-          $result = $this->dbcomm->executeQuery($sqlQuery);       
+        // check if email exists
+        $sqlQuery = "SELECT * FROM users WHERE users.email = '" . $user['email'] . "';";
+        $result = $this->dbcomm->executeQuery($sqlQuery);       
          //  $row = mysqli_affected_rows($result);   
        
        if ($result->num_rows == 0)
@@ -126,7 +126,11 @@ class AuthenticationController {
              
             return $buyer->saveBuyer($user);
 
-        }   else {return 0;}
+        }   
+        else 
+        { 
+            return 0;
+        }
 
     }
     

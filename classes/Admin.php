@@ -37,7 +37,7 @@ class Admin extends Person {
                     parent::getLastname() . "', '" . 
                     parent::getFirstname() . "', '" . 
                     parent::getPictureName() . "', '" . 
-                    parent::getPassword() . "', '" . 
+                    hash("sha256",parent::getPassword()) . "', '" . 
                     parent::getEmail() . "', '" . 
                     parent::getPhone() . "', '" .
                     $this->enabled . "', NOW(), '". 

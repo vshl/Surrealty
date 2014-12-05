@@ -220,6 +220,8 @@ function loadBuyerByID($user_id){
     }  
 }
 
+
+// maybe deletet ? unsued ?
 function loginByEMail() {
     print_r($_POST);
     $email = $_POST['email'];
@@ -233,8 +235,8 @@ function loginByEMail() {
 
 function loginAndRedirect() {
     // strip_tags removes all html and php tags from string
-    $email = strip_tags($_POST['email']);
-    $password = strip_tags($_POST['password']); 
+    $email = trim(strip_tags($_POST['email']));
+    $password = trim(strip_tags($_POST['password'])); 
     
     $ac = new AuthenticationController();
     $result = $ac->logonWithEmail($email, $password);
@@ -244,6 +246,7 @@ function loginAndRedirect() {
         echo 0;
         return;
     }
+
     $logger->logToFile("backend_loginAndRedirect", "Info", "User Role: " . $_SESSION['role']);
      
     switch ($_SESSION['role']) {
@@ -282,7 +285,7 @@ function RegisterAndRedirect() {
        fname => $fname ,
        lname => $lname ,
        email => $email ,
-       password => $password , 
+       password => trim($password) , 
        phone => $phone ,
        image_name => $image_name ,
        address1 => $address1 ,
