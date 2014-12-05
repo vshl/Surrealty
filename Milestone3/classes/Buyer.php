@@ -25,6 +25,7 @@ class Buyer extends Person {
         array_push( $args , BUYER_ROLE_ID );      // add 1 to the array for the agent role
         parent::__construct( $args  );
         $this->dbcomm = new DatabaseComm();
+        $this->enabled = 1;
     }
     
     public function __destruct() {
@@ -69,7 +70,7 @@ class Buyer extends Person {
                     $user['lname']  . "', '" . 
                     $user['fname']  . "', '" . 
                     $user['image_name']  . "', '" . 
-                    $user['password']  . "', '" . 
+                    hash("sha256", $user['password']) . "', '" . 
                     $user['email']  . "', '" . 
                     $user['phone']  . "', '" .
                     $this->enabled . "', NOW(), '". 
@@ -167,10 +168,13 @@ class Buyer extends Person {
                     . "phone='"         . parent::getPhone() .      "', "
                     . "city='"          . parent::getCity() .       "', "
                     . "state='"         . parent::getState() .      "', "
-                    . "country='"       . parent::getCountry() .    "', "
-                    . "modification_date=now()" .                   ", "
-                    . "password='"      . parent::getPassword() 
-                    . "' WHERE user_id = " . parent::getID() .      ";";
+                    . "country='"       . parent::getCountry() .    "', ";
+        
+        if(!empty($password))
+            $sqlQuery .= "password='"      . parent::getPassword() . "', ";
+        
+        $sqlQuery .= "modification_date=NOW()"                      
+                    . " WHERE user_id = " . parent::getID() .      ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
