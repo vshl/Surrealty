@@ -14,7 +14,7 @@ and open the template in the editor.
  * Florian Hahner, 27.Nov 2014
  */
 
-session_start();
+//session_start();
 include ('../pathMaker.php');
 ?>
  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">    
