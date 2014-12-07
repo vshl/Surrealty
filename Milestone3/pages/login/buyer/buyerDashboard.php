@@ -906,9 +906,12 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
         </div>
     </div>
 <!--end of Modal for agent update profile-->
-        <!--Footer-->
-        <?php include "./../../../include/footer.html"?>
+      
 </div>
+<!--Footer-->
+        <?php include "./../../../include/footer.html"?>
+        <?php include "./../../../include/Modal_header.html"?>
+
 
 
   </body>
