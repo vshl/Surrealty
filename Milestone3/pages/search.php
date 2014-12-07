@@ -242,167 +242,60 @@ $lng = $coords['lng'];
             </div> <!-- row-->
         </div><!--main container ends-->
         
-        <!--footer-->
-            <?php include "./../include/footer.html" ?>
+       
         </div>
         
-         <!--sell-->
-     
-     <div class="modal fade" id="myModal_sell" data-backdrop="static">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3>Enter your contact information and our agent will contact you.</h3> 
-                            </div>
-                            <div class="modal-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="inputName">Name</label> 
-                                    <input type="text" class="form-control" id="inputName" placeholder="Enter name">
-                                </div> 
-                                <div class="form-group">
-                                    <label for="inputPhone">Phone</label> 
-                                    <input type="text" class="form-control" id="inputPhone" placeholder="Enter phone number">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail">Email address</label>
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputMessage">Message</label> 
-                                    <textarea class="form-control" id="inputMessage" placeholder="Enter message"></textarea>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
-                                </div>
-                            </form> 
-                            </div>        
-                        </div>
-                    </div>
-
-     </div>
-
-           
- <!-- Modal Sign_in HTML -->
-    <div id="myModal_SI" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</h4>
-                </div>
-                <form action="./login/authenticate.php" methode="POST">
-                    <div class="modal-body">
-                        <p>Log in & track your saved homes and save preferences</p>
-                          <div class="input-group" title="Email">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="email" id="email" type="text" placeholder="Enter your e-mail" >
-                          </div>
-                          <div class="input-group" title="Password">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" name="password" id="password" type="password" placeholder="Enter your password">
-                          </div>
-                            <p class="text-warning">
-                                <a href="#myModal_RP" data-toggle="modal" class="pull-left">
-                                    <h6><i class="glyphicon glyphicon-question-sign"></i>&nbsp;Forgot Password</h6>
-                                </a>
-                           </p>
-                    </div> 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+              
+       <?php include "./../include/Modal_header.html"?>
+       <?php include "./../include/footer.html"?>
  
+
+    
+    <script src="./../javascripts/script.js"></script> 
+    <script src="./../javascripts/ajax.js"></script>
+   <script src="./../javascripts/jquery.toaster.js"></script>
+    <script type="text/javascript">
+        $( "#login_submit_btn").click(loginAndRedirect);
+    </script>
+    <script type="text/javascript">
+        $( "#signup").click(RegisterAndRedirect);
+    </script>
+    </div><!-- main container -->
  
-     <!-- Modal sign_up HTML -->
-    <div id="myModal_SU" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-edit"></span>&nbsp;Sign Up</h4>
-                    </div>
-                <form action="./register.php" methode="POST">
-                    <div class="modal-body">
-                        <p>Sign up to surrealty and enjoy membership features</p>
-                        
-                        
-                        <div class="input-group" title="firstname">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="firstname" id="" type="" placeholder="type your first name">
-                          </div>
+ <?php
+    if(isset($_GET['code']) && isset($_GET['email'])) {
+       $code = stripslashes($_GET['code']);
+       $email = stripcslashes($_GET['email']);
 
-                          <div class="input-group" title="lastname">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="lastname" id="" type="" placeholder="type your last name">
-                          </div>
+       include "./../controllers/AuthenticationController.php";
 
-                          <div class="input-group" title="email">
-                            <span class="input-group-addon">@</span>
-                            <input class="form-control" name="email" id="" type="" placeholder="type your e-mail">
-                          </div>
+       $ac      = new AuthenticationController();
+       $newpw   = $ac->resetPassword($email, $code);
+   
+       if($newpw !== 0) {
+           print "<script type=\"text/javascript\">" .
+                   " $.toaster({settings : { 'timeout' : 120000 } }); " .
+                   " $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is successfully reset. Your new password is: ".$newpw."' });" .
+                   " $.toaster.reset();" .
+                "</script>'";
+       } else {
+            print "<script type=\"text/javascript\">" .
+                   " $.toaster({settings : { 'timeout' : 120000 } }); " .
+                   " $.toaster({ priority : 'warning', title : 'Password reset', message : 'Password reset process failed. You have just 10 minutes time to checkout your emails and follow the instructions!' });" .
+                   " $.toaster.reset();" .
+                "</script>'";
+       }
+    } else if(isset($_POST['email'])) {
+        $email = stripcslashes($_POST['email']);
+        print "<script type=\"text/javascript\">" .
+               " $.toaster({settings : { 'timeout' : 20000 } }); " .
+               "$.toaster({ priority : 'success', title : 'Email sent', message : 'We sent you an email with instructions for the password reset process. Your email: ".$email."' });" .
+                " $.toaster.reset();" .
+                "</script>'";
+    }
+?>
 
-                          <div class="input-group" title="Password">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" name="password" id="password" type="password" placeholder="type your password">
-                          </div>
-
-                          <div class="input-group" title="phone">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                            <input class="form-control" name="phone" id="" type="" placeholder="type your phone number">
-                          </div>
-
-                          <div class="input-group" title="image">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
-                          </div>
-
-                          <div class="input-group" title="addr1">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr1" id="" type="" placeholder="type your first adresse">
-                          </div>
-
-                          <div class="input-group" title="addr2">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr2" id="" type="" placeholder="type your seconde adresse">
-                          </div>
-
-                          <div class="input-group" title="zip">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                            <input class="form-control" name="zip" id="" type="" placeholder="type your zip code">
-                          </div>
-
-                          <div class="input-group" title="city">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                            <input class="form-control" name="city" id="" type="" placeholder="type your city name">
-                          </div>
-
-                          <div class="input-group" title="state">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                            <input class="form-control" name="state" id="" type="" placeholder="type your state name">
-                          </div>
-
-                          <p class="text-warning"><small><input type="checkbox" checked="checked" disabled="disabled"/>
-                          &nbsp;&nbsp;&nbsp;I Aggree With <a href="terme.pdf">Terms &amp; Conditions</a></small></p>
-                       
-                    </div> 
-                        
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Sign up</button></form>
-                </div>
-                     </form>
-            </div>
-        </div>
-    </div>
+        
         
         
         
