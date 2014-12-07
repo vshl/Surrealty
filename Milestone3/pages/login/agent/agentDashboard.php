@@ -769,6 +769,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <!--Footer-->
         <?php include "./../../../include/footer.html"?>
-    
+        <?php include "./../../../include/Modal_header.html"?>
+
 </body>
 </html>
