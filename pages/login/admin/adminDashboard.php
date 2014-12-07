@@ -515,8 +515,6 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 ?>
 
 
-<!--Footer-->
-        <?php include "./../../../include/footer.html"?>
 
 
 
@@ -524,6 +522,9 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 
 </div>
+<!--Footer-->
+        <?php include "./../../../include/footer.html"?>
+        <?php include "./../../../include/Modal_header.html"?>
 
 
   </body>
