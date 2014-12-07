@@ -134,9 +134,9 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
   <div role="tabpanel" class="tab-pane active" id="Listings">
    <div class="well">
 
-       <div class="page-header" style=" padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; ">
+      
                 <h1>My Listings</h1> 
-                </div>
+               
                                         
                                         
 
@@ -178,21 +178,21 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                                          </form>
 
                                           <hr>
-<div class="" style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
+<div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden; "> <!--container for all results rows-->              
 <!--a row of result inside tab-->
 <div class="row well"> 
-                  <div class="col-xs-12 col-sm-2">
+                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
                                     
                                  
                                     <a class="" href="#">
-                                        <img class="img-circle img-responsive" src="./../../../images/house2.jpg"  >
+                                        <img class="center-block thumb img-circle img-responsive" src="./../../../images/house2.jpg"  >
                                     </a>
                                       
                                     
                   </div>
 
 
-                  <div class="col-xs-12 col-sm-4">
+                  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-5">
 
                                     
                                         <h5><span class="badge">Property ID:xxxx</span></h5>
@@ -204,10 +204,10 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                                       <h6>Creation-date:16-11-2014</h6>
                                       <br>
 
-                                      <div><a href="#"><span class="badge"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;remove</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Details</span></a>
-                                      <a href="#PostComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comment</span></a>
-                                      <a href="#AgentDetails" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-user"></i>&nbsp;Conatct</span></a>
+                                      <div><a href="#"><span class="badge" style=" margin-top: 5px; "><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;remove</span></a>
+                                      <a href="#"><span class="badge" style=" margin-top: 5px; "><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Details</span></a>
+                                      <a href="#PostComment" data-toggle="modal"><span class="badge" style=" margin-top: 5px; "><i class="glyphicon glyphicon-comment"></i>&nbsp;Comment</span></a>
+                                      <a href="#AgentDetails" data-toggle="modal"><span class="badge" style=" margin-top: 5px; "><i class="glyphicon glyphicon-user"></i>&nbsp;Conatct</span></a>
                                       </div>                          
                                     
 
@@ -215,7 +215,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
                
 
-                  <div class="col-xs-12 col-sm-3">
+                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
 
                       <h5><span class="badge">Adresse:</span></h5>
@@ -226,7 +226,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                   </div>
 
 
-                  <div class="col-xs-12 col-sm-3">
+                  <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 
                       <h5><span class="badge">Facts:</span></h5>
                       <h6>Rooms:4</h6>
@@ -241,129 +241,6 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
 <hr>
 
-<!--a row of result inside tab-->
-<div class="row well"> 
-                  <div class="col-xs-12 col-sm-2">
-                                    
-                                 
-                                    <a class="" href="#">
-                                      <img class="img-circle img-responsive" src="./../../../images/house3.jpg"  >
-                                    </a>
-                                      
-                                    
-                  </div>
-
-
-                  <div class="col-xs-12 col-sm-4">
-
-                                    
-                                        <h5><span class="badge">Property ID:xxxx</span>
-                                        <span class="badge">2</span>
-                                        <a href=""><i class="glyphicon glyphicon-comment"></i></a></h5>
-                                        
-                                      
-
-                                      
-                                      <h6>Price:400.000$</h6>
-                                      <h6>Creation-date:16-11-2014</h6>
-                                      <br>
-
-                                      <div><a href="#"><span class="badge"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;remove</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Details</span></a>
-                                      <a href="#PostComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comment</span></a>
-                                      <a href="#AgentDetails" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-user"></i>&nbsp;Conatct</span></a>
-                                      </div>                          
-                                    
-
-                  </div>
-
-               
-
-                  <div class="col-xs-12 col-sm-3">
-
-
-                      <h5><span class="badge">Adresse:</span></h5>
-                      <p><br>203 East 50th St., Suite 1157 New York, NY 10022 USA</p> 
-
-
-
-                  </div>
-
-
-                  <div class="col-xs-12 col-sm-3">
-
-                      <h5><span class="badge">Facts:</span></h5>
-                      <h6>Rooms:4</h6>
-                      <h6>Surface:1614 m&sup2;</h6>
-                      <h6>Pool:</h6>
-                      <h6>Balcon:</h6>
-
-
-                  </div> 
-  
-</div><!--endof row of result inside tab-->
-
-<hr>
-
-<!--a row of result inside tab-->
-<div class="row well"> 
-                  <div class="col-xs-12 col-sm-2">
-                                    
-                                 
-                                    <a class="" href="#">
-                                      <img class="img-circle img-responsive" src="./../../../images/house4.jpg"  >
-                                    </a>
-                                      
-                                    
-                  </div>
-
-
-                  <div class="col-xs-12 col-sm-4">
-
-                                    
-                                        <h5><span class="badge">Property ID:xxxx</span>
-                                        </h5>
-                                      
-
-                                      
-                                      <h6>Price:400.000$</h6>
-                                      <h6>Creation-date:16-11-2014</h6>
-                                      <br>
-
-                                      <div><a href="#"><span class="badge"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;remove</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Details</span></a>
-                                      <a href="#PostComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comment</span></a>
-                                      <a href="#AgentDetails" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-user"></i>&nbsp;Conatct</span></a>
-                                      </div>                          
-                                    
-
-                  </div>
-
-               
-
-                  <div class="col-xs-12 col-sm-3">
-
-
-                      <h5><span class="badge">Adresse:</span></h5>
-                      <p><br>203 East 50th St., Suite 1157 New York, NY 10022 USA</p> 
-
-
-
-                  </div>
-
-
-                  <div class="col-xs-12 col-sm-3">
-
-                      <h5><span class="badge">Facts:</span></h5>
-                      <h6>Rooms:4</h6>
-                      <h6>Surface:1614 m&sup2;</h6>
-                      <h6>Pool:</h6>
-                      <h6>Balcon:</h6>
-
-
-                  </div> 
-  
-</div><!--endof row of result inside tab-->
 
 
 </div><!--end of container for all results rows-->
@@ -379,17 +256,17 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
   <div role="tabpanel" class="tab-pane " id="Comments">
    <div class="well">
 
-                <div class="page-header">
+                
                 <h1>Comments</h1> 
-                </div>
+                
 
-               <div style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
+               <div style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;"> <!--container for all results rows-->              
    
                 <div class="row well">
-                    <div class="col-xs-6 col-sm-2">
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
 
                          <a class="" href="#">
-                                      <img class="img-circle img-responsive" src="./../../../images/house5.jpg">
+                             <img class="center-block thumb img-circle img-responsive" src="./../../../images/house5.jpg">
                                       <h5><span class="badge">Property ID:xxxx</span></h5>
                          </a>
 
@@ -398,7 +275,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
 
 
-                    <div class="col-xs-6 col-sm-6">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
 
                         <label><img class="img-circle thumbusercomment" src="./../../../images/images.jpg">&nbsp;Feedback from Agent Jack Daniel:</label>
@@ -410,56 +287,16 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                     <!-- Add the extra clearfix for only the required viewport -->
                     <div class="clearfix visible-xs-block"></div>
 
-                    <div class="col-xs-6 col-sm-4">
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-4">
 
                                        <br><br><br> 
-                                      <div><a href="#ReplyComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-send"></i>&nbsp;Reply</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Show property details</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;Hide</span></a>
+                                      <div><a href="#ReplyComment" data-toggle="modal"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-send"></i>&nbsp;Reply</span></a>
+                                      <a href="#"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Show property details</span></a>
+                                      <a href="#"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-eye-close"></i>&nbsp;Hide</span></a>
                                       </div>
 
                     </div>
                 </div><!--endof row inside tab-->
-
-
-
-
-                <div class="row well">
-                    <div class="col-xs-6 col-sm-2">
-
-                         <a class="" href="#">
-                                      <img class="img-circle img-responsive" src="./../../../images/house4.jpg">
-                                      <h5><span class="badge">Property ID:xxxx</span></h5>
-                         </a>
-
-                    </div>
-                    <div class="clearfix visible-xs-block"></div>
-
-
-
-                    <div class="col-xs-6 col-sm-6">
-
-
-                        <label><img class="img-circle thumbusercomment" src="./../../../images/images.jpg">&nbsp;Feedback from Agent Klaus Weiß:</label>
-                        <p>Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the parBootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par</p>
-
-
-                    </div>
-
-                    <!-- Add the extra clearfix for only the required viewport -->
-                    <div class="clearfix visible-xs-block"></div>
-
-                    <div class="col-xs-6 col-sm-4">
-                                      <br><br><br>
-
-                                      <div style=""><a href="#ReplyComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-send"></i>&nbsp;Reply</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Show property details</span></a>
-                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;Hide</span></a>
-                                      </div>
-
-                    </div>
-                </div><!--endof row inside tab-->
-
 
 
 
@@ -477,9 +314,9 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
   <div role="tabpanel" class="tab-pane " id="Profile">
    <div class="well">
 
-                <div class="page-header">
+                
                 <h1>User Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;User_First&Last_name&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
-                </div>   
+                 
 
 
                   <div class="row">
@@ -588,9 +425,9 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
   <div role="tabpanel" class="tab-pane " id="Preferences">
    <div class="well">
 
-                <div class="page-header">
+                
                 <h1>Preferences</h1> 
-                </div>   
+                  
 
 
                   <div class="row ">
@@ -906,12 +743,11 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
         </div>
     </div>
 <!--end of Modal for agent update profile-->
-      
+        
 </div>
-<!--Footer-->
+      <!--Footer-->
         <?php include "./../../../include/footer.html"?>
         <?php include "./../../../include/Modal_header.html"?>
-
 
 
   </body>
