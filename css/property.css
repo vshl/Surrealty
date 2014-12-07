@@ -18,3 +18,9 @@ html {
 	background-size: inherit;
 
 	}
+input:focus:invalid {
+	border-color: #FF0000;
+        }
+input:focus:valid {
+	border-color: #56C93F;
+        }        
