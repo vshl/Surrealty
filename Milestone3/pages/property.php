@@ -57,6 +57,14 @@ if (($result->num_rows ) == 1)
  
     <!--  Importing property.css --> 
     <link href ="./../css/property.css" rel="stylesheet">
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./../javascripts/jquery-2.1.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./../javascripts/jquery.validate.js"</script>
+    <script src="./../javascripts/script.js"></script> 
+    <script src="./../javascripts/ajax.js"></script>
+   <script src="./../javascripts/jquery.toaster.js"></script>
     <script>
         $( document ).ready(function() {
             loadAllCommentsByProperty(<?php echo $property_id; ?>);
@@ -225,14 +233,7 @@ if (($result->num_rows ) == 1)
           <?php include "./../include/Modal_header.html"?>
           <?php include "./../include/footer.html"?>
  
-      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="./../javascripts/jquery-2.1.1.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./../javascripts/jquery.validate.js"</script>
-    <script src="./../javascripts/script.js"></script> 
-    <script src="./../javascripts/ajax.js"></script>
-   <script src="./../javascripts/jquery.toaster.js"></script>
+     
     <script type="text/javascript">
         $( "#login_submit_btn").click(loginAndRedirect);
     </script>
