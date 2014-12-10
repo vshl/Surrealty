@@ -196,9 +196,13 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                             <div class="form-group">
                                               <div class="input-group">
                                                 <span class="badge">Sort by Date:&nbsp;</span>
-                                                  <select class="select" name="property_sort_order" id="property_sort_order">
+                                                  <select class="select" name="sort_order" id="property_sort_order">
                                                      <option value="creation_date" selected>Creation_date</option>
                                                      <option value="modification_date">Modification_date</option>
+                                                     <option value="price">Price</option>
+                                                     <option value="city">City</option>
+                                                     <option value="status">Status</option>
+                                                     <option value="area">Area</option>
                                                   </select>                                                    
                                                   <div class="btn-group btn-toggle btn-group-xs" data-toggle="buttons">
                                                         <label class="btn btn-default active">
@@ -254,7 +258,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 
 
-
+<!--
                         <form action="" methode="">
 
                                     
@@ -275,7 +279,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
                                               <div class="input-group" title="Password">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                <input class="form-control" name="password" id="password" type="password" placeholder="your password" disabled="disabled">
+                                                <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" disabled="disabled">
                                               </div>
 
                                               <div class="input-group" title="phone">
@@ -325,7 +329,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 
 
-
+-->
 
 
 
@@ -425,7 +429,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                     
                                               <div class="input-group" title="firstname">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" name="firstname" id="" type="" placeholder="your first name">
+                                                <input class="form-control" name="firstname" id="" type="" placeholder="your first name2">
                                               </div>
 
                                               <div class="input-group" title="lastname">
@@ -440,7 +444,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
                                               <div class="input-group" title="Password">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                <input class="form-control" name="password" id="password" type="password" placeholder="your password">
+                                                <input class="form-control" name="password" id="password" type="password" placeholder="Password unchanged">
                                               </div>
 
                                               <div class="input-group" title="phone">

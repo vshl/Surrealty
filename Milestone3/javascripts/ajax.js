@@ -20,15 +20,15 @@ $(document).ready( function() {
     $("#property_sort_order").change( function () {
         showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val());
     });
+    
+    $("input[name='property_ascdesc']").change( function() {
+        showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
+    });
 
     $("#resetpwd").submit( function() {
         sentResetCode( $("#email_resetpwd").val() );
     });
-        
-    $("input[name='property_ascdesc']").change( function() {
-        showUnprovenProperties( $("#property_sort_order").val(), $("input:radio[name=property_ascdesc]:checked").val() );
-    });
- 
+    
     
     $("#approvePropertiesTab").click( function() {
         $("#property_sort_order").change();
@@ -57,8 +57,9 @@ function sentResetCode( email ) {
     };
 
     var result = callBackend(paramArr);
-    
-    if( result !== "0") {
+alert(result);
+
+    if( result !== 0) {
         $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is sent to your email address' });
     } else {
         $.toaster({ priority : 'warning', title : 'Password reset', message : 'Your email address is not in our database' });
@@ -72,6 +73,15 @@ function fillProfile() {
        
    callAsyncBackend(paramArr, "myprofile");
 }
+
+function modifyUserInformation() {
+    var paramArr = {
+      action: "modifyUserInformationByID"
+    };
+       
+   callAsyncBackend(paramArr, "myprofile");
+}
+
 
 function approvePropertyByID(propertyID) {
     event.preventDefault();
@@ -202,11 +212,13 @@ function enableUser(userID, role, enable) {
 }
 
 function showUnprovenProperties( order, ascdesc) {
+    
     var paramArr = {
         action: "showUnprovenProperties",
         order: order,
         ascdesc: ascdesc 
     };
+
     callAsyncBackend(paramArr, "unproven_properties");
 }
 
@@ -490,12 +502,3 @@ function callBackend(param) {
   * @param userID -> (int) ID of logged on agent
   * @param showOld -> (int) hide already red comments
   */
-
-function showUnprovenProperties( order, ascdesc) {
-    var paramArr = {
-        action: "showUnprovenProperties",
-        order: order,
-        ascdesc: ascdesc 
-    }
-    callAsyncBackend(paramArr, "unproven_properties");
-}
