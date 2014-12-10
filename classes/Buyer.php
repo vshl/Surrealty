@@ -113,7 +113,7 @@ class Buyer extends Person {
                 //$this->address1 = $row['address1'];
                 //$this->address2 = $row['address2'];
                 //$this->zipCode  = $row['zipcode'];
-                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
+                parent::__construct($row['lname'], $row['fname'], $row['email'], '', $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
                 parent::setID($row['user_id']);
                 return 1;
         }
@@ -156,6 +156,7 @@ class Buyer extends Person {
      * @return int Statuscode ( 1 > buyer updated, 0 > No Data for ID found )
      */
     public function updateBuyer() {
+        $pwd = parent::getPassword();
         $sqlQuery = "UPDATE users SET "
                     . "fname='"         . parent::getFirstname() .  "', "
                     . "lname='"         . parent::getLastname() .   "', "
@@ -170,8 +171,8 @@ class Buyer extends Person {
                     . "state='"         . parent::getState() .      "', "
                     . "country='"       . parent::getCountry() .    "', ";
         
-        if(!empty($password))
-            $sqlQuery .= "password='"      . parent::getPassword() . "', ";
+        if(!empty($pwd))
+            $sqlQuery .= "password='"      . hash("sha256", parent::getPassword()) . "', ";
         
         $sqlQuery .= "modification_date=NOW()"                      
                     . " WHERE user_id = " . parent::getID() .      ";";

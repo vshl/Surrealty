@@ -129,13 +129,21 @@ Updated by :
                    " $.toaster.reset();" .
                 "</script>'";
        }
-    } else if(isset($_POST['email'])) {
+    } else if(isset($_POST['email']) && isset($_SESSION['resetCode'])) {
         $email = stripcslashes($_POST['email']);
         print "<script type=\"text/javascript\">" .
-               " $.toaster({settings : { 'timeout' : 20000 } }); " .
-               "$.toaster({ priority : 'success', title : 'Email sent', message : 'We sent you an email with instructions for the password reset process. Your email: ".$email."' });" .
-                " $.toaster.reset();" .
+               " $.toaster({settings : { 'timeout' : 20000 } }); ";
+        
+        if( $_SESSION['resetCode'] == 1 ) {
+            print  "$.toaster({ priority : 'success', title : 'Email sent', message : 'We sent you an email with instructions for the password reset process. Your email: ".$email."' });";
+        } else {
+            print  "$.toaster({ priority : 'warning', title : 'Email was not found', message : 'Your email address was not found in our database. Your email: ".$email."' });";        
+        }
+        
+              
+        print " $.toaster.reset();" .
                 "</script>'";
+        unset($_SESSION['resentCode']);
     }
 ?>
 

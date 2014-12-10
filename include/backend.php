@@ -103,9 +103,9 @@ switch ($functionChoice) {
     case 'loadUserInformation':
         loadUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
         break;
-    case 'modifyUserInformationByID':
-        modifyUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
-        break;
+    case 'updateUserProfile':
+        updateUserProfile();
+        break;       
     case 'giveUnseenCommentsByAgentID':
         giveUnseenCommentsByAgentID($_SESSION['user_id']);
         break;
@@ -651,11 +651,6 @@ function giveUnseenCommentsByAgentID($agentID) {
     echo $cc->giveCountOfUnansweredCommentForAgent($agentID);
 }
 
-
-function  modifyUserInformationByID($userID, $role) {
-    
-}
-
 function loadUserInformationByID($userID, $role) {
     switch ( $role ) {
         case 'ADMIN':
@@ -745,6 +740,93 @@ function loadUserInformationByID($userID, $role) {
 
 
          </form>';
+        
+        
+        print '
+                    <div id="UpdateProfile" class="modal fade">
+                     <div class="modal-dialog">
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-save"></span>&nbsp;Update profile</h4>
+                             </div>
+                             <div class="modal-body">
+
+
+                                <form action="" id="updateProfile" methode="">
+                     
+                                              <div class="input-group" title="firstname">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                <input class="form-control" name="firstname" value="'.$info["fistname"].'" id="edit_firstname" type="" placeholder="your first name" >
+                                              </div>
+
+                                              <div class="input-group" title="lastname">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                <input class="form-control" name="lastname" value="'.$info["lastname"].'" id="edit_lastname" type="" placeholder="your last name">
+                                              </div>
+
+                                              <div class="input-group" title="email">
+                                                <span class="input-group-addon">@</span>
+                                                <input class="form-control" name="email" value="'.$info["email"].'" id="edit_email" type="" placeholder="your e-mail">
+                                              </div>
+
+                                              <div class="input-group" title="Password">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                <input class="form-control" name="password" id="edit_password" type="password" placeholder="Password unchanged">
+                                              </div>
+
+                                              <div class="input-group" title="phone">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
+                                                <input class="form-control" name="phone" value="'.$info["phone"].'" id="edit_phone" type="" placeholder="your phone number">
+                                              </div>
+
+          
+
+                                              <div class="input-group" title="addr1">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                <input class="form-control" name="addr1" value="'.$info["address1"].'" id="edit_address1" type="" placeholder="your first adresse">
+                                              </div>
+
+                                              <div class="input-group" title="addr2">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                <input class="form-control" name="addr2" value="'.$info["address2"].'" id="edit_address2" type="" placeholder="your seconde adresse">
+                                              </div>
+
+                                              <div class="input-group" title="zip">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+                                                <input class="form-control" name="zip" value="'.$info["zipcode"].'" id="edit_zipcode" type="" placeholder="your zip code">
+                                              </div>
+
+                                              <div class="input-group" title="city">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                                <input class="form-control" name="city" value="'.$info["city"].'" id="edit_city" type="" placeholder="your city name">
+                                              </div>
+
+                                              <div class="input-group" title="state">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+                                                <input class="form-control" name="state" value="'.$info["state"].'" id="edit_state" type="" placeholder="your state name">
+                                              </div>
+
+                                              <div class="input-group" title="image">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" id="edit_image_name" title="Search for a file to add"></span>
+                                              </div>                  
+                </div> 
+                    
+              
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" onclick="javascript:updateUserProfile();" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-save"></i> Save</button> </form>
+                                        
+                                        
+                                    
+                                    
+                                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>';
 }
 
 function showUnprovenProperties($order, $ascdesc) {
@@ -841,10 +923,81 @@ function sentResetCode($email) {
 
     $success =  mail($email, "Password Reset", "Please follow the link to reset your Password.\nhttp://sfsuswe.com/~bbleic/pages/home.php?code=".$code."&email=".$email);
    
-    if( $code != 0 && $success) {
-        echo "->".$code;
+    if( (strlen($code) == 32) && $success) {
+        $_SESSION['resetCode'] = 1;
+        echo 1;
     } else {
+        $_SESSION['resetCode'] = 0;
         echo 0;
     }
 }
+
+function updateUserProfile() {
+
+    $fname = strip_tags($_POST['fname']);
+    $lname = strip_tags($_POST['lname']);
+    $email = strip_tags($_POST['email']);
+    $password = strip_tags($_POST['password']);
+    $phone = strip_tags($_POST['phone']);
+    $image_name = strip_tags($_POST['image_name']);
+    $address1 = strip_tags($_POST['address1']);
+    $address2 = strip_tags($_POST['address2']);
+    $zipcode = strip_tags($_POST['zipcode']);
+    $city = strip_tags($_POST['city']);
+    $state = strip_tags($_POST['state']);
+    
+    switch ( $_SESSION['role'] ) {
+        case 'ADMIN':
+            $ac = new AdminController();
+            $user = $ac->loadAdminByID($_SESSION['user_id']);
+                $user->setFirstname($fname);
+            $user->setLastname($lname);
+            $user->setEmail($email);
+            $user->setAddress1($address1);
+            $user->setAddress2($address2);
+            $user->setPhone($phone);
+            $user->setZipcode($zipcode);
+            $user->setCity($city);
+            $user->setState($state);
+            if( !empty($password))
+                $user->setPassword ($password);
+            echo $user->updateAdmin();
+            break;
+        case 'AGENT':
+            $ac = new AgentController();
+            $user = $ac->loadAgentByID($_SESSION['user_id']);
+            $user->setFirstname($fname);
+            $user->setLastname($lname);
+            $user->setEmail($email);
+            $user->setAddress1($address1);
+            $user->setAddress2($address2);
+            $user->setPhone($phone);
+            $user->setZipcode($zipcode);
+            $user->setCity($city);
+            $user->setState($state);
+            if( !empty($password))
+                $user->setPassword ($password);
+            echo $user->updateAgent();
+            break;
+        case 'BUYER':
+            $bc = new BuyerController();
+            $user = $bc->loadBuyerByID($_SESSION['user_id']);
+            $user->setFirstname($fname);
+            $user->setLastname($lname);
+            $user->setEmail($email);
+            $user->setAddress1($address1);
+            $user->setAddress2($address2);
+            $user->setPhone($phone);
+            $user->setZipcode($zipcode);
+            $user->setCity($city);
+            $user->setState($state);
+            if( !empty($password))
+                $user->setPassword ($password);
+            echo $user->updateBuyer();
+            break;
+        default :
+            echo  "0";
+    }   
+}
+
 ?>

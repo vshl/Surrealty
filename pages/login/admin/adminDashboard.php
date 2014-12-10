@@ -414,6 +414,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 
 <!--Modal for user update profile-->
+<!--
  <div id="UpdateProfile" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -429,39 +430,39 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                     
                                               <div class="input-group" title="firstname">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" name="firstname" id="" type="" placeholder="your first name2">
+                                                <input class="form-control" name="firstname" id="edit_firstname" type="" placeholder="your first name2">
                                               </div>
 
                                               <div class="input-group" title="lastname">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" name="lastname" id="" type="" placeholder="your last name">
+                                                <input class="form-control" name="lastname" id="edit_lastname" type="" placeholder="your last name">
                                               </div>
 
                                               <div class="input-group" title="email">
                                                 <span class="input-group-addon">@</span>
-                                                <input class="form-control" name="email" id="" type="" placeholder="your e-mail">
+                                                <input class="form-control" name="email" id="edit_email" type="" placeholder="your e-mail">
                                               </div>
 
                                               <div class="input-group" title="Password">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                <input class="form-control" name="password" id="password" type="password" placeholder="Password unchanged">
+                                                <input class="form-control" name="password" id="edit_password" type="password" placeholder="Password unchanged">
                                               </div>
 
                                               <div class="input-group" title="phone">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                                                <input class="form-control" name="phone" id="" type="" placeholder="your phone number">
+                                                <input class="form-control" name="phone" id="edit_phone" type="" placeholder="your phone number">
                                               </div>
 
           
 
                                               <div class="input-group" title="addr1">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse">
+                                                <input class="form-control" name="addr1" id="edit_address1" type="" placeholder="your first adresse">
                                               </div>
 
                                               <div class="input-group" title="addr2">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse">
+                                                <input class="form-control" name="addr2" id="edit_address2" type="" placeholder="your seconde adresse">
                                               </div>
 
                                               <div class="input-group" title="zip">
@@ -471,12 +472,12 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
                                               <div class="input-group" title="city">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                                <input class="form-control" name="city" id="" type="" placeholder="your city name">
+                                                <input class="form-control" name="city" id="edit_city" type="" placeholder="your city name">
                                               </div>
 
                                               <div class="input-group" title="state">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                                <input class="form-control" name="state" id="" type="" placeholder="your state name">
+                                                <input class="form-control" name="state" id="edit_state" type="" placeholder="your state name">
                                               </div>
 
                                               <div class="input-group" title="image">
@@ -507,7 +508,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 <!--end of Modal for user update profile-->
 
 <?php

@@ -28,8 +28,7 @@ $(document).ready( function() {
     $("#resetpwd").submit( function() {
         sentResetCode( $("#email_resetpwd").val() );
     });
-    
-    
+        
     $("#approvePropertiesTab").click( function() {
         $("#property_sort_order").change();
     });
@@ -45,7 +44,8 @@ $(document).ready( function() {
     $("#profileTab").click( function() {
         fillProfile();
     });
-        // for the first call of the dasgboard load the usertab
+    
+    // for the first call of the dasgboard load the usertab
     showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
 
@@ -56,14 +56,9 @@ function sentResetCode( email ) {
         email: email 
     };
 
-    var result = callBackend(paramArr);
-alert(result);
-
-    if( result !== 0) {
-        $.toaster({ priority : 'success', title : 'Password reset', message : 'Password is sent to your email address' });
-    } else {
-        $.toaster({ priority : 'warning', title : 'Password reset', message : 'Your email address is not in our database' });
-    }
+    callBackend(paramArr);
+    
+    // results will be evaluated via $_SESSION['resetCode'] in the home.php file.
 }
 
 function fillProfile() {
@@ -74,13 +69,52 @@ function fillProfile() {
    callAsyncBackend(paramArr, "myprofile");
 }
 
-function modifyUserInformation() {
+function updateUserProfile() {
+    
+    var fname = $( "#edit_firstname").val();
+    var lname = $ ("#edit_lastname").val();
+    var email = $("#edit_email").val();
+    var password = $ ("#edit_password").val();
+    var phone = $("#edit_phone").val();
+    var image_name = $ ("#edit_image_name").val();
+    var address1 = $("#edit_address1").val();
+    var address2 = $ ("#edit_address2").val();
+    var zipcode = $("#edit_zipcode").val();
+    var city = $ ("#edit_city").val();
+    var state = $("#edit_state").val();
+
+ 
     var paramArr = {
-      action: "modifyUserInformationByID"
+            action: "updateUserProfile",
+            fname: fname,
+            lname: lname,
+            email: email,
+            password: password,
+            phone: phone,
+            image_name: image_name,
+            address1: address1,
+            address2: address2,
+            zipcode: zipcode,
+            city: city,
+            state: state
+            
     };
-       
-   callAsyncBackend(paramArr, "myprofile");
+
+    
+    var result = callBackend(paramArr);
+
+    if (result !== "0") {
+        $.toaster({ priority : 'success', title : 'Profile update', message : 'Your profile has been successfully updated' });
+    }
+    else
+    {
+       $.toaster({ priority : 'warning', title : 'Profile update', message : result });
+    }
+    
+    return true;
+
 }
+
 
 
 function approvePropertyByID(propertyID) {
@@ -98,7 +132,7 @@ function approvePropertyByID(propertyID) {
     }
     else
     {
-       $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
+       $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result });
     }
 }
 
