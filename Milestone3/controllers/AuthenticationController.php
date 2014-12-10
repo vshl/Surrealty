@@ -56,13 +56,13 @@ class AuthenticationController {
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-        if (!$this->dbcomm->affectedRows() == 1)
+        if ($this->dbcomm->affectedRows() == 1)
         {
-            return 0;
+            return $code;
         }
         else
         {
-            return $code;
+           return 0;
         }
           
     }

@@ -76,7 +76,7 @@ class Admin extends Person {
                 $row = mysqli_fetch_assoc($result);
                 // Copy data from database into agent object
                 $this->enabled = $row['enable'];
-                parent::__construct($row['lname'], $row['fname'], $row['email'], $row['password'], $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
+                parent::__construct($row['lname'], $row['fname'], $row['email'], '', $row['phone'], $row['image_name'], $row['role'], $row['address1'], $row['address2'], $row['zipcode'], $row['city'], $row['state'], $row['country']);
                 parent::setID($row['user_id']);
                 return 1;
             }
@@ -120,6 +120,7 @@ class Admin extends Person {
      * @return int Statuscode ( 1 > Admin updated, 0 > No Data for ID found )
      */
     public function updateAdmin() {
+        $pwd = parent::getPassword();
         $sqlQuery = "UPDATE users SET "
                     . "fname='"         . parent::getFirstname() .  "', "
                     . "lname='"         . parent::getLastname() .   "', "
@@ -132,10 +133,13 @@ class Admin extends Person {
                     . "phone='"         . parent::getPhone() .      "', "
                     . "city='"          . parent::getCity() .       "', "
                     . "state='"         . parent::getState() .      "', "
-                    . "country='"       . parent::getCountry() .    "', "
-                    . "modification_date=now()" .                   ", "
-                    . "password='"      . parent::getPassword() 
-                    . "' WHERE user_id = " . parent::getID() .      ";";
+                    . "country='"       . parent::getCountry() .    "', ";
+        
+        if(!empty($pwd))
+            $sqlQuery .= "password='"      .hash("sha256", parent::getPassword()). "', ";
+        
+        $sqlQuery .= "modification_date=NOW()"                      
+                    . " WHERE user_id = " . parent::getID() .      ";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
         if ($result != true)
