@@ -91,7 +91,7 @@ class PropertyController {
      */    
     public function giveUnprovenProperties() {
         $dbComm = new DatabaseComm();
-        $sqlQuery = "SELECT * FROM property WHERE approved = 0;";
+        $sqlQuery = "SELECT * FROM property WHERE approved = 0 AND delet = 0;";
         $result = $dbComm->executeQuery($sqlQuery);
        
         $properties = array();
@@ -117,7 +117,6 @@ class PropertyController {
         {
             if ($dbComm->affectedRows() == 1) 
             {
-                   // set property enable one...
                 return 1;
             }
             else
@@ -130,7 +129,7 @@ class PropertyController {
     
     public function deletePropertyByID($propertyID) {
         $dbComm = new DatabaseComm();
-        $sqlQuery = "DELETE FROM property WHERE property_id = '".$propertyID."';";
+        $sqlQuery = "UPDATE property SET delet = 1 WHERE property_id = '".$propertyID."';";
         $result = $dbComm->executeQuery($sqlQuery);
         
         if ($result != true)
@@ -141,7 +140,6 @@ class PropertyController {
         {
             if ($dbComm->affectedRows() == 1) 
             {
-                   // set property enable one...
                 return 1;
             }
             else

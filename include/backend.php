@@ -94,7 +94,7 @@ switch ($functionChoice) {
     case 'enableUserByID': 
         enableUserByID($_POST['userID'], $_POST['role'], $_POST['enable']);
         break;
- case 'deletePropertyByID':
+    case 'deletePropertyByID':
         deletePropertyByID($_POST['propertyID']);
         break;
     case 'approvePropertyByID':
@@ -102,6 +102,9 @@ switch ($functionChoice) {
         break;
     case 'loadUserInformation':
         loadUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
+        break;
+    case 'modifyUserInformationByID':
+        modifyUserInformationByID( $_SESSION['user_id'], $_SESSION['role'] );
         break;
     case 'giveUnseenCommentsByAgentID':
         giveUnseenCommentsByAgentID($_SESSION['user_id']);
@@ -649,6 +652,10 @@ function giveUnseenCommentsByAgentID($agentID) {
 }
 
 
+function  modifyUserInformationByID($userID, $role) {
+    
+}
+
 function loadUserInformationByID($userID, $role) {
     switch ( $role ) {
         case 'ADMIN':
@@ -671,7 +678,7 @@ function loadUserInformationByID($userID, $role) {
     }   
 
         print '
-              <form action="" methode="">
+              <form action="" id="modifyProfile" methode="">
 
 
                       <div class="input-group" title="firstname">
@@ -691,7 +698,7 @@ function loadUserInformationByID($userID, $role) {
 
                       <div class="input-group" title="Password">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input class="form-control" name="password" id="password" type="password" placeholder="your password" disabled="disabled">
+                        <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" disabled="disabled">
                       </div>
 
                       <div class="input-group" title="phone">
@@ -740,11 +747,17 @@ function loadUserInformationByID($userID, $role) {
          </form>';
 }
 
-function showUnprovenProperties($oder, $ascdesc) {
+function showUnprovenProperties($order, $ascdesc) {
     $pc =  new PropertyController();
     $properties = $pc->giveUnprovenProperties();
    
-
+   
+    if( $ascdesc == "asc") {
+        $properties = array_orderby($properties, $order, SORT_ASC, "creation_date", SORT_ASC);
+    } else {
+        $properties = array_orderby($properties, $order, SORT_DESC, "creation_date", SORT_DESC );
+    }
+    
     foreach( $properties as $property ) {
         $ac = new AgentController();
         $agent = $ac->loadAgentByID($property['created_by']);
@@ -762,7 +775,7 @@ function showUnprovenProperties($oder, $ascdesc) {
                                   <h6>Creation-date: '.$property['creation_date'].'</h6>
                                   <h6>Modification-date: '.$property['modification_date'].'</h6>
                                   <h6>Created_by: '.$agent->getFirstname().' '.$agent->getLastname().'</h6>
-                                  <h6>Price: '.$property['price'].'$</h6>
+                                  <h6>Price: '.number_format($property['price']).'$</h6>
                                   <br>
 
                                                            
@@ -828,10 +841,10 @@ function sentResetCode($email) {
 
     $success =  mail($email, "Password Reset", "Please follow the link to reset your Password.\nhttp://sfsuswe.com/~bbleic/pages/home.php?code=".$code."&email=".$email);
    
-    if( $code !== "0" && $success) {
-        return 1;
+    if( $code != 0 && $success) {
+        echo "->".$code;
     } else {
-        return 0;
+        echo 0;
     }
 }
 ?>

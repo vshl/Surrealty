@@ -56,10 +56,9 @@ class AuthenticationController {
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-        if ($result != true)
+        if (!$this->dbcomm->affectedRows() == 1)
         {
-            echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            die("Error at reset pwd");
+            return 0;
         }
         else
         {
