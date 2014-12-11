@@ -12,6 +12,9 @@
  * @version 1.0
  * 
  */
+
+include_once '../classes/Logging.php';
+
 define ("PICTURE_DIR", "../images/");
 define ("MAX_FILESIZE", "2097152");      // bytes
 
@@ -32,25 +35,27 @@ class ImageController {
      */  
     public function uploadPicture( $type, $picture ) {
 
-        $finfo = finfo_file( finfo_open( FILEINFO_MIME_TYPE), $picture["imgfile"]["tmp_name"] );
-        
+        $finfo = finfo_file( finfo_open( FILEINFO_MIME_TYPE), PICTURE_DIR . $picture);
         if( strpos( $finfo, "image/jpeg") === false ) {
+            return "error";
             die( "Wrong file type. Accepted file extensions are jpg/jpeg" );
         }
 
-        if( ( $picture["imgfile"]["size"] > MAX_FILESIZE ) ) { 
+        if( ( filesize(PICTURE_DIR . $picture) > MAX_FILESIZE ) ) { 
+            return "error2";
             die( "File is too big. Maximum filesize is ".( MAX_FILESIZE/1024/1024) );
+            
         }           
 
-        $pictureID = md5_file( $picture["imgfile"]["tmp_name"] );
+        $pictureID = md5_file( PICTURE_DIR . $picture );
         
         // 1 = userpicture, 2 = property picture
         if( $type == 1 ) {
-            $this->convertPicture( "_SMALL", 48, 48, $picture["imgfile"]["tmp_name"] );
-            $this->convertPicture( "_MEDIUM", 200, 200, $picture["imgfile"]["tmp_name"] );
+            $this->convertPicture( "_SMALL", 48, 48, PICTURE_DIR . $picture );
+            $this->convertPicture( "_MEDIUM", 200, 200, PICTURE_DIR . $picture );
         } else {
-            $this->convertPicture( "_LARGE", 400, 400, $picture["imgfile"]["tmp_name"] );
-            $this->convertPicture( "_XLARGE", 1024, 1024, $picture["imgfile"]["tmp_name"] );
+            $this->convertPicture( "_LARGE", 400, 400, PICTURE_DIR . $picture );
+            $this->convertPicture( "_XLARGE", 1024, 1024, PICTURE_DIR . $picture );
         }
         
        return $pictureID;
@@ -58,17 +63,17 @@ class ImageController {
     
     
     /**
-     * delete picture by id
+     * delete picture by filename
      * 
-     * @param string $pictureHash name/hash of the picture which has to be removed
+     * @param string $filename name/hash of the picture which has to be removed
      * @return int Statuscode ( 1 = picture deleted, 0 = No Data for ID found ) 
      */ 
-    public function deletePictureByID ($pictureHash) {
+    public function deletePictureByFileName ($filename) {
         $matches = 0;
         
-        foreach (glob (PICTURE_DIR . $pictureHash . "_*.jpeg" ) as $filename) 
+        foreach (glob (PICTURE_DIR . $filename . "*.jpg" ) as $filename2) 
         {
-            unlink ($filename);
+            unlink ($filename2);
             $matches++;
         }
    
@@ -86,6 +91,8 @@ class ImageController {
      */ 
     public function displayPicture($type, $pictureHash) {
         
+        $logger = new Logging();
+         $logger->logToFile("loadPicture", "info", "run" . $pictureHash);
         if ($pictureHash == NULL) {
             return "../images/placeholder.jpg";
         }
@@ -104,7 +111,7 @@ class ImageController {
             case "XLARGE":  $filename .= "_XLARGE.jpg"; 
                 break;
         }
-        
+        $logger->logToFile("loadPicture", "info", "try to load image:" . $filename);
         if (file_exists($filename)){
             return $filename;
         }
@@ -141,7 +148,7 @@ class ImageController {
         $picture      = imagecreatefromjpeg ($filename);
         imagecopyresampled ($picture_p, $picture, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
-        $newfilename = PICTURE_DIR . md5_file ($filename) . $postfix . ".jpeg";
+        $newfilename = PICTURE_DIR . md5_file ($filename) . $postfix . ".jpg";
                
         imagejpeg ($picture_p, $newfilename, 100);
     }

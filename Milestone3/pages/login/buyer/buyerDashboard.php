@@ -110,16 +110,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
       <div class="container-fluid"><!-- main container -->
         <!--header--> 
         <?php include "../../../include/header.php" ?>
-
-
-
-
-   
-
-
-
-
-
+<br><br><br><br>
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
 
@@ -318,7 +309,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
    <div class="well">
 
                 
-                <h1>User Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
+       <h1>User Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img id="user_avatar" src="../../../images/loading.gif" class="img-circle thumbuser"></small></h1> 
                  
 
 

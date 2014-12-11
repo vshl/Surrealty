@@ -123,7 +123,14 @@ class AuthenticationController {
              $_SESSION['role'] = "BUYER";          
              $buyer = new Buyer();
              
-            return $buyer->saveBuyer($user);
+             $user_id = $buyer->saveBuyer($user);
+             if (is_int($user_id)) {
+                 $_SESSION['user_id'] = $user_id;
+                 return 1;
+             }
+             else {
+                 return 0;
+             }
 
         }   
         else 

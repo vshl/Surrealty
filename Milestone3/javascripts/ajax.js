@@ -297,7 +297,7 @@ function RegisterAndRedirect() {
         var email = $("#email1").val();
         var password = $ ("#password1").val();
         var phone = $("#phone").val();
-        var image_name = $ ("#image_name").val();
+        var image_name = $ ("#signup_image_id").val();
         var address1 = $("#address1").val();
         var address2 = $ ("#address2").val();
         var zipcode = $("#zipcode").val();
