@@ -1,5 +1,5 @@
 <?php
-DEFINE ("LOG_ENABLE", TRUE);
+DEFINE ("LOG_ENABLE", FALSE);
 
 class Logging {
     
