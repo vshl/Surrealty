@@ -9,6 +9,8 @@ require_once($path.'/include/checkUser.php');
 ?>
 
 <?php
+      
+
     $property_id = htmlspecialchars($_GET["PropertyId"]);
     $search = htmlspecialchars($_GET["Search"]);
     $servername = "localhost";
@@ -16,6 +18,10 @@ require_once($path.'/include/checkUser.php');
     $pass = "Group11";
     $dbname = "student_f14g11";
 
+    if ($property_id == NULL)
+    {
+        header("Refresh : 0 ; URL=./home.php");
+    } 
 // Create connection
 $conn = new mysqli($servername, $username, $pass, $dbname);
 // Check connection
@@ -50,31 +56,23 @@ if (($result->num_rows ) == 1)
 <html>
     <head>
     <title> Detailed Listing</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
- 
-    <!--  Importing property.css --> 
-    <link href ="./../css/property.css" rel="stylesheet">
-     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+<!-- Bootstrap core CSS -->
+<link href="./../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
+<link href="./../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
+<link href="./../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+<!--  Importing property.css --> 
+<link href ="./../css/property.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     
-     <script src="../../javascripts/jquery-2.1.1.js"></script>
-     <script src="../../javascripts/ajax.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../../frameworks/bootstrap/dist/js/npm.js"></script>
-    <script src="./../javascripts/jquery.validate.js"</script>
-    <script src="./../javascripts/script.js"></script> 
-   <script src="./../javascripts/jquery.toaster.js"></script>
-   
-   
-
-<!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
+<script src="./../javascripts/jquery-2.1.1.js"></script>
+<script src="./../javascripts/ajax.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../../frameworks/bootstrap/dist/js/npm.js"></script>
-<script src="../../javascripts/jquery.toaster.js"></script>
-
+<script src="./../frameworks/bootstrap/dist/js/npm.js"></script>
+<script src="./../javascripts/jquery.validate.js"></script>
+<script src="./../javascripts/script.js"></script> 
+<script src="./../javascripts/jquery.toaster.js"></script>
 
     <script>
         $( document ).ready(function() {
@@ -110,19 +108,29 @@ if (($result->num_rows ) == 1)
                 <div class="col-sm-12 col-md-6" id="pictures" style="margin-top: 1%; margin-left: 5px ;margin-right: 10px;  ">
                    
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
+                        <li role="presentation">
                             <a href="#Description" role="tab" data-toggle="tab" id="descTab">
                                 <i class="glyphicon glyphicon-list-alt"></i>&nbsp;Description
                             </a>
                         </li>
                         <li role="presentation">
-                            <a href="#Gallery" role="tab" data-toggle="tab" id="gallertTab">
+                            <a href="#Specs" role="tab" data-toggle="tab" id="specsTab">
+                                <i class="glyphicon glyphicon-home"></i>&nbsp;Specs
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Gallery" role="tab" data-toggle="tab" id="galleryTab">
                                 <i class="glyphicon glyphicon-home"></i>&nbsp;Gallery
                             </a>
                         </li>
                         <li role="presentation">
                             <a href="#Map" role="tab" data-toggle="tab" id="mapTab">
                                 <i class="glyphicon glyphicon-user"></i>&nbsp;Map
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Comments" role="tab" data-toggle="tab" id="commentTab">
+                                <i class="glyphicon glyphicon-user"></i>&nbsp;Comments
                             </a>
                         </li>
                     </ul>
@@ -154,18 +162,24 @@ if (($result->num_rows ) == 1)
                                         <?php echo "$ " . number_format($price).".00";?>
                                             </strong>
                                     </h2>
-                                    <p >
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--spec tab goes here-->
+                    <div role="tabpanel" class="tab-pane active" id="Specs">
+                        <div class="well">
+                          <p>
                                         <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
                                         Lot: <?php echo $area;?> sqft <br>
                                         Single Family <br> 
                                         Built in 1938 <br> 
                                         5 Days on Surreality <br> 
-                                    </p>
-                                </div>
-                            </div>
+                          </p>
+                          More specs goes here...
                         </div>
                     </div>
-                    
                     <!--gallery tab goes here-->
                     <div role="tabpanel" class="tab-pane active" id="Gallery">
                         <div class="well">
@@ -224,11 +238,33 @@ if (($result->num_rows ) == 1)
                             Map will go here...
                         </div>
                     </div>
+                    <!--comment tab here-->
+                    <div role="tabpanel" class="tab-pane active" id="Comments">
+                        <div class="well">
+                            <div class="row" style="margin-bottom: 5%;">
+                                 <div class="col-sm-4 col-md-4" id="new_comment_container">
+                                 <?php
+                                     if (!isset($_SESSION['role'])) {
+                                         echo "<h4> please Login or register to use the comment function. Thank you</h4>";
+                                     }
+                                     elseif ($_SESSION['role'] == 'BUYER') {
+                                        echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
+                                             "<div class=\"input-group input-group-lg\">" . 
+                                             "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
+                                             "<span class=\"input-group-btn\">" .
+                                             "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
+                                             "</span></div></form>";  
+                                     }
+                                     ?>
+                                 </div>
+                                 <div class="col-sm-8 col-md-8" id="prop_comment_container">
+                                     
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
                     
-                    
-                    
-                    
-                    </div>    
+                    </div><!-- tab content-->    
                     
                     
                 </div>
@@ -265,28 +301,7 @@ if (($result->num_rows ) == 1)
         
         
         <!--- the following code is from florian. its a proof of concept for working comment section -->
-        <div class="row" style="margin-bottom: 5%;">
-            <div class="col-sm-4 col-md-4" id="new_comment_container">
-            <?php
-                if (!isset($_SESSION['role'])) {
-                    echo "<h4> please Login or register to use the comment function. Thank you</h4>";
-                }
-                elseif ($_SESSION['role'] == 'BUYER') {
-                   echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
-                        "<div class=\"input-group input-group-lg\">" . 
-                        "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
-                        "<span class=\"input-group-btn\">" .
-                        "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
-                        "</span></div></form>";  
-                }
-                ?>
-            </div>
-            
-            
-            <div class="col-sm-8 col-md-8" id="prop_comment_container">
-            </div>
-            
-        </div>
+        
             
    
         
