@@ -12,14 +12,17 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
     <title>Surreality</title>
     <!-- Bootstrap core CSS -->
     <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
-    <link href="../../../frameworks/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
     <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
-<!-- Integration jQuery libraire  -->
-    <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
+    <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
+
+    <script src="../../../javascripts/jquery-2.1.1.js"></script>
+    <script src="../../../javascripts/ajax.js"></script>
+    <!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
     <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="../../../javascripts/jquery.toaster.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <!-- our main Css / it can be later on one separated file--> 
      <style type="text/css">
             body {
@@ -124,7 +127,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
    <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
   <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;<span class="badge">2</span></a></li>
-  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
+  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
   <li role="presentation"><a href="#Preferences" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i>&nbsp;Preferences</a></li>
 </ul>
  
@@ -315,12 +318,12 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
    <div class="well">
 
                 
-                <h1>User Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;User_First&Last_name&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
+                <h1>User Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
                  
 
 
                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well" id="myprofile">
 
 
 
@@ -330,7 +333,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
 
 
-
+<!--
                         <form action="#UpdateProfile" class="modal-toggle" data-toggle="modal" methode="">
 
                                     
@@ -398,7 +401,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                                     
                                     
                                  </form>                  
-
+-->
 
 
 

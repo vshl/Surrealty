@@ -123,7 +123,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
   <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
   <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
           <span id="tab_count_unseen_comments" class="badge">0</span></a></li>
-  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
+  <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
   <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li>
 </ul>
  
@@ -418,12 +418,14 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
    <div class="well">
 
                 <div class="page-header">
-                <h1>Agent Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;Agent_First&Last_name&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
+                <h1>Agent Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
                 </div>   
 
 
                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 well" id="myprofile">
+                        
+                        <!--
                         <form action="" methode="">
                           <div class="input-group" title="firstname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -485,7 +487,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                           <a href="#UpdateProfile" class="modal-toggle" data-toggle="modal">
                             <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-wrench"></i> Modify</button>
                           </a>
-                        </form>                  
+                        </form>   -->               
                     </div>
                   </div><!--endof row inside tab-->
    </div>
