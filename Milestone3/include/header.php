@@ -63,5 +63,4 @@ include ('../pathMaker.php');
     </nav>
 
 
-<br><br><br><br><!--this space allow dislaying the complet navtabs of dashboards- thats a temporary solution-->
            

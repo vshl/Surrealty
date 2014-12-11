@@ -58,13 +58,24 @@ if (($result->num_rows ) == 1)
     <!--  Importing property.css --> 
     <link href ="./../css/property.css" rel="stylesheet">
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="./../javascripts/jquery-2.1.1.js"></script>
+    
+     <script src="../../javascripts/jquery-2.1.1.js"></script>
+     <script src="../../javascripts/ajax.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../frameworks/bootstrap/dist/js/npm.js"></script>
     <script src="./../javascripts/jquery.validate.js"</script>
     <script src="./../javascripts/script.js"></script> 
-    <script src="./../javascripts/ajax.js"></script>
    <script src="./../javascripts/jquery.toaster.js"></script>
+   
+   
+
+<!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
+<script src="./../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../frameworks/bootstrap/dist/js/npm.js"></script>
+<script src="../../javascripts/jquery.toaster.js"></script>
+
+
     <script>
         $( document ).ready(function() {
             loadAllCommentsByProperty(<?php echo $property_id; ?>);
@@ -97,7 +108,68 @@ if (($result->num_rows ) == 1)
         </div>
             <div class="row" >
                 <div class="col-sm-12 col-md-6" id="pictures" style="margin-top: 1%; margin-left: 5px ;margin-right: 10px;  ">
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                   
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#Description" role="tab" data-toggle="tab" id="descTab">
+                                <i class="glyphicon glyphicon-list-alt"></i>&nbsp;Description
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Gallery" role="tab" data-toggle="tab" id="gallertTab">
+                                <i class="glyphicon glyphicon-home"></i>&nbsp;Gallery
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Map" role="tab" data-toggle="tab" id="mapTab">
+                                <i class="glyphicon glyphicon-user"></i>&nbsp;Map
+                            </a>
+                        </li>
+                    </ul>
+ 
+                    <div class="tab-content">
+                    <!--description tab goes here-->
+                    <div role="tabpanel" class="tab-pane active" id="Description">
+                        <div class="well">
+                             <div class="row">
+                                <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
+                                    <h1 id="address">
+                                        <?php echo $address;?>
+                                    </h1>
+                                    <p id="description">
+                                        Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
+                                    </p>
+                                    <p id="openHouse">
+                                        <b>Open House</b> 
+                                        <ul>
+                                            <li>11/28 2pm-4pm</li>
+                                            <li>11/29 4pm-5pm</li> 
+                                        </ul>
+                                    </p>
+                                </div>
+                                <div class="col-sm-4 col-md-4" id="details">
+                                    <h1>For Sale</h1>
+                                    <h2 style="font-size: 20; color: #2aabd2 ">
+                                        <strong>
+                                        <?php echo "$ " . number_format($price).".00";?>
+                                            </strong>
+                                    </h2>
+                                    <p >
+                                        <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
+                                        Lot: <?php echo $area;?> sqft <br>
+                                        Single Family <br> 
+                                        Built in 1938 <br> 
+                                        5 Days on Surreality <br> 
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--gallery tab goes here-->
+                    <div role="tabpanel" class="tab-pane active" id="Gallery">
+                        <div class="well">
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -143,6 +215,22 @@ if (($result->num_rows ) == 1)
                             <span class="sr-only">Next</span>
                           </a>
                     </div>
+                        </div>
+                    </div>
+                    
+                    <!--map tab goes here-->
+                    <div role="tabpanel" class="tab-pane active" id="Map">
+                        <div class="well">
+                            Map will go here...
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    </div>    
+                    
+                    
                 </div>
                 <div class="col-sm-4 col-md-4" id="contact" style="margin-top: 1%;">
                     <div class="thumbnail">
@@ -171,38 +259,11 @@ if (($result->num_rows ) == 1)
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
-                    <h1 id="address">
-                        <?php echo $address;?>
-                    </h1>
-                    <p id="description">
-                        Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
-                    </p>
-                    <p id="openHouse">
-                        <b>Open House</b> 
-                        <ul>
-                            <li>11/28 2pm-4pm</li>
-                            <li>11/29 4pm-5pm</li> 
-                        </ul>
-                    </p>
-                </div>
-                <div class="col-sm-4 col-md-4" id="details">
-                    <h1>For Sale</h1>
-                    <h2 style="font-size: 20; color: #2aabd2 ">
-                        <strong>
-                        <?php echo "$ " . number_format($price).".00";?>
-                            </strong>
-                    </h2>
-                    <p >
-                        <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
-                        Lot: <?php echo $area;?> sqft <br>
-                        Single Family <br> 
-                        Built in 1938 <br> 
-                        5 Days on Surreality <br> 
-                    </p>
-                </div>
-            </div>
+        
+           
+        
+        
+        
         <!--- the following code is from florian. its a proof of concept for working comment section -->
         <div class="row" style="margin-bottom: 5%;">
             <div class="col-sm-4 col-md-4" id="new_comment_container">

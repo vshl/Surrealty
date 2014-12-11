@@ -36,7 +36,7 @@ Updated by :
         <div class="col-md-6 col-md-offset-3">
             <form role="form" action="search.php" class="form-inline" method="GET">
                 <div class="input-group input-group-lg">
-                <input size="60" type="text" class="form-control input-group-lg" placeholder="Search properties here..." autofocus name="search">
+                <input size="60" type="text" class="form-control input-group-lg" placeholder="Search City, Zipcode, Area..." autofocus name="search">
                 <span class="input-group-btn">
                     <button class="btn btn-info" type="submit"><strong>Search</strong></button>
                 </span>
