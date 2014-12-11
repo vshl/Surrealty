@@ -671,66 +671,69 @@ function loadUserInformationByID($userID, $role) {
         default :
             return "0";
     }   
-
+    // request image file 
+    $ic = new ImageController();
+    $image_file = $ic->displayPicture("SMALL", $info['image']);
+        
         print '
               <form action="" id="modifyProfile" methode="">
 
 
                       <div class="input-group" title="firstname">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input class="form-control" name="firstname" id="" type="" placeholder="your first name" value="'.$info["fistname"].'" disabled="disabled">
+                        <input class="form-control" name="firstname" id="" type="" placeholder="your first name" value="'.$info["fistname"].'" >
                       </div>
 
                       <div class="input-group" title="lastname">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input class="form-control" name="lastname" id="" type="" placeholder="your last name" value="'.$info["lastname"].'" disabled="disabled">
+                        <input class="form-control" name="lastname" id="" type="" placeholder="your last name" value="'.$info["lastname"].'" >
                       </div>
 
                       <div class="input-group" title="email">
                         <span class="input-group-addon">@</span>
-                        <input class="form-control" name="email" id="" type="" placeholder="your e-mail" value="'.$info["email"].'" disabled="disabled">
+                        <input class="form-control" name="email" id="" type="" placeholder="your e-mail" value="'.$info["email"].'" >
                       </div>
 
                       <div class="input-group" title="Password">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" disabled="disabled">
+                        <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" >
                       </div>
 
                       <div class="input-group" title="phone">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                        <input class="form-control" name="phone" id="" type="" placeholder="your phone number" value="'.$info["phone"].'" disabled="disabled">
+                        <input class="form-control" name="phone" id="" type="" placeholder="your phone number" value="'.$info["phone"].'" >
                       </div>
 
 
 
                       <div class="input-group" title="addr1">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                        <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" value="'.$info["address1"].'" disabled="disabled">
+                        <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" value="'.$info["address1"].'" >
                       </div>
 
                       <div class="input-group" title="addr2">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                        <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" value="'.$info["address2"].'" disabled="disabled">
+                        <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" value="'.$info["address2"].'" >
                       </div>
 
                       <div class="input-group" title="zip">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                        <input class="form-control" name="zip" id="" type="" placeholder="your zip code" value="'.$info["zipcode"].'" disabled="disabled">
+                        <input class="form-control" name="zip" id="" type="" placeholder="your zip code" value="'.$info["zipcode"].'" >
                       </div>
 
                       <div class="input-group" title="city">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                        <input class="form-control" name="city" id="" type="" placeholder="your city name" value="'.$info["city"].'" disabled="disabled">
+                        <input class="form-control" name="city" id="" type="" placeholder="your city name" value="'.$info["city"].'" >
                       </div>
 
                       <div class="input-group" title="state">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                        <input class="form-control" name="state" id="" type="" placeholder="your state name" value="'.$info["state"].'" disabled="disabled">
+                        <input class="form-control" name="state" id="" type="" placeholder="your state name" value="'.$info["state"].'" >
                       </div>
 
                       <div class="input-group" title="image">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                        <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add" disabled="disabled"></span>
+                        <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
                       </div>
 
                   <a href="#UpdateProfile" class="modal-toggle" data-toggle="modal">
@@ -739,7 +742,8 @@ function loadUserInformationByID($userID, $role) {
 
 
 
-         </form>';
+         </form>
+         <script>$(" #user_avatar").attr("src","../../../images/' . $image_file .'");</script>';
         
         
         print '

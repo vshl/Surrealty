@@ -98,6 +98,7 @@ Updated by :
     <script src="./../javascripts/script.js"></script> 
     <script src="./../javascripts/ajax.js"></script>
     <script src="./../javascripts/jquery.toaster.js"></script>
+    <script src="./../javascripts/upload.js"></script>
     <script type="text/javascript">
         $( "#login_submit_btn").click(loginAndRedirect);
     </script>

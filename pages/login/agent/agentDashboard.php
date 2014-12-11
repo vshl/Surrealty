@@ -115,6 +115,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <div class="container-fluid"><!-- main container -->
         <!--header--> 
         <?php include "../../../include/header.php" ?>
+        <br><br><br><br>
 
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
@@ -418,7 +419,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
    <div class="well">
 
                 <div class="page-header">
-                <h1>Agent Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser"></small></h1> 
+                <h1>Agent Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img id="user_avatar" src="../../../images/loading.gif" class="img-circle thumbuser"></small></h1> 
                 </div>   
 
 
@@ -429,65 +430,74 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                         <form action="" methode="">
                           <div class="input-group" title="firstname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="firstname" id="" type="" placeholder="your first name" disabled="disabled">
+                            <input class="form-control" name="firstname" id="" type="" placeholder="your first name" >
                           </div>
 
                           <div class="input-group" title="lastname">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" name="lastname" id="" type="" placeholder="your last name" disabled="disabled">
+                            <input class="form-control" name="lastname" id="" type="" placeholder="your last name" >
                           </div>
 
                           <div class="input-group" title="email">
                             <span class="input-group-addon">@</span>
-                            <input class="form-control" name="email" id="" type="" placeholder="your e-mail" disabled="disabled">
+                            <input class="form-control" name="email" id="" type="" placeholder="your e-mail" >
                           </div>
 
                           <div class="input-group" title="Password">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" name="password" id="password" type="password" placeholder="your password" disabled="disabled">
+                            <input class="form-control" name="password" id="password" type="password" placeholder="your password">
                           </div>
 
                           <div class="input-group" title="phone">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                            <input class="form-control" name="phone" id="" type="" placeholder="your phone number" disabled="disabled">
+                            <input class="form-control" name="phone" id="" type="" placeholder="your phone number" >
                           </div>
 
 
 
                           <div class="input-group" title="addr1">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" disabled="disabled">
+                            <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse">
                           </div>
 
                           <div class="input-group" title="addr2">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                            <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" disabled="disabled">
+                            <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" >
                           </div>
 
                           <div class="input-group" title="zip">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                            <input class="form-control" name="zip" id="" type="" placeholder="your zip code" disabled="disabled">
+                            <input class="form-control" name="zip" id="" type="" placeholder="your zip code">
                           </div>
 
                           <div class="input-group" title="city">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                            <input class="form-control" name="city" id="" type="" placeholder="your city name" disabled="disabled">
+                            <input class="form-control" name="city" id="" type="" placeholder="your city name" >
                           </div>
 
                           <div class="input-group" title="state">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                            <input class="form-control" name="state" id="" type="" placeholder="your state name" disabled="disabled">
+                            <input class="form-control" name="state" id="" type="" placeholder="your state name">
                           </div>
 
                           <div class="input-group" title="image">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                            <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add" disabled="disabled"></span>
+                            <span class="btn btn-default btn-file">
+                                <input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add">
+                                <input type="hidden" id="signup_image_id">
+                            </span>
+                            <span class="btn">
+                                <input type="button" value="Upload" id="signup_upload_picture_btn">
+                            </span>
+                            <span class="">
+                                <img id="signup_user_image" src="../images/placeholder.jpg" height="48" width="48">
+                            </span>
                           </div>
 
                           <a href="#UpdateProfile" class="modal-toggle" data-toggle="modal">
                             <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-wrench"></i> Modify</button>
                           </a>
-                        </form>   -->               
+                        </form>  -->              
                     </div>
                   </div><!--endof row inside tab-->
    </div>
