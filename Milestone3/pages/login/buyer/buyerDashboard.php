@@ -12,7 +12,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
     <title>Surreality</title>
     <!-- Bootstrap core CSS -->
     <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
-    <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet"> -->
     <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
     <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
@@ -22,12 +22,13 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
     <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
     <script src="../../../javascripts/jquery.toaster.js"></script>
+    
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <!-- our main Css / it can be later on one separated file--> 
      <style type="text/css">
             body {
                 background: white; 
-               background-image: url("./../../../images/house1.jpg");
+                background-image: url("./../../../images/house1.jpg");
                 background-repeat: no-repeat;
                 background-position: center top
                 
@@ -742,7 +743,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
       <!--Footer-->
         <?php include "./../../../include/footer.html"?>
         <?php include "./../../../include/Modal_header.html"?>
-
+        
 
   </body>
 </html>
