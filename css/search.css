@@ -10,6 +10,7 @@ and open the template in the editor.
 body {
     position: relative;
     min-height: 95%;
+    padding-bottom: 75px;
 }
 
 div#map-canvas {
