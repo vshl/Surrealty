@@ -266,7 +266,7 @@ if (($result->num_rows ) == 1)
                 </div>
                 
                 
-                <div class="col-sm-4 col-md-4" id="contact" style="margin-top: 1%;">
+                <div class="col-sm-12 col-md-4" id="contact" style="margin-top: 1%;">
                     <div class="thumbnail">
                         <div class="caption">
                             <h3>Contact an Agent</h3> 
