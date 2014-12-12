@@ -47,13 +47,19 @@ $lng = $coords['lng'];
       <!-- Custom CSS -->
       <link rel="stylesheet" href="../css/search.css" title='Custom css for search page'>
       <!-- Javascript -->
+      <script type="text/javascript">
+      // for dynamic loading of sort menu
+        $(function() {
+            $("#order").change(function() {
+                this.form.submit();
+            });
+        });
+      </script>
       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCopAYcpV4Eo5BZ9q3PbeAI4nPBTct36HE"></script>
       <script type="text/javascript">
       var searchQuery = <?php echo json_encode($address);?>;
       </script>
       <script type="text/javascript" src="../javascripts/maps.js"></script>
-  
-  
       <title> Search results for <?php echo " " . $address; ?> </title>
     </head>
     
@@ -97,12 +103,27 @@ $lng = $coords['lng'];
                 <?php echo "Results for " ; ?> <strong><?php echo $address; ?></strong>
                 <div class="pull-right">
                 Sort by :
-                <select class="input-sm">
-                        <option value="one"> Price : Low to High </option>
-                        <option value="two"> Price : High to Low </option>
-                        <option value="three"> Area : Low to High </option>
-                        <option value="four"> Area : High to Low </option>
-                </select>              
+                <form name="order" method="post">
+                  <select id="order", name="order">
+                      <option value='property_id ASC'>Sort: Relevance</option>
+                      <option value='price ASC'
+                        <?=filter_input(INPUT_POST, "order") == 'price ASC' ? ' selected="selected"' : ''?>>
+                        Sort: Price low to high
+                      </option>
+                      <option value='price DESC'
+                        <?=filter_input(INPUT_POST, "order") == 'price DESC' ? ' selected="selected"' : ''?>>
+                        Sort: Price high to low
+                      </option>
+                      <option value='area ASC'
+                        <?=filter_input(INPUT_POST, "order") == 'area ASC' ? ' selected="selected"' : ''?>>
+                        Sort: Area low to high
+                      </option>
+                      <option value='area DESC'
+                        <?=filter_input(INPUT_POST, "order") == 'area DESC' ? ' selected="selected"' : ''?>>
+                        Sort: Area high to low
+                      </option>
+                  </select>
+                </form>
                 </div>
                 </div>
                 <!-- filter panel end-->
@@ -111,10 +132,16 @@ $lng = $coords['lng'];
                 <!--results content-->
                 <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
                 <?php
-                    require_once '../controllers/PropertyController.php';
-                    $search = $address;
-//                            filter_input(INPUT_GET, 'search');
-                    $properties = PropertyController::searchProperty($search);
+                    $order = filter_input(INPUT_POST, "order");
+                    $sortField = 'property_id';
+                    $sortOrder = 'ASC';
+                    if ($order)
+                    {
+                        $sort = explode(' ', $order);
+                        $sortField = $sort[0];
+                        $sortOrder = $sort[1];
+                    }
+                    $properties = PropertyController::searchProperty($address, $sortField, $sortOrder);
                 ?>
                 <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
                 <?php

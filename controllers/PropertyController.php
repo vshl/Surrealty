@@ -22,12 +22,14 @@ class PropertyController {
      * @return - associative array of properties
      * 
      */
-    public static function searchProperty($search) 
+    public static function searchProperty($search, $sortField = 'property_id', $sortOrder = 'ASC') 
     {
         $dbConn = new DatabaseComm();
         $query = "SELECT * FROM property "
-                . "WHERE CONCAT_WS(address1,',',address2,',',zipcode,',',city,',',state,',',country) "
-                . "LIKE '%$search%'";
+                . "WHERE CONCAT_WS"
+                . "(address1,',',address2,',',zipcode,',',city,',',state,',',country) "
+                . "LIKE '%$search%' "
+                . "ORDER BY $sortField $sortOrder";
         $result = $dbConn->executeQuery($query);
         $properties = array();
         if ($result->num_rows > 0) {
