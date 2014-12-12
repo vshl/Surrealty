@@ -543,14 +543,16 @@ function showUserlist( $role, $order, $ascdesc ) {
     } else {
         $userlist = array_orderby($userlist, $order, SORT_DESC, "lname", SORT_DESC );
     }
-      
+    
+    $ic = new ImageController();
+    
     foreach( $userlist as $user ) {
         print '
             <div class="row well"> 
               <div class="col-xs-12 col-sm-1">
                 <br><br>
                 <a class="" href="#">
-                  <img class="img-circle img-responsive" src="./../../../images/images.jpg"  >
+                <img class="img-circle img-responsive" src="./../../../images/' . $ic->displayPicture("SMALL", $user['image_name']). '" width="80px" height="80px">
                 </a>
               </div>
               <div class="col-xs-12 col-sm-3">
