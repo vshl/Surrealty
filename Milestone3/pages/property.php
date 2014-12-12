@@ -51,7 +51,7 @@ if (($result->num_rows ) == 1)
             $baths = $row["baths"];
             $area = $row["area"];
 }
-
+    
 ?>
 <html>
     <head>
@@ -88,25 +88,25 @@ if (($result->num_rows ) == 1)
     </head>
     <body>
         <div class="container-fluid"  ><!-- main container -->
-        <!--header--> 
-        <?php include "./../include/header.php"?>
-        <div style="margin-top: 6% ; margin-bottom: 0%;">
-        <div class="row ">
-        <div class="col-md-6 col-md-offset-3">
-            <form role="form" action="search.php" class="form-inline" method="GET">
-                <div class="input-group input-group-lg">
-                <input size="60" type="text" class="form-control input-group-lg" placeholder="<?php echo $search;?>" autofocus name="search">
-                <span class="input-group-btn">
-                    <button class="btn btn-info" type="submit"><strong>Search</strong></button>
-                </span>
+            <!--header--> 
+            <?php include "./../include/header.php"?>
+            <div style="margin-top: 6% ; margin-bottom: 0%;">
+                <div class="row ">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form role="form" action="search.php" class="form-inline" method="GET">
+                            <div class="input-group input-group-lg">
+                            <input size="60" type="text" class="form-control input-group-lg" placeholder="<?php echo $search;?>" autofocus name="search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" type="submit"><strong>Search</strong></button>
+                            </span>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
-        </div>
-        </div>
-        </div>
+            </div>
             <div class="row" >
                 <div class="col-sm-12 col-md-6" id="pictures" style="margin-top: 1%; margin-left: 5px ;margin-right: 10px;  ">
-                   
+                <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation">
                             <a href="#Description" role="tab" data-toggle="tab" id="descTab">
@@ -136,138 +136,136 @@ if (($result->num_rows ) == 1)
                     </ul>
  
                     <div class="tab-content">
-                    <!--description tab goes here-->
-                    <div role="tabpanel" class="tab-pane active" id="Description">
-                        <div class="well">
-                             <div class="row">
-                                <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
-                                    <h1 id="address">
-                                        <?php echo $address;?>
-                                    </h1>
-                                    <p id="description">
-                                        Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
-                                    </p>
-                                    <p id="openHouse">
-                                        <b>Open House</b> 
-                                        <ul>
-                                            <li>11/28 2pm-4pm</li>
-                                            <li>11/29 4pm-5pm</li> 
-                                        </ul>
-                                    </p>
-                                </div>
-                                <div class="col-sm-4 col-md-4" id="details">
-                                    <h1>For Sale</h1>
-                                    <h2 style="font-size: 20; color: #2aabd2 ">
-                                        <strong>
-                                        <?php echo "$ " . number_format($price).".00";?>
-                                            </strong>
-                                    </h2>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--spec tab goes here-->
-                    <div role="tabpanel" class="tab-pane active" id="Specs">
-                        <div class="well">
-                          <p>
-                                        <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
-                                        Lot: <?php echo $area;?> sqft <br>
-                                        Single Family <br> 
-                                        Built in 1938 <br> 
-                                        5 Days on Surreality <br> 
-                          </p>
-                          More specs goes here...
-                        </div>
-                    </div>
-                    <!--gallery tab goes here-->
-                    <div role="tabpanel" class="tab-pane active" id="Gallery">
-                        <div class="well">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                          <li data-target="#myCarousel" data-slide-to="1"></li>
-                          <li data-target="#myCarousel" data-slide-to="2"></li>
-                          <li data-target="#myCarousel" data-slide-to="3"></li>
-                          <li data-target="#myCarousel" data-slide-to="4"></li>
-                        </ol>
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img src="../images/property_images/<?php echo $property_id;?>.jpg" class="image" alt="...">
-                                <div class="carousel-caption">
+                        <!--description tab goes here-->
+                        <div role="tabpanel" class="tab-pane active" id="Description">
+                            <div class="well">
+                                 <div class="row">
+                                    <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
+                                        <h1 id="address">
+                                            <?php echo $address;?>
+                                        </h1>
+                                        <p id="description">
+                                            Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
+                                        </p>
+                                        <p id="openHouse">
+                                            <b>Open House</b> 
+                                            <ul>
+                                                <li>11/28 2pm-4pm</li>
+                                                <li>11/29 4pm-5pm</li> 
+                                            </ul>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4" id="details">
+                                        <h1>For Sale</h1>
+                                        <h2 style="font-size: 20; color: #2aabd2 ">
+                                            <strong>
+                                            <?php echo "$ " . number_format($price).".00";?>
+                                                </strong>
+                                        </h2>
+
+                                    </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <img src="../images/house_2.JPG" class="image"  alt="...">
-                                <div class="carousel-caption"></div>
-                            </div>
-
-                            <div class="item" >
-                                <img src="../images/house_3.JPG" class="image" alt="...">
-                                <div class="carousel-caption"></div>
-                            </div>
-
-                            <div class="item" >
-                                <img src="../images/house_4.JPG" class="image" alt="...">
-                                <div class="carousel-caption"></div>
-                            </div>
-
-                            <div class="item" >
-                                <img src="../images/house_1.JPG" class="image" alt="...">
-                                <div class="carousel-caption"></div>
+                        </div>
+                        <!--spec tab goes here-->
+                        <div role="tabpanel" class="tab-pane" id="Specs">
+                            <div class="well">
+                              <p>
+                                            <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
+                                            Lot: <?php echo $area;?> sqft <br>
+                                            Single Family <br> 
+                                            Built in 1938 <br> 
+                                            5 Days on Surreality <br> 
+                              </p>
+                              More specs goes here...
                             </div>
                         </div>
-                          <!-- Controls -->
-                          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                          </a>
-                          <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                          </a>
-                    </div>
+                        <!--gallery tab goes here-->
+                        <div role="tabpanel" class="tab-pane" id="Gallery">
+                            <div class="well">
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                    <!-- Indicators -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                                        <li data-target="#myCarousel" data-slide-to="4"></li>
+                                    </ol>
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="item active">
+                                            <img src="../images/property_images/<?php echo $property_id;?>.jpg" class="image" alt="...">
+                                            <div class="carousel-caption"></div>
+                                        </div>
+                                        <div class="item">
+                                            <img src="../images/house_2.JPG" class="image"  alt="...">
+                                            <div class="carousel-caption"></div>
+                                        </div>
+                                        <div class="item" >
+                                            <img src="../images/house_3.JPG" class="image" alt="...">
+                                            <div class="carousel-caption"></div>
+                                        </div>
+                                        <div class="item" >
+                                            <img src="../images/house_4.JPG" class="image" alt="...">
+                                            <div class="carousel-caption"></div>
+                                        </div>
+                                        <div class="item" >
+                                            <img src="../images/house_1.JPG" class="image" alt="...">
+                                            <div class="carousel-caption"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Controls -->
+                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!--map tab goes here-->
-                    <div role="tabpanel" class="tab-pane active" id="Map">
-                        <div class="well">
-                            Map will go here...
+
+                        <!--map tab goes here-->
+                        <div role="tabpanel" class="tab-pane" id="Map">
+                            <div class="well">
+                                Map will go here...
+                            </div>
                         </div>
-                    </div>
-                    <!--comment tab here-->
-                    <div role="tabpanel" class="tab-pane active" id="Comments">
-                        <div class="well">
-                            <div class="row" style="margin-bottom: 5%;">
-                                 <div class="col-sm-4 col-md-4" id="new_comment_container">
-                                 <?php
-                                     if (!isset($_SESSION['role'])) {
-                                         echo "<h4> please Login or register to use the comment function. Thank you</h4>";
-                                     }
-                                     elseif ($_SESSION['role'] == 'BUYER') {
-                                        echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
-                                             "<div class=\"input-group input-group-lg\">" . 
-                                             "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
-                                             "<span class=\"input-group-btn\">" .
-                                             "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
-                                             "</span></div></form>";  
-                                     }
-                                     ?>
+                        
+                        <!--comment tab here-->
+                        <div role="tabpanel" class="tab-pane" id="Comments">
+                            <div class="well">
+                                <div class="row" style="margin-bottom: 5%;">
+                                     <div class="col-sm-4 col-md-4" id="new_comment_container">
+                                     <?php
+                                         if (!isset($_SESSION['role'])) {
+                                             echo "<h4> please Login or register to use the comment function. Thank you</h4>";
+                                         }
+                                         elseif ($_SESSION['role'] == 'BUYER') {
+                                            echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
+                                                 "<div class=\"input-group input-group-lg\">" . 
+                                                 "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
+                                                 "<span class=\"input-group-btn\">" .
+                                                 "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
+                                                 "</span></div></form>";  
+                                         }
+                                         ?>
+                                     </div>
+                                     <div class="col-sm-8 col-md-8" id="prop_comment_container">
+
+                                     </div>
                                  </div>
-                                 <div class="col-sm-8 col-md-8" id="prop_comment_container">
-                                     
-                                 </div>
-                             </div>
-                        </div>
-                    </div>
-                    
-                    </div><!-- tab content-->    
-                    
-                    
+                            </div>
+                        </div> <!-- comment tab end -->
+                        
+                    </div><!-- tab content--> 
+                </div>    
                 </div>
+                
+                
                 <div class="col-sm-4 col-md-4" id="contact" style="margin-top: 1%;">
                     <div class="thumbnail">
                         <div class="caption">
@@ -294,6 +292,8 @@ if (($result->num_rows ) == 1)
                         </div>
                     </div>
                 </div>
+                
+                
             </div>
         
            
