@@ -17,14 +17,14 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
 
 
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
-<link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet"> -->
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
 <script src="../../../javascripts/ajax.js"></script>
 <!-- <script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script> -->
-<script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../frameworks/bootstrap/dist/js/bootstrap.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
 <script src="../../../javascripts/jquery.toaster.js"></script>
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
@@ -195,7 +195,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                 <form class="form-inline" role="form" action="">
                                             <div class="form-group">
                                               <div class="input-group">
-                                                <span class="badge">Sort by Date:&nbsp;</span>
+                                                <span class="badge">Sort by:&nbsp;</span>
                                                   <select class="select" name="sort_order" id="property_sort_order">
                                                      <option value="creation_date" selected>Creation_date</option>
                                                      <option value="modification_date">Modification_date</option>
@@ -243,7 +243,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
    <div class="well">
 
                 <div class="page-header">
-                <h1>Admin Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img src="./../../../images/images.jpg" class="img-circle thumbuser"></small></h1> 
+                <h1>Admin Profile<small>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?>&nbsp;&nbsp;<img id="user_avatar" src="../../../images/loading.gif" class="img-circle thumbuser"></small></h1> 
                 </div>   
 
 

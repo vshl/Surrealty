@@ -67,6 +67,7 @@ function fillProfile() {
     };
        
    callAsyncBackend(paramArr, "myprofile");
+   
 }
 
 function updateUserProfile() {
@@ -76,7 +77,7 @@ function updateUserProfile() {
     var email = $("#edit_email").val();
     var password = $ ("#edit_password").val();
     var phone = $("#edit_phone").val();
-    var image_name = $ ("#edit_image_name").val();
+    var image_name = $ ("#signup_image_id").val();
     var address1 = $("#edit_address1").val();
     var address2 = $ ("#edit_address2").val();
     var zipcode = $("#edit_zipcode").val();
@@ -105,6 +106,7 @@ function updateUserProfile() {
 
     if (result !== "0") {
         $.toaster({ priority : 'success', title : 'Profile update', message : 'Your profile has been successfully updated' });
+        fillProfile();
     }
     else
     {
@@ -118,7 +120,7 @@ function updateUserProfile() {
 
 
 function approvePropertyByID(propertyID) {
-    event.preventDefault();
+    //event.preventDefault();
     var paramArr = {
       action: "approvePropertyByID",
       propertyID: propertyID
@@ -137,7 +139,7 @@ function approvePropertyByID(propertyID) {
 }
 
 function deletePropertyByID(propertyID) {
-    event.preventDefault();
+    //event.preventDefault();
     var paramArr = {
       action: "deletePropertyByID",
       propertyID: propertyID
@@ -156,7 +158,7 @@ function deletePropertyByID(propertyID) {
 }
 
 function deleteUserByID(userID, role) {
-    event.preventDefault();
+    //event.preventDefault();
     
      if( confirm("You are going to delete a "+role+" ("+ userID+"). Are you sure?") ) 
     {
@@ -221,7 +223,7 @@ function deleteUserByID(userID, role) {
 }
 
 function enableUser(userID, role, enable) {
-    event.preventDefault();
+    //event.preventDefault();
     var paramArr = {
        action: "enableUserByID",
        userID: userID,

@@ -120,6 +120,7 @@ class AuthenticationController {
        {
     
              $_SESSION['fname'] = $user['fname'];
+             $_SESSION['lname'] = $user['lname'];
              $_SESSION['role'] = "BUYER";          
              $buyer = new Buyer();
              

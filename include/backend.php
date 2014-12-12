@@ -543,9 +543,8 @@ function showUserlist( $role, $order, $ascdesc ) {
     } else {
         $userlist = array_orderby($userlist, $order, SORT_DESC, "lname", SORT_DESC );
     }
-    
-    $ic = new ImageController();
-    
+      
+$ic = new ImageController();
     foreach( $userlist as $user ) {
         print '
             <div class="row well"> 
@@ -564,7 +563,7 @@ function showUserlist( $role, $order, $ascdesc ) {
 
               </div>
               <div class="col-xs-12 col-sm-3">
-                  <h5><span class="badge">Adresse:</span></h5>
+                  <h5><span class="badge">Address:</span></h5>
                   <p>' . $user["address1"]. $user['adress2'] . ', ' . $user['state'] . ' , ' . $user['zipcode'] . ' ' . $user['city'] . ' ' . $user['country'] . '</p> 
 
               </div>
@@ -575,9 +574,9 @@ function showUserlist( $role, $order, $ascdesc ) {
               </div> 
               <div class="col-xs-12 col-sm-3">
                   <h5><span class="badge">Action:</span></h5>
-                  <h5><a href="" onclick="javascript:deleteUserByID(\''. $user['user_id'] .'\', \''. $user['role'] .'\');" ><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 1);"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
-                  '<a href="" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 0);"><span class="badge"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
+                  <h5><a href="#" onclick="javascript:deleteUserByID(\''. $user['user_id'] .'\', \''. $user['role'] .'\');" ><span class="badge progress-bar-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                  <div style="display: inline;">'. ($user['enable'] == 0 ? '<a href="#" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 1);"><span class="badge progress-bar-success"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Enable</span></a>' :
+                  '<a href="#" onclick="javascript:enableUser(\''. $user['user_id'] .'\', \''. $user['role'] .'\', 0);"><span class="badge progress-bar-warning"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;Disable</span></a>').'</div>   
               </div> 
             </div><!--endof row of result inside tab-->
 
@@ -683,60 +682,60 @@ function loadUserInformationByID($userID, $role) {
 
                       <div class="input-group" title="firstname">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input class="form-control" name="firstname" id="" type="" placeholder="your first name" value="'.$info["fistname"].'" >
+                        <input class="form-control" name="firstname" id="" type="" placeholder="your first name" value="'.$info["fistname"].'" disabled >
                       </div>
 
                       <div class="input-group" title="lastname">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input class="form-control" name="lastname" id="" type="" placeholder="your last name" value="'.$info["lastname"].'" >
+                        <input class="form-control" name="lastname" id="" type="" placeholder="your last name" value="'.$info["lastname"].'" disabled >
                       </div>
 
                       <div class="input-group" title="email">
                         <span class="input-group-addon">@</span>
-                        <input class="form-control" name="email" id="" type="" placeholder="your e-mail" value="'.$info["email"].'" >
+                        <input class="form-control" name="email" id="" type="" placeholder="your e-mail" value="'.$info["email"].'" disabled >
                       </div>
 
                       <div class="input-group" title="Password">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" >
+                        <input class="form-control" name="password" id="password" type="password" placeholder="Password is hidden" disabled>
                       </div>
 
                       <div class="input-group" title="phone">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                        <input class="form-control" name="phone" id="" type="" placeholder="your phone number" value="'.$info["phone"].'" >
+                        <input class="form-control" name="phone" id="" type="" placeholder="your phone number" value="'.$info["phone"].'" disabled>
                       </div>
 
 
 
                       <div class="input-group" title="addr1">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                        <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" value="'.$info["address1"].'" >
+                        <input class="form-control" name="addr1" id="" type="" placeholder="your first adresse" value="'.$info["address1"].'" disabled >
                       </div>
 
                       <div class="input-group" title="addr2">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                        <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" value="'.$info["address2"].'" >
+                        <input class="form-control" name="addr2" id="" type="" placeholder="your seconde adresse" value="'.$info["address2"].'" disabled >
                       </div>
 
                       <div class="input-group" title="zip">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                        <input class="form-control" name="zip" id="" type="" placeholder="your zip code" value="'.$info["zipcode"].'" >
+                        <input class="form-control" name="zip" id="" type="" placeholder="your zip code" value="'.$info["zipcode"].'" disabled>
                       </div>
 
                       <div class="input-group" title="city">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                        <input class="form-control" name="city" id="" type="" placeholder="your city name" value="'.$info["city"].'" >
+                        <input class="form-control" name="city" id="" type="" placeholder="your city name" value="'.$info["city"].'" disabled>
                       </div>
 
                       <div class="input-group" title="state">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                        <input class="form-control" name="state" id="" type="" placeholder="your state name" value="'.$info["state"].'" >
+                        <input class="form-control" name="state" id="" type="" placeholder="your state name" value="'.$info["state"].'" disabled>
                       </div>
-
+                      <!--
                       <div class="input-group" title="image">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
                         <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" title="Search for a file to add"></span>
-                      </div>
+                      </div> commentet out by fhahner@12122014 we show file dialog on modify modal-->
 
                   <a href="#UpdateProfile" class="modal-toggle" data-toggle="modal">
                     <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-wrench"></i> Modify</button>
@@ -814,9 +813,18 @@ function loadUserInformationByID($userID, $role) {
                                               </div>
 
                                               <div class="input-group" title="image">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                                <span class="btn btn-default btn-file"><input type="file" data-filename-placement="inside" name="image" id="edit_image_name" title="Search for a file to add"></span>
-                                              </div>                  
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i>&nbsp;</span>
+                                                <span class="btn btn-default btn-file">
+                                                    <input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add">
+                                                    <input type="hidden" id="profile_image_id">
+                                                </span>
+                                                <span class="btn">
+                                                    <input type="button" value="Upload" id="profile_upload_picture_btn">
+                                                </span>
+                                                <span class="">
+                                                    <img id="profile_user_image" src="../../../images/placeholder.jpg" height="48" width="48">
+                                                </span>
+                                              </div>                 
                 </div> 
                     
               
@@ -832,7 +840,8 @@ function loadUserInformationByID($userID, $role) {
                 </div>
             </div>
         </div>
-    </div>';
+    </div>
+    <script src="../../../javascripts/upload.js"></script>';
 }
 
 function showUnprovenProperties($order, $ascdesc) {
@@ -859,17 +868,17 @@ function showUnprovenProperties($order, $ascdesc) {
                                 </a>
                         </div>
                         <div class="col-xs-12 col-sm-3">
-                                <h5><span class="badge">Property ID:'.$property['property_id'].'</span></h5>
+                                <h5><a href="../../property.php?propertyID='.$property['property_id'].'" target="_blank"><span class="badge">Property ID:'.$property['property_id'].'</span></a></h5>
                                   <h6>Creation-date: '.$property['creation_date'].'</h6>
                                   <h6>Modification-date: '.$property['modification_date'].'</h6>
-                                  <h6>Created_by: '.$agent->getFirstname().' '.$agent->getLastname().'</h6>
-                                  <h6>Price: '.number_format($property['price']).'$</h6>
+                                  <h6>Created by: '.$agent->getFirstname().' '.$agent->getLastname().'</h6>
+                                  <h6>Price: $'.number_format($property['price']).'</h6>
                                   <br>
 
                                                            
                         </div>
                         <div class="col-xs-12 col-sm-3">
-                                  <h5><span class="badge">Adresse:</span></h5>
+                                  <h5><span class="badge">Address:</span></h5>
                                   <p><br>203 East 50th St., Suite 1157 New York, NY 10022 '.$property['country'].'</p> 
                         </div>
                         <div class="col-xs-12 col-sm-2">
@@ -882,8 +891,8 @@ function showUnprovenProperties($order, $ascdesc) {
                         </div> 
                         <div class="col-xs-12 col-sm-2">
                                   <h5><span class="badge">Action:</span></h5>
-                                  <h5><a href="" onclick="javascript:deletePropertyByID(\''. $property['property_id'] .'\');"><span class="badge"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
-                                  <h5><a href="" onclick="javascript:approvePropertyByID(\''. $property['property_id'] .'\');"><span class="badge"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Approve</span></a></h5>
+                                  <h5><a href="#" onclick="javascript:deletePropertyByID(\''. $property['property_id'] .'\');"><span class="badge progress-bar-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete</span></a></h5>
+                                  <h5><a href="#" onclick="javascript:approvePropertyByID(\''. $property['property_id'] .'\');"><span class="badge progress-bar-info"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Approve</span></a></h5>
                                   
                         </div> 
 
@@ -965,6 +974,7 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
+            $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateAdmin();
@@ -981,6 +991,7 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
+            $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateAgent();
@@ -997,6 +1008,7 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
+            $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateBuyer();
