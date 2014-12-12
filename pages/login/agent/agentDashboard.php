@@ -190,7 +190,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
           </div>                          
       </div>
       <div class="col-xs-12 col-sm-3">
-          <h5><span class="badge">Adresse:</span></h5>
+          <h5><span class="badge">Address:</span></h5>
           <p><br>203 East 50th St., Suite 1157 New York, NY 10022 USA</p> 
       </div>
       <div class="col-xs-12 col-sm-3">
