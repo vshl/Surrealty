@@ -14,6 +14,20 @@
 require_once '../include/DatabaseComm.php';
 require_once 'Person.php';
 
+/**
+* Since this code was one of the earlier ones,
+* each function should follow the KR style as decided
+* example:
+* class One
+* {
+*    function
+*    {
+*
+*    }
+* }
+* - @vishal
+*/
+
 class Agent extends Person {
        
     private $enabled;
@@ -36,6 +50,9 @@ class Agent extends Person {
      * uses information from 
      */
     public function saveAgent() {
+        // Consider wrapping the lines of code so its more
+        // readable. Preferrably within 80-90 character length
+        // - @vishal
         $sqlQuery = "INSERT INTO users ( lname, fname, image_name, password, email, phone, enable, creation_date, address1, address2, zipcode, state, country, city, role) VALUES ('" .
                     parent::getLastname() . "', '" . 
                     parent::getFirstname() . "', '" . 
@@ -57,6 +74,9 @@ class Agent extends Person {
         {
             echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
+            // As with many other lines, use single quotes '' where
+            // string interpolation isn't required
+            // - @vishal
             die("Error at agent saving");
         }
         else
@@ -138,7 +158,8 @@ class Agent extends Person {
                     . "city='"          . parent::getCity() .       "', "
                     . "state='"         . parent::getState() .      "', "
                     . "country='"       . parent::getCountry() .    "', ";
-        
+        // add a comment of what the below line does
+        // - @vishal
         if(!empty($pwd))
             $sqlQuery .= "password='"      . hash("sha256", parent::getPassword()) . "', ";
         
