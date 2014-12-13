@@ -80,6 +80,9 @@ switch ($functionChoice) {
         if ($_SESSION['role'] == "AGENT") {
            readCommentsForAgent($_SESSION['user_id'], $_POST['showOld']); 
         }
+        if ($_SESSION['role'] == "BUYER") {
+           readCommentsForBuyer($_SESSION['user_id'], $_POST['showOld']);
+        }
                
         break;
     case 'showUserlist':
@@ -109,6 +112,9 @@ switch ($functionChoice) {
     case 'giveUnseenCommentsByAgentID':
         giveUnseenCommentsByAgentID($_SESSION['user_id']);
         break;
+    case 'giveCountOfUnreadRepliesForBuyer':
+        giveCountOfUnreadRepliesForBuyer($_SESSION['user_id']);
+        break;
     case 'switchCommentPublicState':
         switchCommentPublicState($_POST['commentID']);
         break;
@@ -118,8 +124,14 @@ switch ($functionChoice) {
     case 'returnAnswerToComment':
         returnAnswerToComment($_POST['commentID'], $_POST['answerText']);
         break;
+    case 'returnModifyToComment':
+        returnModifyToComment($_POST['commentID'], $_POST['commentText']);
+        break;
     case 'removeComment':
         removeComment($_POST['commentID'], $_SESSION['user_id']);
+        break;
+    case 'readCommentReply':
+        readCommentReply($_POST['commentID'], $_SESSION['user_id']);
         break;
     case 'readPublicCommentsForProperty':
         readPublicCommentsForProperty($_POST['propertyID']);
@@ -367,7 +379,8 @@ function readCommentsForAgent($agentID, $showHidden) {
                     <span id=\"comment_".$comments[$i]['comment_id']."_address\" style=\"display:none\">" . $buyer_address . "</span>
                     <span id=\"comment_".$comments[$i]['comment_id']."_phone\" style=\"display:none\">" . $buyer_phone . "</span>    
                     <p id=\"comment_".$comments[$i]['comment_id']."_comment\">" . $comments[$i]['comment'] . "</p>
-                    <p id=\"comment_".$comments[$i]['comment_id']."_answer\"><b>Answer:</b><br>" . $comments[$i]['answer'] . "</p>
+                    Answer:<br>
+                    <p id=\"comment_".$comments[$i]['comment_id']."_answer\">" . $comments[$i]['answer'] . "</p>
                 </div>
                 
                 <!-- Add the extra clearfix for only the required viewport -->
@@ -406,6 +419,139 @@ function readCommentsForAgent($agentID, $showHidden) {
     
 }
 
+function readCommentsForBuyer($buyerID, $showHidden) {
+    $logger = new Logging();
+    $buyerID = intval($buyerID);
+    //$showOld = intval($showOld);
+    
+//    if ($showOld != 0 OR $showOld != 1) {
+//        echo "0";
+//        $logger->logToFile("readCommentsForUser", "info", "showOld isn't 1 or 0 but " . $showOld);
+//        return;
+//    }
+//    if (!is_int($userID)) {
+//        echo "0";
+//        $logger->logToFile("readCommentsForUser", "info", "userID isn't INT");
+//        return;
+//    }
+    
+    $cc = new CommentController();
+    $ic = new ImageController();
+    $pc = new PropertyController();
+    $bc = new BuyerController();
+    $ac = new AgentController();
+    
+    $disp = "";
+    
+    //get data from comment
+    
+    $comments = $cc->listCommentsByBuyer($buyerID, intval($showHidden));
+    $logger->logToFile("showComments", "info", "got " . count($comments) . "comments from controller ");
+    if (is_int($comments)) {
+        echo "No unhidden comments found";
+        return;
+    }
+    for ($i=0, $c=count($comments); $i<$c; $i++) {
+        $logger->logToFile("showComments", "info", "load data for comment" . $i);
+        
+        //check if the comment is answered
+        //if true, then load the agent data
+        if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
+            $agent = $ac->loadAgentByID($comments[$i]['answered_by']);
+            $agent_name = $agent->getFirstname() . " " . $agent->getLastname();
+            $agent_image_path = $ic->displayPicture("SMALL", $agent->getPictureName());
+            $phpDate = strtotime($comments[$i]['answer_date']);
+            $agent_reply_datetime= date( 'Y-m-d H:i:s', $phpDate);
+        }
+              
+        //load and prepare property information
+        $property_images = $pc->giveImageHashesByPropertyID(intval($comments[$i]['property_id']));
+        if (!is_int($property_images)) {
+                $logger->logToFile("showComments", "info", "Try to load prop image:" . $property_images[0]['image_name']);
+                $property_image_path = $ic->displayPicture("MEDIUM", $property_images[0]['image_name']);
+        }
+        else {
+                $property_image_path = $ic->displayPicture("MEDIUM", 'placeholder');
+        }
+        
+        //prepare datetime
+        $phpDate = strtotime($comments[$i]['creation_date']);
+        $askDateTime = date( 'Y-m-d H:i:s', $phpDate);
+        
+        //generate html output
+        $disp .= "<div class=\"row well\">
+                    <!-- div for PROPERTY -->
+                    <div class=\"col-xs-6 col-sm-2\">
+                        <a class=\"\" href=\"#\">
+                            <img id=\"comment_" . $comments[$i]['comment_id']. "_propertyimage\" class=\"img-circle img-responsive\" src=\"../../" . $property_image_path . "\">
+                            <h5><span class=\"badge\">Property ID:" . $comments[$i]['property_id'] ."</span></h5>
+                        </a>
+                    </div>
+                    <div class=\"clearfix visible-xs-block\"></div>
+                        <!-- div for COMMENT middle -->
+                        <div class=\"col-xs-6 col-sm-6\">
+                        <label><span id=\"comment_".$comments[$i]['comment_id']."\">I asked at " . $askDateTime ."</span></label>
+                        <p id=\"comment_".$comments[$i]['comment_id']."_comment\">" . $comments[$i]['comment'] . "</p>";
+                        if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
+                            $disp .= "<p><img id=\"comment_".$comments[$i]['comment_id']."_userimage\" class=\"img-circle thumbusercomment\" src=\"../../" . $agent_image_path . "\">&nbsp;<label>$agent_name replied at $agent_reply_datetime :</label></p>";
+                            $disp .= "<p>" . $comments[$i]['answer'] . "</p>";
+                        }
+                        else
+                        {
+                            $disp .= "<p><label><span class=\"glyphicon glyphicon-exclamation-sign\"></span> The agent hasn't replied to your comment yet.</label></p>";
+                        }
+        $disp .=    "</div>
+                
+                    <!-- Add the extra clearfix for only the required viewport -->
+                    <div class=\"clearfix visible-xs-block\"></div>
+                    <!-- div for BUTTONS -->
+                    <div class=\"col-xs-6 col-sm-4\">
+                        <div>
+                            <h5>Comment state is: ";
+                            if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
+                                    $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
+                                }
+                                else {
+                                    $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span>";
+                                }
+        $disp .=            "<h5><span class=\"badge\">Action:</span></h5>";
+                            if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_BUYER_NOT_READ_ANSWER)) {
+                                // insert a "ok i got it" button if the agent replied comment and buyer dont see anser till now
+                                $disp .= "<a href\"#\" class=\"btn btn-success btn-xs\" onclick=\"readCommentReply(" . $comments[$i]['comment_id'] . ")\"><i class=\"glyphicon glyphicon-ok\"></i>&nbsp; I read the reply</a></h5>";
+                            };
+                
+        $disp .=            "<h5><a href=\"../../property.php?propertyID=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
+                            if (!$cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
+                                // Comment is unanswered, so buyer can modify or delete this comment
+                                $disp .= "<div class=\"btn-toolbar\" role=\"toolbar\">";
+                                //$disp .= "<a href=\"#ModifyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><button type=button class=\"btn btn-info btn-sm\"><i class=\"glyphicon glyphicon-pencil\"></i>Modify&nbsp;</button></a>";
+                                $disp .= "<button data-toggle=\"modal\"  onClick=\"transferCommentDataToModifyModal(".$comments[$i]['comment_id'].")\" data-target=\"#ModifyComment\" type=button class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-pencil\"></i>&nbsp;Modify</button>";
+                                $disp .= "<button onclick=\"removeComment(" . $comments[$i]['comment_id']. ")\" type=button class=\"btn btn-danger btn-xs\"><i class=\"glyphicon glyphicon-trash\"></i>&nbsp;Remove</button>";                
+                                $disp .= "</div>";
+                            }
+       // $disp .=            "<div class=\"btn-group btn-group-sm\" role=\"group\">";
+                            if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_BUYER_HIDE_COMMENT)) {
+                                $disp .= "<h5><a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</a></h5>";
+                                }
+                            else {
+                                $disp .= "<h5><a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</a></h5>";
+                                }
+                            if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
+                                
+                            }
+    $disp .=        "</div>
+                </div>
+                </div><!--endof row inside tab-->";
+    };
+    echo $disp;
+    
+}
+
+/**
+ * returns the public comments for a given property
+ * 
+ * @param type $propertyID
+ */
 function readPublicCommentsForProperty($propertyID) {
     $propertyID = intval($propertyID);
     // load a array with the matching comments
@@ -433,12 +579,19 @@ function readPublicCommentsForProperty($propertyID) {
             }
     }
     echo $disp;
+    unset($cc);
+    unset($bc);
+    unset($ac);
 }
 
-
+/**
+ *  switch the public-state for a given comment
+ *  can be used only be agent
+ * 
+ * @param type $commentID
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
 function switchCommentPublicState($commentID) {
-    //$logger = new Logging();
-    //$logger->logToFile("switchCommentPublicState", "info", "Wanna switch for com# " . $commentID) ;
     
     $commentID = intval($commentID);
     $cc = new CommentController();
@@ -446,29 +599,62 @@ function switchCommentPublicState($commentID) {
     unset($cc);
 }
 
+/**
+ * 
+ * switch the hidden state of a given property
+ * can be used by agent and buyer
+ * 
+ * @param type $commentID
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
 function switchCommentHideState($commentID) {
-    
-    //$logger = new Logging();
-    //$logger->logToFile("switchCommentHideState", "info", "Wanna switch for com# " . $commentID) ;
     $commentID = intval($commentID);
     $cc = new CommentController();
     $cc->switchCommentHideState($commentID, $_SESSION['role']);
     unset($cc);
-    
-//unset($logger);
 }
 
+/**
+ * return an answer from the agent for a given comment
+ * can only be used by agent
+ * 
+ * @param type $commentID
+ * @param type $answerText
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
+
 function returnAnswerToComment($commentID, $answerText) {
-    //$logger = new Logging();
     $commentID = intval($commentID);
     $cc = new CommentController();
-    //$logger->logToFile("answerComment", "info", "update comment with: " . $commentID . " " . $_SESSION['user_id']. " " . $answerText);
     $result = $cc->setAnwser($commentID, $_SESSION['user_id'], $answerText);
     echo $result;
     unset($cc);
-    //unset($logger);
-    
 }
+
+/**
+ * save the modified comment text from a buyer into database
+ * can only be used by buyer
+ * 
+ * @param type $commentID
+ * @param type $commentText
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
+function returnModifyToComment($commentID, $commentText) {
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $result = $cc->setModifiedComment($commentID, $_SESSION['user_id'], $commentText);
+    echo $result;
+    unset($cc);
+}
+
+/**
+ * delete a given comment from database
+ * can be used by agent and buyer
+ * 
+ * @param type $commentID
+ * @param type $userID
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
 
 function removeComment($commentID, $userID) {
     $userID = intval($userID);
@@ -483,9 +669,41 @@ function removeComment($commentID, $userID) {
         $cc->deleteCommentByID($commentID);
         echo 1;
     }
+    // check if logged in user is creator of comment AND if comment is set already to publuc
+    if (($comment->getUserID() == $userID) && (!$cc->isFlagSet($comment->isCommentPublic(), Comment::FLAG_COMMENT_IS_PUBLIC)) ) {
+        $cc->deleteCommentByID($commentID);
+        echo 1;
+    }
     else {
         echo 0;
     }
+}
+
+/**
+ * this function will set a specified comment as "reply from agent read by user" 
+ * this is FLAG 1
+ * 
+ * 
+ * @param int $commentID the ID of the comment which is to change
+ * @param int $userID the ID of the logged on user
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
+
+function readCommentReply($commentID, $userID) {
+    $userID = intval($userID);
+    $commentID = intval($commentID);
+    $cc = new CommentController();
+    $comment = $cc->loadCommentByCommentID($commentID);
+    if (is_int($comment)) {
+        echo 0;
+    }
+    // do a check if logged on user is allowed to do this operation
+    if ($comment->getUserID() == $userID) {
+        $comment->setBuyerNotReadAnswer(0);
+        $comment->updateComment();
+        echo 1;
+    }
+    
 }
 
 
@@ -644,6 +862,13 @@ function enableUserByID($userID, $role, $enable) {
     }   
 }
 
+/**
+ * returns the number of all unseen comments of a give agent
+ * 
+ * @param type $agentID
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ */
+
 function giveUnseenCommentsByAgentID($agentID) {
     $logger = new Logging();
     $agentID = intval($agentID);
@@ -651,6 +876,21 @@ function giveUnseenCommentsByAgentID($agentID) {
     $logger->logToFile("countComments", "info", $cc->giveCountOfUnansweredCommentForAgent($agentID) );
     echo $cc->giveCountOfUnansweredCommentForAgent($agentID);
 }
+
+/**
+ * returns the number of the unread replied comments for a given buyer
+ * 
+ * @param type $buyerID
+ * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ * 
+ */
+
+function giveCountOfUnreadRepliesForBuyer($buyerID) {
+    $buyerID = intval($buyerID);
+    $cc = new CommentController();
+    echo $cc->giveCountOfUnreadRepliesForBuyer($buyerID);
+}
+
 
 function loadUserInformationByID($userID, $role) {
     switch ( $role ) {

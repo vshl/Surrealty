@@ -366,6 +366,20 @@ function giveUnseenCommentsByAgentID(userID) {
     }
 }
 
+function giveCountOfUnreadRepliesForBuyer() {
+    var paramArr = {
+        action: "giveCountOfUnreadRepliesForBuyer",
+        };
+    var result = callBackend(paramArr);
+    if (result == 0) {
+        $(" #tab_count_unseen_comments").hide();
+    }
+    else {
+        $(" #tab_count_unseen_comments").text(result);
+    }
+}
+
+
 function  loadAllCommentsByProperty(propertyID) {
     var paramArr = {
         action: "readPublicCommentsForProperty",
@@ -406,8 +420,45 @@ function returnAnswerToComment(commentID) {
     else {
         $.toaster({ priority : 'warning', title : 'Comment System', message : result });
     }
-    readCommentsForUser();
+    readCommentsForUser();  
 }
+
+function readCommentReply(commentID) {
+    var paramArr = {
+        action: "readCommentReply",
+        commentID: commentID
+        };
+    result = callBackend(paramArr);
+    if (result == 1) {
+        $.toaster({ priority : 'success', title : 'Comment System', message : 'Reply acknowledged' });
+    }
+    else {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result });
+    }
+    giveCountOfUnreadRepliesForBuyer();
+    readCommentsForUser();
+    
+}
+
+function returnModfiedComment(commentID) {
+    var commentText = $(" #modify_comment").val();
+    var paramArr = {
+        action: "returnModifyToComment",
+        commentText: commentText,
+        commentID: commentID
+        };
+    result = callBackend(paramArr);
+    if (result == 1) {
+        $.toaster({ priority : 'success', title : 'Comment System', message : 'Modification successfully transmitted' });
+    }
+    else {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result });
+    }
+    readCommentsForUser();
+    
+}
+
+
     
 function removeComment(commentID) {
     if( confirm("You are going to delete a comment. Are you sure?") ) 
@@ -531,6 +582,24 @@ function callBackend(param) {
      $(" #reply_address").text($(" #comment_" + commentID + "_address").text());
      $(" #reply_phone").text($(" #comment_" + commentID + "_phone").text());
      $(" #reply_submit_btn").attr('onClick', "returnAnswerToComment(" + commentID + ") ");
+ }
+ 
+  function transferCommentDataToModifyModal(commentID) {
+     // Copy Username
+     //$(" #reply_name").text($(" #comment_" + commentID + "_username").text());
+     // Copy Picutre Source Information
+     //alert($(" #comment_" + commentID + "_userimage").attr('src'));
+     $(" #property_image").attr('src', $(" #comment_" + commentID + "_propertyimage").attr('src'));
+     // Copy comment text string
+     $(" #modify_comment").text($(" #comment_" + commentID + "_comment").text());
+     // Copy answer text string
+     //if (!$(" #comment_" + commentID + "_answer").text() == "") {
+     //    $(" #reply_answer").text($(" #comment_" + commentID + "_answer").text());
+    // }
+     // Copy address and phone text string
+     //$(" #reply_address").text($(" #comment_" + commentID + "_address").text());
+     //$(" #reply_phone").text($(" #comment_" + commentID + "_phone").text());
+     $(" #modify_submit_btn").attr('onClick', "returnModfiedComment(" + commentID + ") ");
  }
  
  /*

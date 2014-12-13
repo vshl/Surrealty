@@ -159,6 +159,17 @@ class CommentController {
         return $result;
     }
     
+    public function setModifiedComment($commentID, $buyerID, $commentText) {
+        $comment = new Comment();
+        $comment->loadCommentByID($commentID);
+        //check transmitted buyerID with saved buyerID in database
+        if ($buyerID != $comment->getUserID()) {
+            return 0; // something wrong, maybe security breach
+        }
+        $comment->setCommentText($commentText);
+        return $comment->updateComment();
+    }
+    
     /**
      * This function return an array with all comments belongs to one agent
      * @param type $agentID
@@ -167,13 +178,13 @@ class CommentController {
      */
     
     public function listCommentsByAgent($agentID, $showHidden = 1) {
-        $logger = new Logging();
+        //$logger = new Logging();
         if (!is_int($agentID)) {
             return 0;
         }
         $db = new DatabaseComm();
         $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID .";";
-        $logger->logToFile("listCommentByAgent", "info", $query);
+        //$logger->logToFile("listCommentByAgent", "info", $query);
         $result = $db->executeQuery($query);
         $comments = array();
         if ($result->num_rows > 0) {
@@ -194,13 +205,50 @@ class CommentController {
         return $comments;
     }
     
-   
+    /**
+     * This function returns an array with all comments written by a given user
+     * 
+     * @author Florian Hahner <florian.hahner@informtik.hs-fulda.de>
+     *      * 
+     * @param type $buyerID
+     * @param type $showHidden
+     * @return int(0) if error, array of comments if success
+     */
+     public function listCommentsByBuyer($buyerID, $showHidden = 1) {
+        //$logger = new Logging();
+        if (!is_int($buyerID)) {
+            return 0;
+        }
+        $db = new DatabaseComm();
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID .";";
+        //$logger->logToFile("listCommentByBuyer", "info", $query);
+        $result = $db->executeQuery($query);
+        $comments = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($showHidden == 1) {
+                    $comments[] = $row;
+                }
+                else {
+                    if (!$this->isFlagSet($row['flags'], Comment::FLAG_BUYER_HIDE_COMMENT)) {
+                        $comments[] = $row;
+                    }
+                }
+            }
+        } 
+        else {
+            return 0;          
+        }
+        return $comments;
+    }
     
     /**
      * This function returns the count of unanswered Comments for a given agent
      * 
      * @param type $agentID
      * @return int
+     * 
+     * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
      */
     
     public function giveCountOfUnansweredCommentForAgent($agentID) {
@@ -233,6 +281,8 @@ class CommentController {
      * 
      * @param int $buyerID
      * @return int Number of comments
+     * 
+     * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
      */
     
     public function giveCountOfUnreadRepliesForBuyer($buyerID) {
@@ -245,7 +295,8 @@ class CommentController {
         $comments = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                if ( ($row['flags'] == 0) OR ($row['flags'] == 2) ) {
+                if ( $this->isFlagSet($row['flags'], Comment::FLAG_BUYER_NOT_READ_ANSWER) ) {
+                    
                     $comments = $row;
                 }
             }
@@ -255,16 +306,10 @@ class CommentController {
             return 0;
         }
     }
-    
-    
-   
-    
-    public function isFlagSet($input, $flag)
-    {
+     
+    public function isFlagSet($input, $flag) {
       return (($input & $flag) == $flag);
     }
-    
-       
-}
+ }
 
 ?>
