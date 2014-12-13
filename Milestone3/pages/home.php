@@ -99,11 +99,24 @@ Updated by :
     <script src="./../javascripts/ajax.js"></script>
     <script src="./../javascripts/jquery.toaster.js"></script>
     <script src="./../javascripts/upload.js"></script>
-    <script type="text/javascript">
-        $( "#login_submit_btn").click(loginAndRedirect);
+     <script type="text/javascript">
+        $("#login_submit_btn").click(loginAndRedirect);
+        $("#login_submit_btn").focus(); 
+        $("#myModal_SI").keyup(function(e) { 
+            if (e.keyCode == 13) {
+            loginAndRedirect();
+            }
+        });
     </script>
+
     <script type="text/javascript">
         $( "#signup").click(RegisterAndRedirect);
+        $("#signup").focus(); 
+        $("#myModal_SU").keyup(function(e) { 
+            if (e.keyCode == 13) {
+            RegisterAndRedirect();
+            }
+        });
     </script>
     </div><!-- main container -->
  
