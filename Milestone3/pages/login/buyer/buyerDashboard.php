@@ -23,6 +23,12 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
     <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
     <script src="../../../javascripts/jquery.toaster.js"></script>
     
+    <script>
+     $(document).ready( function() {
+           giveCountOfUnreadRepliesForBuyer();
+        });
+        </script>
+    
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <!-- our main Css / it can be later on one separated file--> 
      <style type="text/css">
@@ -118,7 +124,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 <ul class="nav nav-tabs" role="tablist">
 
    <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
-  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;<span class="badge">2</span></a></li>
+  <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab"  onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;<span id="tab_count_unseen_comments" class="badge"></span></a></li>
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
   <li role="presentation"><a href="#Preferences" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i>&nbsp;Preferences</a></li>
 </ul>
@@ -249,19 +255,31 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
 <!-- Tab comments -->
   <div role="tabpanel" class="tab-pane " id="Comments">
-   <div class="well">
+    <div class="well">
 
-                
+                <div class="page-header">
                 <h1>Comments</h1> 
-                
-
-               <div style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden;"> <!--container for all results rows-->              
+                </div>
+               <div class="checkbox">
+                <label>
+                 <span class="badge">&nbsp;&nbsp;Show hidden comments&nbsp;&nbsp;</span>
+                </label> 
+                   <input type="checkbox" name="" id="chkbox_show_seen_comments" onchange="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)">
+              </div>
+               <div id="comment_container" style="max-height:500px; min-width:70px; overflow-y:auto;"> <!--container for all results rows-->              
    
                 <div class="row well">
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+                   
+                </div><!--endof row inside tab-->
+
+
+
+
+                <div class="row well">
+                    <div class="col-xs-6 col-sm-2">
 
                          <a class="" href="#">
-                             <img class="center-block thumb img-circle img-responsive" src="./../../../images/house5.jpg">
+                                      <img class="img-circle img-responsive" src="./../../../images/house4.jpg">
                                       <h5><span class="badge">Property ID:xxxx</span></h5>
                          </a>
 
@@ -270,10 +288,10 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
 
 
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-6 col-sm-6">
 
 
-                        <label><img class="img-circle thumbusercomment" src="./../../../images/images.jpg">&nbsp;Feedback from Agent Jack Daniel:</label>
+                        <label><img class="img-circle thumbusercomment" src="./../../../images/images.jpg">&nbsp;Max Musterman has commented:</label>
                         <p>Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the parBootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par Bootstrap is responsive and since version 3 is now mobile first. ... Bootstrap forces tables to fit the width of the par</p>
 
 
@@ -282,16 +300,17 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                     <!-- Add the extra clearfix for only the required viewport -->
                     <div class="clearfix visible-xs-block"></div>
 
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-4">
+                    <div class="col-xs-6 col-sm-4">
+                                      <br><br><br>
 
-                                       <br><br><br> 
-                                      <div><a href="#ReplyComment" data-toggle="modal"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-send"></i>&nbsp;Reply</span></a>
-                                      <a href="#"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Show property details</span></a>
-                                      <a href="#"><span class="badge" style=" margin-top: 5px; " ><i class="glyphicon glyphicon-eye-close"></i>&nbsp;Hide</span></a>
+                                      <div style=""><a href="#ReplyComment" data-toggle="modal"><span class="badge"><i class="glyphicon glyphicon-send"></i>&nbsp;Reply</span></a>
+                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Show property details</span></a>
+                                      <a href="#"><span class="badge"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;Hide</span></a>
                                       </div>
 
                     </div>
                 </div><!--endof row inside tab-->
+
 
 
 
@@ -303,6 +322,38 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
    </div>
   </div> 
 
+ <div id="ModifyComment" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-comment"></span>&nbsp;Modify your comment</h4>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="text-center"> 
+                    <img id="property_image" src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle thumbuser">
+                    
+                    </div>
+
+                    <br><br>
+                    
+
+                      <div class="input-group" title="comment">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
+                        <textarea class="form-control" name="" id="modify_comment" placeholder="..."></textarea>
+                      </div>
+                                              
+                </div> 
+                    
+              
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" id="modify_submit_btn" class="btn btn-primary" onClick=""><span class="glyphicon glyphicon-send"></span>&nbsp;submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <!-- Tab my profile -->

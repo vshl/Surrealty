@@ -65,7 +65,7 @@ class PropertyController {
      * used in /include/backend.php to display a picture from property
      * 
      * @param int $propertyID
-     * @return array with images hashes
+     * @return array with images hashes, or int(0) if error occurs or no pictures available
      */
     
     public static function giveImageHashesByPropertyID($propertyID) {
@@ -76,8 +76,14 @@ class PropertyController {
         $query = "SELECT image_name FROM property_images WHERE property_id = " . $propertyID .";";
         $result = $db->executeQuery($query);
         $image_array = array();
-        while ($row = $result->fetch_assoc()) {
-            $image_array[] = $row;
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $image_array[] = $row;
+            }
+        }
+        else {
+            unset ($db);
+            return 0;
         }
         unset ($db);
         return $image_array;
