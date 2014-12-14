@@ -300,11 +300,15 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                     <label for="inputEmail">Email address</label>
                                     <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" value="<?php  if (isset($buyer_mail)){echo $buyer_mail;}?>" maxlength="50" required>
                                 </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="emailTo">Agent email address</label>
+                                    <input type="email" class="form-control" id="emailTo" value="<?php echo $agent_mail; ?>" disabled>
+                                </div>
                                 <div class="form-group">
                                     <label for="inputMessage">Message</label> 
                                     <textarea class="form-control" id="inputMessage" placeholder="Enter message" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?> , <?php echo $agent_mail; ?>)">Submit</button>
+                                <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?>)">Submit</button>
                             </form> 
                         </div>
                     </div>
