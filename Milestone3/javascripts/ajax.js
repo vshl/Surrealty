@@ -607,3 +607,36 @@ function callBackend(param) {
   * @param userID -> (int) ID of logged on agent
   * @param showOld -> (int) hide already red comments
   */
+ 
+ function contactAgent( propId, mailto) {
+    event.preventDefault();
+    var $Form = $('#contactform');
+    if ($Form[0].checkValidity()) {
+    var propId = propId;
+    var mailto = mailto;
+    var userName = $(" #inputName").val();
+    var userPhone = $(" #inputPhone").val();
+    var userMail = $(" #inputEmail").val();
+    var message = $(" #inputMessage").val();
+    var mailHeader = "Mail from : " + userName + " <" + userMail + ">\n" + "Tel:" + userPhone;
+    var subject = userName + " contact you for the Property: " + propId;
+    var paramArr = {
+       action: "contactAgent",
+       mailHeader: mailHeader ,
+       subject: subject ,
+       message: message ,
+       mailto: mailto   
+     };
+
+     var result = callBackend(paramArr);
+
+     if (result !== "0") {
+        $.toaster({ priority : 'success', title : 'mail sent', message : 'mail to ' + mailto + 'was successfully sent' })
+    }
+     else
+     {
+        $.toaster({ priority : 'warning', title : 'mail not sent', message : 'send failed' })
+     }
+     
+     }
+}
