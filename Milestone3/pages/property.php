@@ -50,8 +50,25 @@ if (($result->num_rows ) == 1)
             $beds = $row["beds"];
             $baths = $row["baths"];
             $area = $row["area"];
+            $agent = $row["agent_id"];
 }
-    
+$sql = "SELECT * FROM users WHERE user_id = '$agent'";
+    $res = $conn->query($sql); 
+    $row = $res->fetch_assoc();
+    $agent_mail = $row["email"];
+    $agent_name = $row["fname"]." ".$row["lname"];
+ if(isset($_SESSION['fname'])) {
+    $logged_buyer = $_SESSION['user_id'];
+    $sql1 = "SELECT * FROM users WHERE user_id = '$logged_buyer'";
+    $res1 = $conn->query($sql1); 
+    $row = $res1->fetch_assoc();
+    $buyer_mail = $row["email"];
+    $buyer_phone = $row["phone"];
+    $buyer_name = $row["fname"]." ".$row["lname"];
+ 
+ }
+
+
 ?>
 <html>
     <head>
@@ -105,12 +122,12 @@ if (($result->num_rows ) == 1)
                 </div>
             </div>
             <div class="row" >
-                <div class="col-sm-12 col-md-6" id="pictures" style="margin-top: 1%; margin-left: 5px ;margin-right: 10px;  ">
+                <div class="col-sm-12 col-md-8" id="pictures">
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation">
                             <a href="#Description" role="tab" data-toggle="tab" id="descTab">
-                                <i class="glyphicon glyphicon-list-alt"></i>&nbsp;Description
+                                <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Description
                             </a>
                         </li>
                         <li role="presentation">
@@ -120,17 +137,17 @@ if (($result->num_rows ) == 1)
                         </li>
                         <li role="presentation">
                             <a href="#Gallery" role="tab" data-toggle="tab" id="galleryTab">
-                                <i class="glyphicon glyphicon-home"></i>&nbsp;Gallery
+                                <i class="glyphicon glyphicon-picture"></i>&nbsp;Gallery
                             </a>
                         </li>
                         <li role="presentation">
                             <a href="#Map" role="tab" data-toggle="tab" id="mapTab">
-                                <i class="glyphicon glyphicon-user"></i>&nbsp;Map
+                                <i class="glyphicon glyphicon-map-marker"></i>&nbsp;Map
                             </a>
                         </li>
                         <li role="presentation">
                             <a href="#Comments" role="tab" data-toggle="tab" id="commentTab">
-                                <i class="glyphicon glyphicon-user"></i>&nbsp;Comments
+                                <i class="glyphicon glyphicon-comment"></i>&nbsp;Comments
                             </a>
                         </li>
                     </ul>
@@ -269,25 +286,25 @@ if (($result->num_rows ) == 1)
                 <div class="col-sm-12 col-md-4" id="contact" style="margin-top: 1%;">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3>Contact an Agent</h3> 
-                            <form role="form">
+                            <h3><span class="glyphicon glyphicon-envelope"></span>&nbsp;Contact the Agent <?php echo $agent_name;?></h3> 
+                            <form role="form" id="contactform">
                                 <div class="form-group">
                                     <label for="inputName">Name</label> 
-                                    <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                                    <input type="text" class="form-control" id="inputName" placeholder="Enter your name" value="<?php if (isset($buyer_name)){echo $buyer_name;}?>" maxlength="50" required>
                                 </div> 
                                 <div class="form-group">
                                     <label for="inputPhone">Phone</label> 
-                                    <input type="text" class="form-control" id="inputPhone" placeholder="Enter phone number">
+                                    <input type="tel" class="form-control" id="inputPhone" placeholder="Enter your phone" value="<?php  if (isset($buyer_phone)){echo $buyer_phone;}?>" maxlength="50" pattern="\d*">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail">Email address</label>
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" value="<?php  if (isset($buyer_mail)){echo $buyer_mail;}?>" maxlength="50" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputMessage">Message</label> 
-                                    <textarea class="form-control" id="inputMessage" placeholder="Enter message"></textarea>
+                                    <input type="text" class="form-control" id="inputMessage" placeholder="Enter message" required></input>
                                 </div>
-                                <button type="submit" class="btn btn-defualt">Submit</button>
+                                <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?> , <?php echo $agent_mail; ?>)">Submit</button>
                             </form> 
                         </div>
                     </div>
@@ -312,10 +329,23 @@ if (($result->num_rows ) == 1)
      
     <script type="text/javascript">
         $( "#login_submit_btn").click(loginAndRedirect);
+        $("#login_submit_btn").focus(); 
+        $("#myModal_SI").keyup(function(e) { 
+            if (e.keyCode == 13) {
+            loginAndRedirect();
+            }
+        });
     </script>
     <script type="text/javascript">
         $( "#signup").click(RegisterAndRedirect);
+        $("#signup").focus(); 
+        $("#myModal_SU").keyup(function(e) { 
+            if (e.keyCode == 13) {
+            RegisterAndRedirect();
+            }
+        });
     </script>
+   
     </div><!-- main container -->
  
  <?php
