@@ -142,6 +142,9 @@ switch ($functionChoice) {
     case 'createCommentByListingID':
         sendCommentByPropertyID($_SESSION['user_id'], $_POST['listingID'], $_POST['comment']);
         break;
+    case 'contactAgent':
+        contactAgent();
+        break;
     default:
         echo "<b>Error at switch-case<b><br>";
         print_r($_POST);
@@ -1258,4 +1261,11 @@ function updateUserProfile() {
     }   
 }
 
+function contactAgent() {
+    $mailHeader = $_POST['mailHeader'];
+    $subject = $_POST['subject'];
+    $message = wordwrap($_POST['message']);
+    $mailto = strip_tags($_POST['mailto']);
+    return mail($mailto,$subject,$message,$mailHeader);
+}
 ?>
