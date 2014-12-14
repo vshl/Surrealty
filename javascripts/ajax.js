@@ -608,12 +608,12 @@ function callBackend(param) {
   * @param showOld -> (int) hide already red comments
   */
  
- function contactAgent( propId, mailto) {
+ function contactAgent(propId) {
     event.preventDefault();
     var $Form = $('#contactform');
     if ($Form[0].checkValidity()) {
     var propId = propId;
-    var mailto = mailto;
+    var mailto = $(" #emailTo").val();
     var userName = $(" #inputName").val();
     var userPhone = $(" #inputPhone").val();
     var userMail = $(" #inputEmail").val();
