@@ -14,8 +14,12 @@
  * 4> added new script
 * 
 */
+
+define ("PROPERTY_DIR", "../images/property_images");
+
 require_once './../APIs/geocoder.php';
 require_once './../controllers/PropertyController.php';
+require_once './../controllers/ImageController.php';
 $address = filter_input(INPUT_GET, 'search');
 
 if ($address != NULL )
@@ -151,7 +155,10 @@ $lng = $coords['lng'];
                     {?>
                     <div class="col-sm-6 col-md-6 col-lg-4" style="padding: 5px 2px 0px 5px; margin-bottom: 2px 2px 2px 2px ; ">
                         <div class="thumbnail" style="margin-bottom: 0px;">
-                            <img src="<?php echo "./../images/property_images/". $property['property_id'] .".jpg"; ?>" alt="..." width="771" height="577" style="width:571px;height:280px;"  >
+                            <?php
+                              $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
+                              ImageController::compressImage($property_img);
+                            ?>
                             <div class="caption">
                               <h4>
                                   <?php 

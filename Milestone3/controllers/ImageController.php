@@ -152,7 +152,46 @@ class ImageController {
                
         imagejpeg ($picture_p, $newfilename, 100);
     }
-        
- }
+
+    /**
+    * reduces image size
+    *
+    * @param source image file (supported image formats: jpeg, png, gif)
+    * 
+    */
+    public static function compressImage($image)
+    {
+        $size = getimagesize($image);
+        $img_width = $size[0];
+        $img_height = $size[1];
+        $img_mime = $size['mime'];
+        // Create a new true color image  
+        $rendered_image = @imagecreatetruecolor($img_width, $img_height) or 
+            die('Cannot Initialize new GD image stream');
+        // Create new image from source
+        switch ($img_mime):
+        case 'image/jpeg':
+            $img_source = imagecreatefromjpeg($image);
+        break;
+        case 'image/png':
+            $img_source = imagecreatefrompng($image);
+        break;
+        case 'image/gif':
+            $img_source = imagecreatefromgif($image);
+        break;
+        default:
+            $img_source = imagecreatefromjpeg($image);
+        break;
+        endswitch;
+
+        imagecopyresampled($rendered_image, $img_source, 0, 0, 0, 0, $img_width, $img_height, 
+            $img_width, $img_height);
+        ob_start();
+        imagejpeg($rendered_image, NULL, 75);
+        $image_binary = ob_get_contents();
+        ob_end_clean();
+        echo "<img src='data:image/jpeg;base64," . base64_encode( $image_binary ) . "' />";
+    }
+}
 
 ?>
