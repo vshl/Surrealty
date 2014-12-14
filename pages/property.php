@@ -302,7 +302,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                 </div>
                                 <div class="form-group">
                                     <label for="inputMessage">Message</label> 
-                                    <input type="text" class="form-control" id="inputMessage" placeholder="Enter message" required></input>
+                                    <textarea class="form-control" id="inputMessage" placeholder="Enter message" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?> , <?php echo $agent_mail; ?>)">Submit</button>
                             </form> 
