@@ -74,10 +74,10 @@ $lng = $coords['lng'];
         <!--header-->
         <?php include "./../include/header.php" ?>
         <!--main content-->
-        <div class="container-fluid "   style="margin-top: 6%; padding: 0px 0px 0px 0px;">
+        <div class="container-fluid" style="padding: 60px 10px">
             <div class="row">
             <!--map-->
-            <div   class="col-lg-4 col-md-4 hidden-xs hidden-sm" style="  float: left; padding: 0px 5px 0px 5px; margin: 0px 0px 0px 0px;">
+            <div class="col-lg-4 col-md-4 hidden-xs hidden-sm" style="padding: inherit">
                 <div id="map" class="panel panel-body" style="border: 0px; border-radius: 0px;">
                     
                 </div>
@@ -106,7 +106,6 @@ $lng = $coords['lng'];
                      <div class="panel panel-body " style=" margin-top: 2px; margin-bottom: 2px; padding: 2px;  border: 0px; border-radius: 0px;">   
                 <?php echo "Results for " ; ?> <strong><?php echo $address; ?></strong>
                 <div class="pull-right">
-                Sort by :
                 <form name="order" method="post">
                   <select id="order", name="order">
                       <option value='property_id ASC'>Sort: Relevance</option>
@@ -157,19 +156,18 @@ $lng = $coords['lng'];
                         <div class="thumbnail" style="margin-bottom: 0px;">
                             <?php
                               $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
-                              ImageController::compressImage($property_img);
+                              ImageController::compressImage($property_img, 50);
                             ?>
                             <div class="caption">
-                              <h4>
                                   <?php 
                                   if ($property['address2'] != NULL)
                                   {
                                   echo $property['address2'] .',' ;
                                   }
                                   echo $property['address1']. ", ";
-                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?></h4>
-                                <p>
-                                    <strong style="font-size: 25">
+                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?>
+                                <p align="center">
+                                    <strong style="font-size: 18">
                                       <?php
                                       setlocale(LC_MONETARY, 'en_US');
                                     echo "$ " ; echo number_format($property['price']).".00";  ;
@@ -177,9 +175,9 @@ $lng = $coords['lng'];
                                     </strong>
                                 </p>
                               <p>
-                                  <a href="#myModal_sell" data-toggle="modal" class="btn btn-lg btn-primary" role="button" style="width: 120px;">Buy</a>
-                                 <a href="./property.php?Search=<?php $a = str_replace(" ", "+", $address);
-            echo $a;?>&PropertyId=<?php echo $property['property_id']; ?>" class="btn btn-lg btn-default" role="button">More Details</a> 
+                              <a href="./property.php?Search=<?php $a = str_replace(" ", "+", $address);
+            echo $a;?>&PropertyId=<?php echo $property['property_id']; ?>" class="btn btn-sm btn-default pull-left" role="button">More Details</a>
+                              <a href="#myModal_sell" data-toggle="modal" class="btn btn-md btn-primary pull-right" role="button">Buy</a>
                                   
                               </p>
                             </div>
