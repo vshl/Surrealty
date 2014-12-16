@@ -10,6 +10,10 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <a href="./pages/home.php"> CLICK HERE</a> to go Home page.
+        <?php 
+       
+        header("Refresh: 0; URL=./pages/home.php")
+        
+        ?>
     </body>
 </html>
