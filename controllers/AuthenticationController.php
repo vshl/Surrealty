@@ -43,7 +43,6 @@ class AuthenticationController {
         
         while( $row = mysqli_fetch_assoc($result) ) 
         {            
-            //session_start();
             $_SESSION['fname']   = $row['fname'];
             $_SESSION['lname']   = $row['lname'];
             $_SESSION['user_id'] = $row['user_id'];
@@ -103,20 +102,25 @@ class AuthenticationController {
         
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-       if ($this->dbcomm->affectedRows() == 1) {
+        if ($this->dbcomm->affectedRows() == 1) 
+        {
             $row = mysqli_fetch_assoc($result);
 
             $sqlQuery = "UPDATE users SET password = '".  hash("sha256", $newPassword) ."', reset_code = '' WHERE user_id = '".$row['user_id']."';";
             
             $result = $this->dbcomm->executeQuery($sqlQuery);
             
-            if ($this->dbcomm->affectedRows() == 1) {
+            if ($this->dbcomm->affectedRows() == 1) 
+            {
                 return $newPassword;
-            } else {
+            } 
+            else 
+            {
                 return $this->dbcomm->giveError();
             }
         }
-        else {
+        else 
+        {
             return 0;
         }
     }
@@ -130,13 +134,15 @@ class AuthenticationController {
      * @return String random string generated with the characters and length given
      */
     private function getRandomString($length = 32, $characters = null) {   
-        if($characters == null) {
+        if($characters == null) 
+        {
             $aCharacters = array_merge(range('A', 'Z'), range('a', 'z'), range(0,9));
         } else {
             $aCharacters = str_split($characters);
         }
         
-        for ($randomString = '', $i = 0; $i < $length; $i++) {
+        for ($randomString = '', $i = 0; $i < $length; $i++) 
+        {
             $randomString.= $aCharacters[array_rand($aCharacters)];
         }
     
@@ -157,7 +163,6 @@ class AuthenticationController {
         // check if email exists
         $sqlQuery = "SELECT * FROM users WHERE users.email = '" . $user['email'] . "';";
         $result = $this->dbcomm->executeQuery($sqlQuery);       
-         //  $row = mysqli_affected_rows($result);   
        
        if ($result->num_rows == 0)
        {

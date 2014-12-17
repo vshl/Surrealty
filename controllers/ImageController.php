@@ -38,28 +38,34 @@ class ImageController {
      */  
     public function uploadPicture( $type, $picture ) {
 
-        $finfo = finfo_file( finfo_open( FILEINFO_MIME_TYPE), PICTURE_DIR . $picture);
-        if( strpos( $finfo, "image/jpeg") === false ) {
+        $finfo = finfo_file (finfo_open (FILEINFO_MIME_TYPE), PICTURE_DIR . $picture);
+       
+        if (strpos( $finfo, "image/jpeg") === false) 
+        {
             die( "Wrong file type. Accepted file extensions are jpg/jpeg" );
             return 0;
         }
 
-        if( ( filesize(PICTURE_DIR . $picture) > MAX_FILESIZE ) ) {       
-            die( "File is too big. Maximum filesize is ".( MAX_FILESIZE/1024/1024) );
+        if ((filesize(PICTURE_DIR . $picture) > MAX_FILESIZE)) 
+        {       
+            die ("File is too big. Maximum filesize is ".(MAX_FILESIZE/1024/1024));
             return 0;
             
         }       
         
         // calcluate the hash for the picture as ID 
-        $pictureID = md5_file( PICTURE_DIR . $picture );
+        $pictureID = md5_file (PICTURE_DIR . $picture);
         
         // 1 = userpicture, 2 = property picture
-        if( $type == 1 ) {
-            $this->convertPicture( "_SMALL", 48, 48, PICTURE_DIR . $picture );
-            $this->convertPicture( "_MEDIUM", 200, 200, PICTURE_DIR . $picture );
-        } else {
-            $this->convertPicture( "_LARGE", 400, 400, PICTURE_DIR . $picture );
-            $this->convertPicture( "_XLARGE", 1024, 1024, PICTURE_DIR . $picture );
+        if ($type == 1) 
+        {
+            $this->convertPicture ("_SMALL", 48, 48, PICTURE_DIR . $picture);
+            $this->convertPicture ("_MEDIUM", 200, 200, PICTURE_DIR . $picture);
+        } 
+        else 
+        {
+            $this->convertPicture ("_LARGE", 400, 400, PICTURE_DIR . $picture);
+            $this->convertPicture ("_XLARGE", 1024, 1024, PICTURE_DIR . $picture);
         }
         
        return $pictureID;
@@ -99,7 +105,7 @@ class ImageController {
     public function displayPicture($type, $pictureHash) {
         
         $logger = new Logging();
-        $logger->logToFile("loadPicture", "info", "run" . $pictureHash);
+        $logger->logToFile ("loadPicture", "info", "run" . $pictureHash);
         if ($pictureHash == NULL) {
             return "../images/placeholder.jpg";
         }
@@ -118,8 +124,8 @@ class ImageController {
             case "XLARGE":  $filename .= "_XLARGE.jpg"; 
                 break;
         }
-        $logger->logToFile("loadPicture", "info", "try to load image:" . $filename);
-        if (file_exists($filename)){
+        $logger->logToFile ("loadPicture", "info", "try to load image:" . $filename);
+        if (file_exists ($filename)){
             return $filename;
         }
         else {
@@ -169,7 +175,7 @@ class ImageController {
     public static function compressImage($image, $size=100)
     {
         $percentage = $size / 100;
-        $size = getimagesize($image);
+        $size = getimagesize ($image);
         $img_width = $size[0];
         $img_height = $size[1];
         $img_mime = $size['mime'];
@@ -178,33 +184,33 @@ class ImageController {
         $new_height = $img_width * $percentage;
 
         // Create a new true color image  
-        $rendered_image = @imagecreatetruecolor($new_width, $new_height) or 
-            die('Cannot Initialize new GD image stream');
+        $rendered_image = @imagecreatetruecolor ($new_width, $new_height) or 
+            die ('Cannot Initialize new GD image stream');
         // Create new image from source
         switch ($img_mime) {
             case 'image/jpeg':
-                $img_source = imagecreatefromjpeg($image);
+                $img_source = imagecreatefromjpeg ($image);
             break;
             case 'image/png':
-                $img_source = imagecreatefrompng($image);
+                $img_source = imagecreatefrompng ($image);
             break;
             case 'image/gif':
-                $img_source = imagecreatefromgif($image);
+                $img_source = imagecreatefromgif ($image);
             break;
             default:
-                $img_source = imagecreatefromjpeg($image);
+                $img_source = imagecreatefromjpeg ($image);
             break;
         }
 
-        imagecopyresampled($rendered_image, $img_source, 0, 0, 0, 0, $new_width, $new_height, 
+        imagecopyresampled ($rendered_image, $img_source, 0, 0, 0, 0, $new_width, $new_height, 
             $img_width, $img_height);
         
-        ob_start();
-        imagejpeg($rendered_image, NULL, 75);
-        $image_binary = ob_get_contents();
-        ob_end_clean();
+        ob_start ();
+        imagejpeg ($rendered_image, NULL, 75);
+        $image_binary = ob_get_contents ();
+        ob_end_clean ();
         
-        echo "<img src='data:image/jpeg;base64," . base64_encode( $image_binary ) . "' />";
+        echo "<img src='data:image/jpeg;base64," . base64_encode ($image_binary) . "' />";
     }
 }
 
