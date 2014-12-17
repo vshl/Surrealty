@@ -156,7 +156,8 @@ $lng = $coords['lng'];
                         <div class="thumbnail" style="margin-bottom: 0px;">
                             <?php
                               $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
-                              ImageController::compressImage($property_img, 50);
+                              $ic = new ImageController();
+                              $ic->compressImage($property_img, 50);
                             ?>
                             <div class="caption">
                                   <?php 

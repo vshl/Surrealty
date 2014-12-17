@@ -172,36 +172,19 @@ class ImageController {
     * @param Image source image file (supported image formats: jpeg, png, gif)
     * @param percentage of resize of the image, default: source image size
     */
-    public static function compressImage($image, $size=100)
+    public function compressImage($image, $size=100)
     {
+        list ($img_width, $img_height) = getimagesize ($image);
+     
         $percentage = $size / 100;
-        $size = getimagesize ($image);
-        $img_width = $size[0];
-        $img_height = $size[1];
-        $img_mime = $size['mime'];
-
+     
         $new_width = $img_width * $percentage;
         $new_height = $img_width * $percentage;
-
-        // Create a new true color image  
-        $rendered_image = @imagecreatetruecolor ($new_width, $new_height) or 
+        
+         $rendered_image = imagecreatetruecolor ($new_width, $new_height) or 
             die ('Cannot Initialize new GD image stream');
-        // Create new image from source
-        switch ($img_mime) {
-            case 'image/jpeg':
-                $img_source = imagecreatefromjpeg ($image);
-            break;
-            case 'image/png':
-                $img_source = imagecreatefrompng ($image);
-            break;
-            case 'image/gif':
-                $img_source = imagecreatefromgif ($image);
-            break;
-            default:
-                $img_source = imagecreatefromjpeg ($image);
-            break;
-        }
-
+         $img_source = imagecreatefromjpeg ($image);
+       
         imagecopyresampled ($rendered_image, $img_source, 0, 0, 0, 0, $new_width, $new_height, 
             $img_width, $img_height);
         
