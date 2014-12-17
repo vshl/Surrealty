@@ -25,6 +25,16 @@ class AuthenticationController {
         unset ($this->dbcomm);
     }
 
+    
+    /**
+     * login with a given email&password combination
+     * 
+     * @param String $email email for the logiin
+     * @param type $password for the login
+     * 
+     * @return int success = 1, failed  = 0
+     * 
+     */
     public function logonWithEmail( $email, $password ) {
         $sqlQuery = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" .  hash("sha256", $password) . "' AND enable = 1 AND delet = 0;";
         
@@ -46,6 +56,13 @@ class AuthenticationController {
         return 0;
     }
     
+    /**
+     *  prepare database for the reset progress - insert resetcode in the database 
+     * 
+     * @param String $email email from the user who wants to reset the password
+     * @return String $code returns the resetcode which is set in the database for the progress
+     */
+    
 
     public function sentResetCode( $email ) {
         $code = $this->getRandomString( 32 ) ;
@@ -66,6 +83,16 @@ class AuthenticationController {
         }
           
     }
+    
+    /**
+     * resets the password for the user to a random string
+     * 
+     * @param String $email email from the user which password will be reseted
+     * @param String $code resetcode from the mail for the resetprogress
+     * 
+     * @return String returns the new password fpr the user which is identified per mail
+     * 
+     */
     
     
     public function resetPassword($email, $code) {
@@ -94,21 +121,37 @@ class AuthenticationController {
         }
     }
     
-    private function getRandomString($iLength = 32, $sCharacters = null) {   
-        if($sCharacters == null) {
+    /**
+     * generates a random string 
+     * 
+     * @param Integer $length length of the random string (default 32)
+     * @param Array $name Descriptionparam $characters that will be used (default a-zA-Z0-9)
+     * 
+     * @return String random string generated with the characters and length given
+     */
+    private function getRandomString($length = 32, $characters = null) {   
+        if($characters == null) {
             $aCharacters = array_merge(range('A', 'Z'), range('a', 'z'), range(0,9));
         } else {
-            $aCharacters = str_split($sCharacters);
+            $aCharacters = str_split($characters);
         }
         
-        for ($sRandomString = '', $i = 0; $i < $iLength; $i++) {
-            $sRandomString.= $aCharacters[array_rand($aCharacters)];
+        for ($randomString = '', $i = 0; $i < $length; $i++) {
+            $randomString.= $aCharacters[array_rand($aCharacters)];
         }
     
-        return $sRandomString;
+        return $randomString;
     }
     
     
+    
+    /**
+     * register a new user as buyer
+     * 
+     * @param $user array with user information form register formular
+     * 
+     * @return int Statuscode ( 1 = buyer created, 0 = no buyer created)  
+    **/
     public function registerNewUser($user) {
         
         // check if email exists
