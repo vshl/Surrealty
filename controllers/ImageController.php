@@ -15,8 +15,10 @@
 
 include_once '../classes/Logging.php';
 
+
+// define maxmimum filesize in bytes and the image path
 define ("PICTURE_DIR", "../images/");
-define ("MAX_FILESIZE", "2097152");      // bytes
+define ("MAX_FILESIZE", "2097152");     
 
 class ImageController {
     
@@ -27,26 +29,28 @@ class ImageController {
     }
     
     /**
-     * uploadPicture and convert
+     * uploads a picture and convert it
      * 
-     * @param int $type type of picture (1 = user, 2 = property)
-     * @param string $picture array from multipart-form
-     * @return string name of the uploaded picture 
+     * @param Integer $type type of picture (1 = user, 2 = property)
+     * @param String $picture array from multipart-form
+     * 
+     * @return String name of the uploaded picture 
      */  
     public function uploadPicture( $type, $picture ) {
 
         $finfo = finfo_file( finfo_open( FILEINFO_MIME_TYPE), PICTURE_DIR . $picture);
         if( strpos( $finfo, "image/jpeg") === false ) {
-            return "error";
             die( "Wrong file type. Accepted file extensions are jpg/jpeg" );
+            return 0;
         }
 
-        if( ( filesize(PICTURE_DIR . $picture) > MAX_FILESIZE ) ) { 
-            return "error2";
+        if( ( filesize(PICTURE_DIR . $picture) > MAX_FILESIZE ) ) {       
             die( "File is too big. Maximum filesize is ".( MAX_FILESIZE/1024/1024) );
+            return 0;
             
-        }           
-
+        }       
+        
+        // calcluate the hash for the picture as ID 
         $pictureID = md5_file( PICTURE_DIR . $picture );
         
         // 1 = userpicture, 2 = property picture
@@ -65,12 +69,14 @@ class ImageController {
     /**
      * delete picture by filename
      * 
-     * @param string $filename name/hash of the picture which has to be removed
-     * @return int Statuscode ( 1 = picture deleted, 0 = No Data for ID found ) 
+     * @param String $filename name of the picture which has to be removed
+     * 
+     * @return Integer statuscode ( 1 = picture deleted, 0 = No Data for ID found ) 
      */ 
     public function deletePictureByFileName ($filename) {
         $matches = 0;
         
+        // find all pictures that match the name
         foreach (glob (PICTURE_DIR . $filename . "*.jpg" ) as $filename2) 
         {
             unlink ($filename2);
@@ -84,15 +90,16 @@ class ImageController {
     /**
      * display a picture by id
      * 
-     * @param string $type type/size of the picture
+     * @param String $type type/size of the picture
      *                  Use: [SMALL|MEDIUM|LARGE|XLARGE]
-     * @param string $pictureHash of the picture
-     * @return string path to the picture
+     * @param String $pictureHash name/hash of the picture
+     * 
+     * @return String path to the picture
      */ 
     public function displayPicture($type, $pictureHash) {
         
         $logger = new Logging();
-         $logger->logToFile("loadPicture", "info", "run" . $pictureHash);
+        $logger->logToFile("loadPicture", "info", "run" . $pictureHash);
         if ($pictureHash == NULL) {
             return "../images/placeholder.jpg";
         }
@@ -125,9 +132,9 @@ class ImageController {
      * converts picture into a other dimension
      * 
      * @param String $postfix postfix for the new picture 
-     * @param type $width maximum width of the new picture
-     * @param type $height maximum height of the new picture
-     * @param type $filename pathe where the pictre is currently stored
+     * @param Integer $width maximum width of the new picture
+     * @param Integer $height maximum height of the new picture
+     * @param String $filename pathe where the pictre is currently stored
      */
     private function convertPicture( $postfix, $width, $height, $filename ) {
 
@@ -156,7 +163,7 @@ class ImageController {
     /**
     * reduces image size
     *
-    * @param source image file (supported image formats: jpeg, png, gif)
+    * @param Image source image file (supported image formats: jpeg, png, gif)
     * @param percentage of resize of the image, default: source image size
     */
     public static function compressImage($image, $size=100)
@@ -174,27 +181,29 @@ class ImageController {
         $rendered_image = @imagecreatetruecolor($new_width, $new_height) or 
             die('Cannot Initialize new GD image stream');
         // Create new image from source
-        switch ($img_mime):
-        case 'image/jpeg':
-            $img_source = imagecreatefromjpeg($image);
-        break;
-        case 'image/png':
-            $img_source = imagecreatefrompng($image);
-        break;
-        case 'image/gif':
-            $img_source = imagecreatefromgif($image);
-        break;
-        default:
-            $img_source = imagecreatefromjpeg($image);
-        break;
-        endswitch;
+        switch ($img_mime) {
+            case 'image/jpeg':
+                $img_source = imagecreatefromjpeg($image);
+            break;
+            case 'image/png':
+                $img_source = imagecreatefrompng($image);
+            break;
+            case 'image/gif':
+                $img_source = imagecreatefromgif($image);
+            break;
+            default:
+                $img_source = imagecreatefromjpeg($image);
+            break;
+        }
 
         imagecopyresampled($rendered_image, $img_source, 0, 0, 0, 0, $new_width, $new_height, 
             $img_width, $img_height);
+        
         ob_start();
         imagejpeg($rendered_image, NULL, 75);
         $image_binary = ob_get_contents();
         ob_end_clean();
+        
         echo "<img src='data:image/jpeg;base64," . base64_encode( $image_binary ) . "' />";
     }
 }
