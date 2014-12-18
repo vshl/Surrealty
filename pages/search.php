@@ -101,9 +101,9 @@ $lng = $coords['lng'];
                 </form>
                     
                 </div> 
-                    <!--search box end-->
-                     <!--filter panel start-->
-                     <div class="panel panel-body " style=" margin-top: 2px; margin-bottom: 2px; padding: 2px;  border: 0px; border-radius: 0px;">   
+                <!--search box end-->
+                <!--filter panel start-->
+                <div class="panel panel-body">   
                 <?php echo "Results for " ; ?> <strong><?php echo $address; ?></strong>
                 <div class="pull-right">
                 <form name="order" method="post">
