@@ -10,8 +10,7 @@ function load() {
   var bounds = new google.maps.LatLngBounds();
 
   // Change this depending on the name of your PHP file
-  var searchUrl = 'genXMLForMap.php?search=' + searchQuery;
-  downloadUrl(searchUrl, function(data) {
+  downloadUrl('../others/maps.xml', function(data) {
     var xml = data.responseXML;
     var markers = xml.documentElement.getElementsByTagName("marker");
     for (var i = 0; i < markers.length; i++) {
@@ -26,12 +25,14 @@ function load() {
       var html =
           [ '<strong>Address: </strong>' + address + '<br/>',
            '<strong>Price: $' + price + '</strong><br/>',
-           '<a href="property.php?Search='+ searchQuery +'&PropertyId='+ property_id +'" role="button" class="btn btn-info btn-xs">Details</a>',
+           '<a href="property.php?PropertyId='+ property_id +'" role="button" class="btn btn-info btn-xs">Details</a>',
            // '<a href="property.php" role="button" class="btn btn-primary btn-xs">Details</a>',
            ].join('\n');
+      j = i + 1
       var marker = new google.maps.Marker({
         map: map,
         position: point,
+        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+ j +'|FF0000|000000',
       });
       bindInfoWindow(marker, map, infoWindow, html);
     }

@@ -20,6 +20,7 @@ define ("PROPERTY_DIR", "../images/property_images");
 require_once './../APIs/geocoder.php';
 require_once './../controllers/PropertyController.php';
 require_once './../controllers/ImageController.php';
+require_once './../APIs/maps.php';
 $address = filter_input(INPUT_GET, 'search');
 
 if ($address != NULL )
@@ -60,15 +61,11 @@ $lng = $coords['lng'];
         });
       </script>
       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCopAYcpV4Eo5BZ9q3PbeAI4nPBTct36HE"></script>
-      <script type="text/javascript">
-      var searchQuery = <?php echo json_encode($address);?>;
-      </script>
-      <script type="text/javascript" src="../javascripts/maps.js"></script>
       <title> Search results for <?php echo " " . $address; ?> </title>
     </head>
     
     
-    <body onload="load()">
+    <body>
         
         <div class="container-fluid" >
         <!--header-->
@@ -145,11 +142,22 @@ $lng = $coords['lng'];
                         $sortOrder = $sort[1];
                     }
                     $properties = PropertyController::searchProperty($address, $sortField, $sortOrder);
+                    $maps = new Maps($properties);
+                    $maps->genXML();
                 ?>
+                <script type="text/javascript">
+                    $(function() {
+                        $.getScript('../javascripts/maps.js', function() {
+                            load();
+                        });
+                    });
+                </script>
+
                 <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
                 <?php
                 if ( $properties != 0 )
-                {    
+                {   
+                    $no = 0; 
                     foreach ($properties as $property)
                     {?>
                     <div class="col-sm-6 col-md-6 col-lg-4" style="padding: 5px 2px 0px 5px; margin-bottom: 2px 2px 2px 2px ; ">
@@ -160,7 +168,8 @@ $lng = $coords['lng'];
                               $ic->compressImage($property_img, 50);
                             ?>
                             <div class="caption">
-                                  <?php 
+                                  <p><strong><?php echo $no + 1; $no++; ?></strong></p>
+                                  <?php
                                   if ($property['address2'] != NULL)
                                   {
                                   echo $property['address2'] .',' ;
