@@ -9,10 +9,21 @@ require_once($path.'/include/checkUser.php');
 ?>
 
 <?php
-      
+    
+    if (!isset($_GET['PropertyId'])) {
+         //header("Refresh : 0 ; URL=./home.php");
+         header("Location: ./home.php");
+         die();
+    }
 
     $property_id = htmlspecialchars($_GET["PropertyId"]);
-    $search = htmlspecialchars($_GET["Search"]);
+    if (isset($_GET['Search'])) {
+        $search = htmlspecialchars($_GET["Search"]);
+    }
+    else {
+        $search = "";
+    }
+    
     $servername = "localhost";
     $username = "f14g11";
     $pass = "Group11";
@@ -28,7 +39,7 @@ $conn = new mysqli($servername, $username, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
+// load the property by given id
 $sql = "SELECT * FROM property WHERE property_id = '$property_id'";
 $result = $conn->query($sql);
 
@@ -45,13 +56,14 @@ if (($result->num_rows ) == 1)
     {
          $address =  $row["address1"] ; 
     }
-            $address =  $address .", ".$row["zipcode"].", ".$row["city"].", ".$row["state"]   ; 
-            $price = $row["price"];
-            $beds = $row["beds"];
-            $baths = $row["baths"];
-            $area = $row["area"];
-            $agent = $row["agent_id"];
+    $address =  $address .", ".$row["zipcode"].", ".$row["city"].", ".$row["state"]   ; 
+    $price = $row["price"];
+    $beds = $row["beds"];
+    $baths = $row["baths"];
+    $area = $row["area"];
+    $agent = $row["agent_id"];
 }
+//load the agent data
 $sql = "SELECT * FROM users WHERE user_id = '$agent'";
     $res = $conn->query($sql); 
     $row = $res->fetch_assoc();
@@ -287,7 +299,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                     <div class="thumbnail">
                         <div class="caption">
                             <h3><span class="glyphicon glyphicon-envelope"></span>&nbsp;Contact the Agent <?php echo $agent_name;?></h3> 
-                            <form role="form" id="contactform">
+                            <form role="form" id="contactform" action="property.php?PropertyId=<?php echo $property_id;?>">
                                 <div class="form-group">
                                     <label for="inputName">Name</label> 
                                     <input type="text" class="form-control" id="inputName" placeholder="Enter your name" value="<?php if (isset($buyer_name)){echo $buyer_name;}?>" maxlength="50" required>

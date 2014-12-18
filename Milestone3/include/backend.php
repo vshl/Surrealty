@@ -369,6 +369,10 @@ function readCommentsForAgent($agentID, $showHidden) {
         $logger->logToFile("showComments", "info", "Try to load prop image:" . $property_images[0]['image_name']);
         $property_image_path = $ic->displayPicture("MEDIUM", $property_images[0]['image_name']);
         
+        //prepare datetime for creation time
+        $phpDate = strtotime($comments[$i]['creation_date']);
+        $askDateTime = date( 'Y-m-d H:i:s', $phpDate);
+        
         $disp .= "<div class=\"row well\">
                     <div class=\"col-xs-6 col-sm-2\">
                         <a class=\"\" href=\"#\">
@@ -378,7 +382,8 @@ function readCommentsForAgent($agentID, $showHidden) {
                     </div>
                 <div class=\"clearfix visible-xs-block\"></div>
                 <div class=\"col-xs-6 col-sm-6\">
-                    <label><img id=\"comment_".$comments[$i]['comment_id']."_userimage\" class=\"img-circle thumbusercomment\" src=\"../../" . $buyer_image_path . "\">&nbsp;<span id=\"comment_".$comments[$i]['comment_id']."_username\">" . $buyer_name ."</span> has commented:</label>
+                    <label><img id=\"comment_".$comments[$i]['comment_id']."_userimage\" class=\"img-circle thumbusercomment\" src=\"../../" . $buyer_image_path . "\">&nbsp;<span id=\"comment_".$comments[$i]['comment_id']."_username\">" . $buyer_name ."</span> has commented
+                    on ".$askDateTime.":</label>            
                     <span id=\"comment_".$comments[$i]['comment_id']."_address\" style=\"display:none\">" . $buyer_address . "</span>
                     <span id=\"comment_".$comments[$i]['comment_id']."_phone\" style=\"display:none\">" . $buyer_phone . "</span>    
                     <p id=\"comment_".$comments[$i]['comment_id']."_comment\">" . $comments[$i]['comment'] . "</p>
@@ -389,30 +394,43 @@ function readCommentsForAgent($agentID, $showHidden) {
                 <!-- Add the extra clearfix for only the required viewport -->
                 <div class=\"clearfix visible-xs-block\"></div>
                 <div class=\"col-xs-6 col-sm-4\">
-                    <br><br><br> 
                     <div>";
+                    if (!$cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
+                       $disp .= "<h5> <span class=\"badge progress-bar-danger\"><i class=\"glyphicon glyphicon-warning-sign\">&nbsp;Please reply to this comment</i></span></h5>";
+                    }
+        $disp .=    "<h5>Comment state is:";
+                    if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
+                        $disp .= "<span class=\"badge\" style=\"margin-left: 10px\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
+                    }
+                    else {
+                        $disp .= "<span class=\"badge\" style=\"margin-left: 10px\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span>";
+                    }
+                   
+        $disp .=            "</h5><h5><span class=\"badge\">Action:</span></h5>";
                         if ($comments[$i]['answer'] == "") {
-                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-send\"></i>Reply&nbsp;</span></a>";
+                            $disp .= "<a href=\"#ReplyComment\" class=\"btn btn-success btn-xs\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><i class=\"glyphicon glyphicon-send\"></i>&nbsp;Reply</a>";
                         }
                         else {
-                            $disp .= "<a href=\"#ReplyComment\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-pencil\"></i>Modify&nbsp;</span></a>";
+                            $disp .= "<a href=\"#ReplyComment\" class=\"btn btn-success btn-xs\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><i class=\"glyphicon glyphicon-pencil\"></i>&nbsp;Modify</a>";
                         }
-        $disp .=        "<a href=\"#\"><span class=\"badge\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</span></a>";
+        $disp .=        "<h5><a href=\"../../property.php?propertyID=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
+        $disp .=        "<div class=\"btn-toolbar\" role=\"toolbar\">";                
                         if ($cc->isFlagSet($comments[$i]['flags'], FLAG_AGENT_HIDE_COMMENT)) {
-                            $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</span></a>";
+                            $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</a>";
                         }
                         else {
-                            $disp .= "<a href=\"#\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</span></a>";
+                            $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</a>";
                         }
                         if (!$comments[$i]['answer'] == ""){
                             if ($cc->isFlagSet($comments[$i]['flags'], FLAG_COMMENT_IS_PUBLIC)) {
-                                $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make private\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span></a>";
+                                $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make private\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</a>";
                             }
                             else {
-                                $disp .= "<br><a href=\"#\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make public\"><span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span></a>";
+                                $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make public\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</a>";
                             }
                         }
-        $disp .=        "<a href=\"#\" onclick=\"removeComment(" . $comments[$i]['comment_id']. ")\"><span class=\"badge\"><i class=\"glyphicon glyphicon-trash\"></i>&nbsp;Remove</span></a>";                
+        $disp .=        "</div>";
+        $disp .=        "<h5><a href=\"#\" class=\"btn btn-danger btn-xs\" onclick=\"removeComment(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-trash\"></i>&nbsp;Remove</a></h5>";                
                         
         $disp .=        "</div>
                 </div>
@@ -509,14 +527,15 @@ function readCommentsForBuyer($buyerID, $showHidden) {
                     <div class=\"clearfix visible-xs-block\"></div>
                     <!-- div for BUTTONS -->
                     <div class=\"col-xs-6 col-sm-4\">
-                        <div>
-                            <h5>Comment state is: ";
+                        <div>";
+                           
+        $disp .=            "<h5>Comment state is: ";
                             if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
-                                    $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
-                                }
-                                else {
-                                    $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span>";
-                                }
+                                $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
+                            }
+                            else {
+                                $disp .= "<span class=\"badge\"><i class=\"glyphicon glyphicon-star-empty\"></i>&nbsp;Private</span>";
+                            }
         $disp .=            "<h5><span class=\"badge\">Action:</span></h5>";
                             if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_BUYER_NOT_READ_ANSWER)) {
                                 // insert a "ok i got it" button if the agent replied comment and buyer dont see anser till now
@@ -629,7 +648,7 @@ function switchCommentHideState($commentID) {
 function returnAnswerToComment($commentID, $answerText) {
     $commentID = intval($commentID);
     $cc = new CommentController();
-    $result = $cc->setAnwser($commentID, $_SESSION['user_id'], $answerText);
+    $result = $cc->setAnwser($commentID, $_SESSION['user_id'], htmlentities($answerText, ENT_QUOTES, "UTF-8" ));
     echo $result;
     unset($cc);
 }
@@ -665,20 +684,22 @@ function removeComment($commentID, $userID) {
     $cc = new CommentController();
     $comment = $cc->loadCommentByCommentID($commentID);
     if (is_int($comment)) {
-        echo 0;
+        echo "no int";
+        return;
     }
     // a short check if userID is allowed to delete comment.
     if ($comment->getAgentID() == $userID) {
         $cc->deleteCommentByID($commentID);
         echo 1;
+        return;
     }
     // check if logged in user is creator of comment AND if comment is set already to publuc
-    if (($comment->getUserID() == $userID) && (!$cc->isFlagSet($comment->isCommentPublic(), Comment::FLAG_COMMENT_IS_PUBLIC)) ) {
+    if (($comment->getUserID() == $userID) && (!$comment->isCommentPublic()) ) {
         $cc->deleteCommentByID($commentID);
         echo 1;
     }
     else {
-        echo 0;
+        echo "problem in two";
     }
 }
 

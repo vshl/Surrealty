@@ -3,7 +3,6 @@
  * Model Class for comment objects
  * Class should be only used by appropiate controller classes
  * 
- * @author Benjamin Bleicher <benjamin.bleichert@informatik.hs-fulda.de>
  * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
  * @version 1.0
  * 
@@ -55,8 +54,7 @@ class Comment {
         $sqlQuery = "SELECT * FROM comments WHERE comment_id = ".$commentID.";";
         //$logger->logToFile("Comment, loadCommentByID)", "info", "SQL Query: " . $sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
-        if ($this->dbcomm->affectedRows() == 1) 
-            {
+        if ($this->dbcomm->affectedRows() == 1) {
                 $row = mysqli_fetch_assoc($result);
                 // Copy data from database into comment object
                 $this->commentID = $row['comment_id'];
@@ -69,12 +67,12 @@ class Comment {
                 $this->answer_date  =$row['answer_date'];
                 $this->flags = $row['flags'];
                 $logger->logToFile("Comment, loadCommentByID", "info", "Loaded Comment: " . $this->getCommendID() . " with text " . $this->getCommentText() . " and flags: " . $this->flags);
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+
+                return 1;        
+        }
+        else {
+            return 0;
+        }
     }
     
     /**
@@ -93,14 +91,13 @@ class Comment {
                 $this->flags . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-        if ($result != true)
-        {
+        if ($result != true) {
+            return 0;
             echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
             die("Error at comment saving");
         }
-        else
-        {
+        else {
             return 1;
         }
     }
@@ -112,7 +109,6 @@ class Comment {
     
     public function updateComment() {
         $logger = new Logging();
-        
         $sqlQuery = "UPDATE comments SET " .
                     "property_id='" . $this->propertyID     . "', " . 
                     "comment='" . $this->commentText        . "', " . 
@@ -128,21 +124,15 @@ class Comment {
                     }
                 
         $sqlQuery .="flags= '" . $this->flags . "' " .
-                    
                     "WHERE comment_id = " . $this->commentID . ";";
         
         $logger->logToFile("Comment, updateComment", "info", "try to update with " .$sqlQuery);
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-        if ($result != true)
-        {
-            //echo $sqlQuery;
-            //echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
-            //die("Error at comment update");
+        if ($result != true) {
             return 0;
         }
-        else
-        {
+        else {
             return 1;
         }   
     }
@@ -183,14 +173,12 @@ class Comment {
         $sqlQuery = "DELETE FROM comments WHERE comment_id = ".$commentID.";";
         $result = $this->dbcomm->executeQuery($sqlQuery);
         
-        if ($result != true)
-        {
+        if ($result != true) {
             echo $sqlQuery;
             echo "<br><b>" . $this->dbcomm->giveError() . "</b>";
             die("Error at delete comment");
         }
-        else
-        {
+        else {
             return 1;
         }
     }

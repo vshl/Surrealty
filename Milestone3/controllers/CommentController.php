@@ -3,8 +3,8 @@
  * Controler Class for Comment objects
  * Class should be only used by appropiate controller classes
  * 
- * @author Benjamin Bleicher <benjamin.bleichert@informatik.hs-fulda.de>
  * @author Florian Hahner <florian.hahner@informatik.hs-fulda.de>
+ * @author Benjamin Bleicher <benjamin.bleichert@informatik.hs-fulda.de>
  * @version 1.0
  * 
  */
@@ -59,37 +59,10 @@ class CommentController {
     }
     
     /**
-     * 
-     * ÜBERFLÜSSIG ??????? HAHNER, 28Nov 2014
-     * 
-     * load all comments which belogsn to an agentID
-     * 
-     * @param String $agentID
-     * @return Comment array 
+     * this function loads a comment by its id
+     * @param type $commentID the id of the comment
+     * @return the comment object or int(0) by failure
      */
-       
-    public function loadAllCommentsByAgentID($agentID) {
-        $list = array();
-        
-        $sqlQuery = "SELECT * FROM comments WHERE answered_by = ".$agentID.";";
-        $result = $this->dbcomm->executeQuery($sqlQuery);
-        
-        while ($row = $result->fetch_assoc())  
-        {
-                $comment = new Comment();
-                // Copy data from database into comment object
-                $comment->addDataToComment($row['property_id'], $row['created_by'], $row['comment'] );
-                $comment->setCommentID($row['comment_id']);
-                $comment->setCreationDate($row['creation_date']);
-                $comment->setAnswerText($row['answer']); 
-                $comment->setAgentID($row['answered_by']);
-                array_push ($list, $comment);
-                unset ($comment);
-        }
-        
-        return $list;
-
-    }
     
     public function loadCommentByCommentID($commentID) {
         $comment_id = intval($commentID);
@@ -117,8 +90,12 @@ class CommentController {
         unset ($comment);
     }
     
+    /**
+     * this function will switch the hidden state for a given comment relating to userRole
+     * @param type $commentID
+     * @param type $userRole
+     */
     public function switchCommentHideState($commentID, $userRole) {
-        $logger = new Logging();
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
         if ($userRole == "AGENT") {
@@ -128,10 +105,16 @@ class CommentController {
             $comment->setBuyerHideComment(!$comment->isBuyerHideComment());
         }
         $comment->updateComment();
-        unset ($logger);
         unset ($comment);
     }
     
+    /**
+     * this function add a new command to database
+     * @param type $userID the user id from logged in user
+     * @param type $propertyID the id, for which property the comment is for
+     * @param type $commentText the comment text
+     * @return type forward return value from called function
+     */
     public function addComment( $userID, $propertyID, $commentText ) {
         $comment = new Comment();
         $comment->addDataToComment($propertyID, $userID, $commentText );
@@ -141,12 +124,25 @@ class CommentController {
        
     }
     
+    /**
+     * this function delete a comment by a given id
+     * 
+     * @param type $commentID
+     */
+    
     public function deleteCommentByID( $commentID ) {
         $comment = new Comment();
         $comment->deleteComment( $commentID );
         unset ($comment);
     }
     
+    /**
+     * this function save the reply for an existing comment
+     * @param type $commentID 
+     * @param type $agentID the agent whos replieing
+     * @param type $answerText the answer text string
+     * @return type
+     */
     public function setAnwser( $commentID, $agentID, $answerText  ) {
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
@@ -159,6 +155,13 @@ class CommentController {
         return $result;
     }
     
+    /** 
+     * this function let an agent or an user modify a given comment
+     * @param type $commentID
+     * @param type $buyerID
+     * @param type $commentText
+     * @return int
+     */
     public function setModifiedComment($commentID, $buyerID, $commentText) {
         $comment = new Comment();
         $comment->loadCommentByID($commentID);
@@ -183,11 +186,15 @@ class CommentController {
             return 0;
         }
         $db = new DatabaseComm();
-        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID .";";
+        $comments = array();
+        $noCommentsAvailable = true;
+        
+        // we first want to display all the unanswered comments and add them to array
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID ." AND com.flags < 3;";
         //$logger->logToFile("listCommentByAgent", "info", $query);
         $result = $db->executeQuery($query);
-        $comments = array();
         if ($result->num_rows > 0) {
+            $noCommentsAvailable = false;
             while ($row = $result->fetch_assoc()) {
                 if ($showHidden == 1) {
                     $comments[] = $row;
@@ -199,7 +206,25 @@ class CommentController {
                 }
             }
         } 
-        else {
+        // after that we fetch the remaining comment ordered by their creation_date
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND prop.agent_id = " . $agentID ." AND com.flags > 3 ORDER BY com.creation_date;";
+        //$logger->logToFile("listCommentByAgent", "info", $query);
+        $result = $db->executeQuery($query);
+        if ($result->num_rows > 0) {
+            $noCommentsAvailable = false;
+            while ($row = $result->fetch_assoc()) {
+                if ($showHidden == 1) {
+                    $comments[] = $row;
+                }
+                else {
+                    if (!$this->isFlagSet($row['flags'], 8)) {
+                        $comments[] = $row;
+                    }
+                }
+            }
+        }
+        // if the is no comment to display, we return a 0;
+        if ($noCommentsAvailable) {
             return 0;          
         }
         return $comments;
@@ -263,9 +288,9 @@ class CommentController {
         $logger->logToFile("count unansered comment", "info", "number of rows" .$result->num_rows);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                if ( ($row['flags'] == 0) OR ($row['flags'] == 2) ) {
-                    //$logger->logToFile("count unanswered comment", "info", "found unanswered com: " . $row['comment'] ." with flag " . $row['flags']);
-                    $comments = $row;
+                if ( ($this->isFlagSet($row['flags'], Comment::FLAG_BUYER_HIDE_COMMENT)) OR ($row['flags'] == 0) ) {
+                    $logger->logToFile("count unanswered comment", "info", "found unanswered com with flag " . $row['flags']);
+                    $comments[] = $row;
                 }
             }
             return count($comments);
@@ -297,7 +322,7 @@ class CommentController {
             while ($row = $result->fetch_assoc()) {
                 if ( $this->isFlagSet($row['flags'], Comment::FLAG_BUYER_NOT_READ_ANSWER) ) {
                     
-                    $comments = $row;
+                    $comments[] = $row;
                 }
             }
             return count($comments);

@@ -79,7 +79,7 @@ class Buyer extends Person {
                     $user['zipcode']  ."', '" . 
                     $user['state']  ."', '" . 
                     $user['country']  ."', '" . 
-                    $user['fname']  ."', '" . 
+                    $user['city']  ."', '" . 
                     BUYER_ROLE_ID . "');";
         $result = $this->dbcomm->executeQuery($sqlQuery);
 

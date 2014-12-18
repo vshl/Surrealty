@@ -352,10 +352,9 @@ function readCommentsForUser() {
     }
 } 
 
-function giveUnseenCommentsByAgentID(userID) {
+function giveUnseenCommentsByAgentID() {
     var paramArr = {
-        action: "giveUnseenCommentsByAgentID",
-        userID: userID
+        action: "giveUnseenCommentsByAgentID"
         };
     var result = callBackend(paramArr);
     if (result == 0) {
@@ -475,6 +474,7 @@ function removeComment(commentID) {
             $.toaster({ priority : 'warning', title : 'Comment System', message : result });
         }
         readCommentsForUser();
+        giveUnseenCommentsBy
     }
 }
 
