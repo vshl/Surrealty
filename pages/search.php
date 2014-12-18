@@ -93,7 +93,7 @@ $lng = $coords['lng'];
                     <strong>Refine your search :</strong>
                     <div class="input-group input-group-lg no-margin no-padding">
                     
-                <input size="60" type="text" class="form-control input-group-lg no-margin no-padding" placeholder="<?php echo $address; ?>" autofocus name="search">
+                <input size="60" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
                 <span class="input-group-btn">
                     <button class="btn btn-info" type="submit"><strong>Search</strong></button>
                 </span>
