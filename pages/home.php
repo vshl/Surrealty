@@ -30,7 +30,8 @@ Updated by :
     <div class="container-fluid"  ><!-- main container -->
         <!--header--> 
         <?php session_start(); include "./../include/header.php" ?>
-        <!--search-->
+
+       <!--search-->
         <div style="margin-top: 7% ; margin-bottom: 15%;">
         <div class="row ">
         <div class="col-md-6 col-md-offset-3">

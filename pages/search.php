@@ -15,6 +15,8 @@
 * 
 */
 
+session_start();
+
 define ("PROPERTY_DIR", "../images/property_images");
 
 require_once './../APIs/geocoder.php';
@@ -37,10 +39,13 @@ $lat = $coords['lat'];
 $lng = $coords['lng'];
 }   
 
+
+
 ?>
 
 <html>
-  
+
+    
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width" initial-scale="1.0">

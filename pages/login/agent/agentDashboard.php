@@ -33,7 +33,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <script>
         $(document).ready( function() {
-            giveUnseenCommentsByAgentID(<?php echo $_SESSION['user_id']; ?>);
+            giveUnseenCommentsByAgentID();
         });
 </script>
 
