@@ -142,11 +142,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                 <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Description
                             </a>
                         </li>
-                        <li role="presentation">
-                            <a href="#Specs" role="tab" data-toggle="tab" id="specsTab">
-                                <i class="glyphicon glyphicon-home"></i>&nbsp;Specs
-                            </a>
-                        </li>
+                        
                         <li role="presentation">
                             <a href="#Gallery" role="tab" data-toggle="tab" id="galleryTab">
                                 <i class="glyphicon glyphicon-picture"></i>&nbsp;Gallery
@@ -191,24 +187,20 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                             <?php echo "$ " . number_format($price).".00";?>
                                                 </strong>
                                         </h2>
+                                        <p>
+                                            No of Beds  :<?php echo " ".$beds;?>  <br>
+                                            No of Baths :<?php echo " ".$baths;?> <br> 
+                                            Lot: <?php echo $area;?> sqft <br>
+                                            Single Family <br> 
+                                            Built in 1938 <br> 
+                                            5 Days on Surrealty <br> 
+                                        </p>  
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--spec tab goes here-->
-                        <div role="tabpanel" class="tab-pane" id="Specs">
-                            <div class="well">
-                              <p>
-                                            <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
-                                            Lot: <?php echo $area;?> sqft <br>
-                                            Single Family <br> 
-                                            Built in 1938 <br> 
-                                            5 Days on Surreality <br> 
-                              </p>
-                              More specs goes here...
-                            </div>
-                        </div>
+                        
                         <!--gallery tab goes here-->
                         <div role="tabpanel" class="tab-pane" id="Gallery">
                             <div class="well">
@@ -260,7 +252,9 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                         <!--map tab goes here-->
                         <div role="tabpanel" class="tab-pane" id="Map">
                             <div class="well">
-                                Map will go here...
+                                
+                                
+                                
                             </div>
                         </div>
                         

@@ -78,11 +78,11 @@ $lng = $coords['lng'];
         <!--header-->
         <?php include "./../include/header.php" ?>
         <!--main content-->
-        <div class="container-fluid" style="padding: 60px 10px">
+        <div class="container-fluid" style="padding: 80px 80px 80px 80px; ">
             <div class="row">
             <!--map-->
-            <div class="col-lg-4 col-md-4 hidden-xs hidden-sm" style="padding: inherit">
-                <div id="map" class="panel panel-body" style="border: 0px; border-radius: 0px;">
+            <div class="col-lg-4 col-md-4 hidden-xs hidden-sm" >
+                <div id="map" class="panel panel-body" style="border: 2px; border-radius: 2px; float :left; margin-right: 50px;">
                     
                 </div>
             </div>    
@@ -94,7 +94,7 @@ $lng = $coords['lng'];
                 <div class="panel panel-body " style=" margin: 0px; padding: 0px; text-align: left; height: 60px ; border: 0px; border-radius: 0px;">
                 
                 <form role="form" action="search.php" class="form-inline" method="GET" style=" margin-top: 1%">
-                    <strong>Refine your search :</strong>
+                    <strong>Search :</strong>
                     <div class="input-group input-group-lg no-margin no-padding">
                     
                 <input size="60" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
@@ -168,7 +168,8 @@ $lng = $coords['lng'];
                 </form>
                 </div>
                 </div>
-                <!-- filter panel end-->                <?php
+                <!-- filter panel end-->   
+             <?php
                 if ( $properties != 0 )
                 {   
                     $no = 0; 
