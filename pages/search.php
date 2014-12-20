@@ -23,6 +23,8 @@ require_once './../APIs/geocoder.php';
 require_once './../controllers/PropertyController.php';
 require_once './../controllers/ImageController.php';
 require_once './../APIs/maps.php';
+require_once './../APIs/pagination.php';
+
 $address = filter_input(INPUT_GET, 'search');
 
 if ($address != NULL )
@@ -104,9 +106,44 @@ $lng = $coords['lng'];
                     
                 </div> 
                 <!--search box end-->
+
+                    
+                 
+                <!--results content-->
+                <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+                <?php
+                    $limit = 8;
+                    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                    $pagination = new Pagination();
+                    $offset = $pagination->offset($page, $limit);
+                    $order = filter_input(INPUT_POST, "order");
+                    $sortField = 'property_id';
+                    $sortOrder = 'ASC';
+                    if ($order)
+                    {
+                        $sort = explode(' ', $order);
+                        $sortField = $sort[0];
+                        $sortOrder = $sort[1];
+                    }
+                    list($properties, $total_properties) = PropertyController::searchProperty
+                        ($address, $sortField, $sortOrder, $offset, $limit);
+                    $maps = new Maps($properties);
+                    $maps->genXML();
+                ?>
+                <script type="text/javascript">
+                    $(function() {
+                        $.getScript('../javascripts/maps.js', function() {
+                            load();
+                        });
+                    });
+                </script>
+
+                <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
                 <!--filter panel start-->
                 <div class="panel panel-body">   
-                <?php echo "Results for " ; ?> <strong><?php echo $address; ?></strong>
+                <?php echo "Showing " ; ?>
+                <strong><?php echo $total_properties; ?></strong>
+                <?php echo " results"; ?>
                 <div class="pull-right">
                 <form name="order" method="post">
                   <select id="order", name="order">
@@ -131,35 +168,7 @@ $lng = $coords['lng'];
                 </form>
                 </div>
                 </div>
-                <!-- filter panel end-->
-                    
-                 
-                <!--results content-->
-                <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
-                <?php
-                    $order = filter_input(INPUT_POST, "order");
-                    $sortField = 'property_id';
-                    $sortOrder = 'ASC';
-                    if ($order)
-                    {
-                        $sort = explode(' ', $order);
-                        $sortField = $sort[0];
-                        $sortOrder = $sort[1];
-                    }
-                    $properties = PropertyController::searchProperty($address, $sortField, $sortOrder);
-                    $maps = new Maps($properties);
-                    $maps->genXML();
-                ?>
-                <script type="text/javascript">
-                    $(function() {
-                        $.getScript('../javascripts/maps.js', function() {
-                            load();
-                        });
-                    });
-                </script>
-
-                <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
-                <?php
+                <!-- filter panel end-->                <?php
                 if ( $properties != 0 )
                 {   
                     $no = 0; 
@@ -199,8 +208,7 @@ $lng = $coords['lng'];
                         </div>
                     </div>
                     <?php
-
-                    } 
+                    }
                 }
                 else
                 { ?>
@@ -222,10 +230,12 @@ $lng = $coords['lng'];
             </div>    
             </div> <!-- row-->
         </div><!--main container ends-->
-        
-       
         </div>
-        
+        <!-- pagination -->
+        <?php
+        $total_pages = ceil($total_properties/$limit);
+        $html = $pagination->html($page, $total_pages);        
+        echo $html; ?>   
               
        <?php include "./../include/Modal_header.html"?>
        <?php include "./../include/footer.html"?>
