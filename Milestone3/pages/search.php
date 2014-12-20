@@ -78,7 +78,7 @@ $lng = $coords['lng'];
         <!--header-->
         <?php include "./../include/header.php" ?>
         <!--main content-->
-        <div class="container-fluid" style="padding: 80px 80px 80px 80px; ">
+        <div class="container-fluid" style="padding: 80px 10px ">
             <div class="row">
             <!--map-->
             <div class="col-lg-4 col-md-4 hidden-xs hidden-sm" >
