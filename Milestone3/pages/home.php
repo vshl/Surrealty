@@ -20,29 +20,28 @@ Updated by :
         <link href="./../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
         <link href = "./../frameworks/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="./../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
-        <link href = "./../css/home.css" rel="stylesheet">
-    </head>
-    <body>
+	<link href = "./../css/home.css" rel="stylesheet">
+
+       
+</head>
+
+<body >
+    <div class="container-fluid"  ><!-- main container -->
+        <!--header--> 
         <?php session_start(); include "./../include/header.php" ?>
-        <!-- Jumbotron and Search Bar-->
-        <div class="header jumbotron">
-            <div class="container">
-                <div id="searchbar">
-                    <div class="row ">
-                        <div class="col-md-6 col-md-offset-3">
-                            <div class="container-fluid" style= "padding: 10px; border: 5px solid gray; margin: 0; background-color: grey; border-radius: 10px;">
-                                <h2 style="color:white"> Find your home with Surrealty!</h2> 
-                                <form role="form" action="search.php" class="form-inline" method="GET">
-                                    <div class="input-group input-group-lg">
-                                        <input size="60" type="text" class="form-control input-group-lg" placeholder="Search City, Zipcode, Area..." autofocus name="search">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-info" type="submit"><strong>Search</strong></button>
-                                        </span>
-                                    </div>
-                                </form>
-                            </div> 
-                        </div>
-                    </div>
+
+       <!--search-->
+        <div style="margin-top: 7% ; margin-bottom: 15%;  ">
+        <div class="row"  >
+        <div class="col-md-6 col-md-offset-3">
+            <div class="container-fluid" style=" padding: 10px; margin: 0; opacity: 50%; border-radius: 10px;">
+                <h4><font color="white"> Find your home with Surrealty...</font> </h4>
+            <form role="form" action="search.php" class="form-inline" method="GET">
+                <div class="input-group input-group-lg">
+                <input size="60" type="text" class="form-control input-group-lg" placeholder="Search City, Zipcode, Area..." autofocus name="search">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" type="submit"><strong>Search</strong></button>
+                </span>
                 </div>
             </div>
         </div>
