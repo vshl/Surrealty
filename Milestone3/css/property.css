@@ -18,6 +18,23 @@ html {
     background-size: inherit;
 }
 
+#address {
+
+}
+
+#description {
+    
+}
+
+#openHosue {
+    
+}
+
+#price {
+    font-size: 20; 
+    color: #2aabd2 
+}
+
 input:focus:invalid {
     border-color: #FF0000;
 }

@@ -10,23 +10,68 @@ Updated by :
 1> Abhijit @2.00 on 11/10/2014 > Added header 
 2>
 ----------------------------------------*/
-
+/*
 html {
-	position: relative;
-	min-height: 95%;
-	background: url("./../images/home-background.jpg") no-repeat center center fixed ; 
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: inherit;
+    position: relative;
+    min-height: 95%;
+    background: url("./../images/home-background.jpg") no-repeat center center fixed ; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: inherit;
+}
+*/
 
-	}
+html, body {
+
+    font-family:Arial,sans-serif;
+    // Prevent navbar from overlaying 
+    
+}
 
 body {
-  /* Margin bottom by footer height */
-  background: transparent;
-  padding-bottom: 70px;
+    padding-top: 60px; 
+    padding-bottom: 50px; 
+    background-color: #FDFDFD;
 }
+
+.header {
+    height: 50%;
+    background: url("./../images/home-background.jpg") no-repeat center center fixed;
+    background-position: 0px -500px;
+    background-color: #FDFDFD;
+}
+
+.thumbnail {
+    // Gets rid of the thumbnail border 
+    border: 0 none; 
+    box-shadow: none;
+    border-color: #FDFDFD; 
+    background-color: #FDFDFD;
+}
+
+.thumbnail img {
+    max-height: 300px; 
+    min-height: 250px; 
+}
+
+.body-content {
+    padding-left: 10%; 
+    padding-right: 10%;
+    background-color: #FDFDFD;
+}
+
+footer {
+    padding-top: 100%;
+    padding-bottom: 5%;
+}
+
+/*
+#searchbar {
+    margin-top: 7% ; 
+    margin-bottom: 15%;
+}
+*/
 
 .no-margin {
   margin: 0px ;
@@ -44,8 +89,9 @@ body {
 
 
 input:focus:invalid {
-	border-color: #FF0000;
-        }
+    border-color: #FF0000;
+}
+
 input:focus:valid {
-	border-color: #56C93F;
-        }        
+    border-color: #56C93F;
+}        

@@ -137,7 +137,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                 <div class="col-sm-12 col-md-8" id="pictures">
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation">
+                        <li role="presentation" class="active">
                             <a href="#Description" role="tab" data-toggle="tab" id="descTab">
                                 <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Description
                             </a>
@@ -166,9 +166,9 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                             <div class="well">
                                  <div class="row">
                                     <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
-                                        <h1 id="address">
+                                        <h2 id="address">
                                             <?php echo $address;?>
-                                        </h1>
+                                        </h2>
                                         <p id="description">
                                             Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
                                         </p>
@@ -182,10 +182,10 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                     </div>
                                     <div class="col-sm-4 col-md-4" id="details">
                                         <h1>For Sale</h1>
-                                        <h2 style="font-size: 20; color: #2aabd2 ">
+                                        <h2 id="price">
                                             <strong>
-                                            <?php echo "$ " . number_format($price).".00";?>
-                                                </strong>
+                                                <?php echo "$ " . number_format($price).".00";?>
+                                            </strong>
                                         </h2>
                                         <p>
                                             No of Beds  :<?php echo " ".$beds;?>  <br>
@@ -324,7 +324,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
             </div>
         
            
-        
+            
         
         
         <!--- the following code is from florian. its a proof of concept for working comment section -->
