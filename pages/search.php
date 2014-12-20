@@ -182,14 +182,14 @@ $lng = $coords['lng'];
                               $ic->compressImage($property_img, 50);
                             ?>
                             <div class="caption">
-                                  <p><strong><?php echo $no + 1; $no++; ?></strong></p>
+                                  <p><strong><?php echo $no + 1 . '.'; $no++; ?></strong>
                                   <?php
                                   if ($property['address2'] != NULL)
                                   {
                                   echo $property['address2'] .',' ;
                                   }
                                   echo $property['address1']. ", ";
-                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?>
+                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?></p>
                                 <p align="center">
                                     <strong style="font-size: 18">
                                       <?php
