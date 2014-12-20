@@ -110,7 +110,6 @@ $lng = $coords['lng'];
                     
                  
                 <!--results content-->
-                <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
                 <?php
                     $limit = 8;
                     $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -169,7 +168,8 @@ $lng = $coords['lng'];
                 </div>
                 </div>
                 <!-- filter panel end-->   
-             <?php
+               <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+            <?php
                 if ( $properties != 0 )
                 {   
                     $no = 0; 
