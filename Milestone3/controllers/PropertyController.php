@@ -19,17 +19,22 @@ class PropertyController {
      *
      * @param type $search - search query as a string
      * 
-     * @return - associative array of properties
+     * @return array($properties, $count[0])
      * 
      */
-    public static function searchProperty($search, $sortField = 'property_id', $sortOrder = 'ASC') 
+    public static function searchProperty($search,
+        $sortField = 'property_id',
+        $sortOrder = 'ASC',
+        $offset,
+        $limit) 
     {
         $dbConn = new DatabaseComm();
-        $query = "SELECT * FROM property "
+        $query = "SELECT SQL_CALC_FOUND_ROWS * FROM property "
                 . "WHERE CONCAT_WS"
                 . "(address1,',',address2,',',zipcode,',',city,',',state,',',country) "
                 . "LIKE '%$search%' "
-                . "ORDER BY $sortField $sortOrder";
+                . "ORDER BY $sortField $sortOrder "
+                . "LIMIT $offset, $limit";
         $result = $dbConn->executeQuery($query);
         $properties = array();
         if ($result->num_rows > 0) {
@@ -39,7 +44,10 @@ class PropertyController {
         } else {
             return 0;          
         }
-        return $properties;
+        $count_query = 'SELECT FOUND_ROWS()';
+        $count_result = $dbConn->executeQuery($count_query);
+        $count = $count_result->fetch_row();
+        return array($properties, $count[0]);
     }
     
     /**
