@@ -400,7 +400,7 @@ function sellProperty() {
         message: message
         };
     result = callBackend(paramArr);
-    $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : result });
+    $.toaster({ priority : 'success', title : 'Notification ', message : 'Request sent. Agent will conact you soon.'  });
 }
 
 

@@ -95,7 +95,7 @@ $lng = $coords['lng'];
                 
                 <form role="form" action="search.php" class="form-inline" method="GET" style=" margin-top: 1%">
                   <div class="input-group input-group-lg no-margin no-padding">                    
-                  <input size="85" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
+                  <input size="80" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
                   <span class="input-group-btn">
                     <button class="btn btn-info" type="submit"><strong>Search</strong></button>
                   </span>
