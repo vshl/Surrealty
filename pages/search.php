@@ -176,7 +176,8 @@ $lng = $coords['lng'];
                     foreach ($properties as $property)
                     {?>
                     <div class="col-sm-6 col-md-6 col-lg-4" style="padding: 5px 2px 0px 5px; margin-bottom: 2px 2px 2px 2px ; ">
-                        <a> <div class="thumbnail" style="margin-bottom: 0px;">
+                        <a href="./property.php?Search=<?php $a = str_replace(" ", "+", $address);
+            echo $a;?>&PropertyId=<?php echo $property['property_id']; ?>" class="thumbnail" style="margin-bottom: 0px;">
                             <?php
                               $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
                               $ic = new ImageController();
@@ -209,7 +210,7 @@ $lng = $coords['lng'];
                                   
                               </p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <?php
                     }
