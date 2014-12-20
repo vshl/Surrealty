@@ -138,9 +138,9 @@ $lng = $coords['lng'];
                 <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
                 <!--filter panel start-->
                 <div class="panel panel-body">   
-                <?php echo " Results for " . $address .": Showing "."<strong>8</strong>"." of " ; ?>
                 <strong><?php echo $total_properties; ?></strong>
-                <?php echo " results"; ?>
+                <?php echo " results for $address"; ?>
+                <div class="pull-right">                
                 <div class="pull-right">
                 
                  <form name="order" method="post">
