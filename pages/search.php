@@ -176,21 +176,24 @@ $lng = $coords['lng'];
                     foreach ($properties as $property)
                     {?>
                     <div class="col-sm-6 col-md-6 col-lg-4" style="padding: 5px 2px 0px 5px; margin-bottom: 2px 2px 2px 2px ; ">
-                        <div class="thumbnail" style="margin-bottom: 0px;">
+                        <a> <div class="thumbnail" style="margin-bottom: 0px;">
                             <?php
                               $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
                               $ic = new ImageController();
                               $ic->compressImage($property_img, 50);
                             ?>
+                        
                             <div class="caption">
-                                  <p><strong><?php echo $no + 1 . '.'; $no++; ?></strong>
+                                  <p>
+                                      <strong><?php echo $no + 1 . '.'; $no++; ?></strong>
                                   <?php
                                   if ($property['address2'] != NULL)
                                   {
                                   echo $property['address2'] .',' ;
                                   }
                                   echo $property['address1']. ", ";
-                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?></p>
+                                  echo $property['zipcode'],', ',$property['city'],', ',$property['state']; ?>
+                                  </p>
                                 <p align="center">
                                     <strong style="font-size: 18">
                                       <?php

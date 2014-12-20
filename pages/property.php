@@ -148,16 +148,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                 <i class="glyphicon glyphicon-picture"></i>&nbsp;Gallery
                             </a>
                         </li>
-                        <li role="presentation">
-                            <a href="#Map" role="tab" data-toggle="tab" id="mapTab">
-                                <i class="glyphicon glyphicon-map-marker"></i>&nbsp;Map
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#Comments" role="tab" data-toggle="tab" id="commentTab">
-                                <i class="glyphicon glyphicon-comment"></i>&nbsp;Comments
-                            </a>
-                        </li>
+                        
                     </ul>
  
                     <div class="tab-content">
@@ -249,40 +240,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                             </div>
                         </div>
 
-                        <!--map tab goes here-->
-                        <div role="tabpanel" class="tab-pane" id="Map">
-                            <div class="well">
-                                
-                                
-                                
-                            </div>
-                        </div>
-                        
-                        <!--comment tab here-->
-                        <div role="tabpanel" class="tab-pane" id="Comments">
-                            <div class="well">
-                                <div class="row" style="margin-bottom: 5%;">
-                                     <div class="col-sm-4 col-md-4" id="new_comment_container">
-                                     <?php
-                                         if (!isset($_SESSION['role'])) {
-                                             echo "<h4> please Login or register to use the comment function. Thank you</h4>";
-                                         }
-                                         elseif ($_SESSION['role'] == 'BUYER') {
-                                            echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
-                                                 "<div class=\"input-group input-group-lg\">" . 
-                                                 "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
-                                                 "<span class=\"input-group-btn\">" .
-                                                 "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
-                                                 "</span></div></form>";  
-                                         }
-                                         ?>
-                                     </div>
-                                     <div class="col-sm-8 col-md-8" id="prop_comment_container">
-
-                                     </div>
-                                 </div>
-                            </div>
-                        </div> <!-- comment tab end -->
+                      
                         
                     </div><!-- tab content--> 
                 </div>    
