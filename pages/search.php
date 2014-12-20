@@ -82,7 +82,7 @@ $lng = $coords['lng'];
             <div class="row">
             <!--map-->
             <div class="col-lg-4 col-md-4 hidden-xs hidden-sm" >
-                <div id="map" class="panel panel-body" style="border: 2px; border-radius: 2px; float :left; margin-right: 50px;">
+                <div id="map" class="panel panel-body" style="border: 2px; border-radius: 2px; float :left; margin-right: 60px;">
                     
                 </div>
             </div>    
@@ -95,7 +95,7 @@ $lng = $coords['lng'];
                 
                 <form role="form" action="search.php" class="form-inline" method="GET" style=" margin-top: 1%">
                   <div class="input-group input-group-lg no-margin no-padding">                    
-                  <input size="80" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
+                  <input size="85" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
                   <span class="input-group-btn">
                     <button class="btn btn-info" type="submit"><strong>Search</strong></button>
                   </span>
@@ -138,35 +138,37 @@ $lng = $coords['lng'];
                 <div class="row" style=" height: 75%; margin : 0px 0px 0px 0px; padding: 0px 0px 0px 0px ; text-align : left; ">
                 <!--filter panel start-->
                 <div class="panel panel-body">   
-                <?php echo "Showing " ; ?>
+                <?php echo " Results for " . $address .": Showing "."<strong>8</strong>"." of " ; ?>
                 <strong><?php echo $total_properties; ?></strong>
                 <?php echo " results"; ?>
                 <div class="pull-right">
-                <form name="order" method="post">
-                  <select id="order", name="order">
-                      <option value='property_id ASC'>Sort: Relevance</option>
+                
+                 <form name="order" method="post">
+                 Sort by :
+                     <select id="order" name="order">
+                      <option value='property_id ASC'>Relevance</option>
                       <option value='price ASC'
                         <?=filter_input(INPUT_POST, "order") == 'price ASC' ? ' selected="selected"' : ''?>>
-                        Sort: Price low to high
+                        Price low to high
                       </option>
                       <option value='price DESC'
                         <?=filter_input(INPUT_POST, "order") == 'price DESC' ? ' selected="selected"' : ''?>>
-                        Sort: Price high to low
+                        Price high to low
                       </option>
                       <option value='area ASC'
                         <?=filter_input(INPUT_POST, "order") == 'area ASC' ? ' selected="selected"' : ''?>>
-                        Sort: Area low to high
+                        Area low to high
                       </option>
                       <option value='area DESC'
                         <?=filter_input(INPUT_POST, "order") == 'area DESC' ? ' selected="selected"' : ''?>>
-                        Sort: Area high to low
+                        Area high to low
                       </option>
                   </select>
                 </form>
                 </div>
                 </div>
                 <!-- filter panel end-->   
-               <div  class="container" style="overflow: auto; height: 70%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+               <div  class="container" style="overflow: auto; height: 85%; width: 100%; float: right;  margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
             <?php
                 if ( $properties != 0 )
                 {   
