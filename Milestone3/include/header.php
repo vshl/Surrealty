@@ -41,11 +41,10 @@ include ('../pathMaker.php');
                     <li><a href="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/pages/home.php">Home</a></li>
                     <li><a href="http://www.sfsuswe.com/~<?php echo $pathArray[2] ?>/pages/search.php">Buy</a></li>
                     <li><a href="#myModal_sell" data-toggle="modal">Sell</a></li>
-                    <li><a href="#">Agents</a></li>
-                    <li><a href="#">Advice</a></li>
+                    
                     <li><a href="#ContactUs" data-toggle="modal">Contact Us</a></li>
                     <li><a href="#AboutUs" data-toggle="modal">About</a></li> 
-                    <li><a href="#">Local</a></li>
+                   
                 </ul>
                 <ul class="nav navbar-nav navbar-right" style="font-size: 1.2em">
                     <?php 
