@@ -94,14 +94,12 @@ $lng = $coords['lng'];
                 <div class="panel panel-body " style=" margin: 0px; padding: 0px; text-align: left; height: 60px ; border: 0px; border-radius: 0px;">
                 
                 <form role="form" action="search.php" class="form-inline" method="GET" style=" margin-top: 1%">
-                    <strong>Search :</strong>
-                    <div class="input-group input-group-lg no-margin no-padding">
-                    
-                <input size="60" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
-                <span class="input-group-btn">
+                  <div class="input-group input-group-lg no-margin no-padding">                    
+                  <input size="80" type="text" class="form-control input-group-lg no-margin no-padding" value="<?php echo $address; ?>" autofocus name="search">
+                  <span class="input-group-btn">
                     <button class="btn btn-info" type="submit"><strong>Search</strong></button>
-                </span>
-                </div>
+                  </span>
+                  </div>
                 </form>
                     
                 </div> 
