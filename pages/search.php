@@ -68,7 +68,7 @@ $lng = $coords['lng'];
         });
       </script>
       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCopAYcpV4Eo5BZ9q3PbeAI4nPBTct36HE"></script>
-      <title> Search results for <?php echo " " . $address; ?> </title>
+      <title>Surrealty |<?php echo " " . $address; ?> </title>
     </head>
     
     
