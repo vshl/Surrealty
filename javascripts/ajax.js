@@ -44,10 +44,65 @@ $(document).ready( function() {
     $("#profileTab").click( function() {
         fillProfile();
     });
-    
+        
     // for the first call of the dasgboard load the usertab
     showUserList( $("#user_sort_role").val(), $("#user_sort_order").val(), $("input:radio[name=user_ascdesc]:checked").val() );
 });
+
+
+function addAProperty(event) {
+    event.preventDefault();
+    
+    var title           = $( "#p_title").val();
+    var address1        = $("#p_addr1").val();
+    var address2        = $ ("#p_addr2").val();
+    var zipcode         = $("#p_zip").val();
+    var neighborhood    = $("#p_neighborhood").val();
+    var city            = $ ("#p_city").val();
+    var state           = $("#p_state").val();
+    var country           = $("#p_country").val();
+    var description     = $ ("#p_description").val();
+    var balcon          = $("#p_balcon").val();
+    var pool            = $ ("#p_pool").val();
+    var bath            = $("#p_bath").val();
+    var bed             = $("#p_bed").val();
+    var area            = $ ("#p_area").val();
+    var price           = $("#p_price").val();
+    var image           = $("#property_image_id").val();
+ 
+    var paramArr = {
+            action: "addAProperty",
+            title: title,
+            address1: address1,
+            address2: address2,
+            zipcode: zipcode,
+            neighborhood: neighborhood,
+            city: city,
+            state: state,
+            country: country,
+            description: description,
+            balcon: balcon,
+            pool: pool,
+            bath: bath,
+            bed: bed,
+            area: area,
+            price: price,
+            image: image
+            
+    };
+    
+    var result = callBackend(paramArr);
+alert(result);
+    if (result != "0") {
+        $.toaster({ priority : 'success', title : 'Agent Dashboard', message : 'Property successfully added' });
+    }
+    else
+    {
+       $.toaster({ priority : 'warning', title : 'Agent Dashboard', message : result });
+    }
+    
+    return true;
+}
 
 function sentResetCode( email ) {
  

@@ -36,6 +36,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
             giveUnseenCommentsByAgentID();
         });
 </script>
+<script src="../../../javascripts/upload_prop.js"></script>
 
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
@@ -527,49 +528,49 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 
 
-                  <form action="" methode="">
+                  <form action="#" methode="POST">
 
                                     
-                                              <div class="input-group" title="titel">
+                                              <div class="input-group" title="title">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                <input class="form-control" name="titel" id="" type="" placeholder="Titel of property">
+                                                <input class="form-control" name="p_title" id="p_title" type="" placeholder="Titel of property">
                                               </div>
 
 
-                                              <div class="input-group" title="addr1">
+                                              <div class="input-group" title="p_addr1">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                <input class="form-control" name="addr1" id="" type="" placeholder="First adresse">
+                                                <input class="form-control" name="p_addr1" id="p_addr1" type="" placeholder="First adresse">
                                               </div>
 
                                               <div class="input-group" title="addr2">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                <input class="form-control" name="addr2" id="" type="" placeholder="Seconde adresse">
+                                                <input class="form-control" name="p_addr2" id="p_addr2" type="" placeholder="Second adresse">
                                               </div>
                          
                                               <div class="input-group" title="zip">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                                                <input class="form-control" name="zip" id="" type="" placeholder="Zip code">
+                                                <input class="form-control" name="p_zip" id="p_zip" type="p_zip" placeholder="Zip code">
                                               </div>
 
 
                                               <div class="input-group" title="neighborhood">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-screenshot"></i></span>
-                                                <input class="form-control" name="phone" id="" type="" placeholder="Neighborhood">
+                                                <input class="form-control" name="p_neighborhood" id="p_neighborhood" type="" placeholder="Neighborhood">
                                               </div>
 
                                               <div class="input-group" title="city">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                                <input class="form-control" name="city" id="" type="" placeholder="City">
+                                                <input class="form-control" name="p_city" id="p_city" type="" placeholder="City">
                                               </div>
 
                                               <div class="input-group" title="state">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                                <input class="form-control" name="state" id="" type="" placeholder="State">
+                                                <input class="form-control" name="p_state" id="p_state" type="" placeholder="State">
                                               </div>
 
                                               <div class="input-group" title="country">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                                <input class="form-control" name="state" id="" type="" placeholder="Country">
+                                                <input class="form-control" name="p_country" id="p_country" type="" placeholder="Country">
                                               </div>
 
                                   
@@ -584,7 +585,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
                  <div class="input-group" title="description">
                       <span class="input-group-addon"><i class="glyphicon glyphicon-text-width"></i></span>
-                      <textarea class="form-control" name="state" id="" placeholder="Property description"></textarea>
+                      <textarea class="form-control" name="p_description" id="p_description" placeholder="Property description"></textarea>
                  </div>
 
 <br> Enter a number for: <br>
@@ -592,30 +593,30 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
               <div class="input-group">
 
                       <span class="input-group-addon"><small>Balcon</small></span>
-                      <input class="form-control" titel="balcon" name="balcon" id="" type="">
+                      <input class="form-control" titel="balcon" name="p_balcon" id="p_balcon" type="">
 
 
                       <span class="input-group-addon"><small>Pool</small></span>
-                      <input class="form-control" titel="pool" name="pool" id="" type="">
+                      <input class="form-control" titel="pool" name="p_pool" id="p_pool" type="">
                       
        
                       <span class="input-group-addon"><small>Bath</small></span>
-                      <input class="form-control" titel="bath" name="bath" id="" type="">
+                      <input class="form-control" titel="bath" name="p_bath" id="p_bath" type="">
                  </div>   
 
 
                  <div class="input-group">
 
                       <span class="input-group-addon"><small>Bed</small></span>
-                      <input class="form-control" titel="number of beds" name="bed" id="" type="">
+                      <input class="form-control" titel="number of beds" name="p_bed" id="p_bed" type="">
 
 
                       <span class="input-group-addon"><small>Area&nbsp;<div class="badge">m&sup2;</div></small></span>
-                      <input class="form-control" titel="Area" name="area" id="" type="">
+                      <input class="form-control" titel="Area" name="p_area" id="p_area" type="">
                       
        
                       <span class="input-group-addon"><small>Price&nbsp;<div class="badge">$</div></small></span>
-                      <input class="form-control" titel="price" name="price" id="" type="">
+                      <input class="form-control" titel="price" name="p_price" id="p_price" type="">
                  </div>
 
               
@@ -630,9 +631,15 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <div class="row">
         
                 <div class="col-xs-12 col-sm-6 col-sm-offset-3 well">Photos
-                                          <input type="file" multiple>  
+                                          <input type="file" data-filename-placement="inside" id="property_image_name" title="Search for a file to add">
+                                                    <input type="hidden" id="property_image_id">
+                                                                                                    <span class="btn">
+                                                    <input type="button" value="Upload" id="property_picture_btn">
+                                              
+                                                    <img id="property_image" src="../../../images/placeholder2.jpg" height="48" width="48">
+                                                </span>
                                           <a href="" class="">
-                                            <button type="submit" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Property</button>
+                                            <button type="submit" onclick="javascript:addAProperty(event);" class="btn btn-default btn-sm pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Property</button>
                                           </a> 
                                           </form>
 
