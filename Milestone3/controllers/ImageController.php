@@ -107,7 +107,10 @@ class ImageController {
         $logger = new Logging();
         $logger->logToFile ("loadPicture", "info", "run" . $pictureHash);
         if ($pictureHash == NULL) {
-            return "../images/placeholder.jpg";
+            if( $type == 1 )
+                return "../images/placeholder.jpg";
+            else
+                return "../images/placeholder2.jpg";   
         }
         
         $filename = PICTURE_DIR . $pictureHash;
@@ -169,7 +172,7 @@ class ImageController {
     /**
     * reduces image size
     *
-    * @param Image source image file (supported image formats: jpeg, png, gif)
+    * @param Image source image file (supported image formats: jpeg)
     * @param percentage of resize of the image, default: source image size
     */
     public function compressImage($image, $size=100)

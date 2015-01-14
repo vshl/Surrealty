@@ -165,5 +165,54 @@ class PropertyController {
             
         }
     }
+    
+    public function addProperty($title,$address1,$address2,$zipcode,
+            $neighborhood,$city,$state,$country,$description, $balcon,
+            $pool,$bath,$bed,$area,$price, $image) {
+            $sqlQuery = "INSERT INTO property ( title, address1, address2, zipcode, neighborhood, city, state, country, description, beds, baths, pool, ".
+                    "balcony, area, price, status, created_by, creation_date, modification_date, approved, agent_id, delet) VALUES ('" .
+                    $title . "', '" . 
+                    $address1 . "', '" . 
+                    $address2 . "', '" . 
+                    $zipcode . "', '" . 
+                    $neighborhood . "', '" . 
+                    $city . "', '" .
+                    $state . "', '". 
+                    $country ."', '".
+                    $description ."', '".   
+                    $bed ."', '" . 
+                    $bath."', '" . 
+                    $pool ."', '" . 
+                    $balcon ."', '" . 
+                    $area."', '" . 
+                    $price ."', '" .
+                    "0', '" . 
+                    $_SESSION['user_id'] ."', " . 
+                    "NOW(), " . 
+                    "NOW(), '" .
+                    "0', '" . 
+                    $_SESSION['user_id']."', '" . 
+                    "0');";
+        $dbcomm = new DatabaseComm();
+        $result = $dbcomm->executeQuery($sqlQuery);
+        
+        $id = $dbcomm->giveID();
+        
+        $sqlQuery =  "INSERT INTO property_images ( property_id, image_name, created_by, creation_date) VALUES ".
+                "( (SELECT property_id FROM property WHERE property_id='". $id ."'), '".$image."', (SELECT user_id FROM users WHERE user_id='".$_SESSION['user_id']."'), NOW() );";
+        
+        $result = $dbcomm->executeQuery($sqlQuery);
+        if ($result != true)
+        {
+            echo $sqlQuery;
+            echo "<br><b>" . $dbcomm->giveError() . "</b>";
+
+            die("Error at agent saving");
+        }
+        else
+        {
+            return 1;
+        }
+    }
 }
 ?>

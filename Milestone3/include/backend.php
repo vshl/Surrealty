@@ -88,6 +88,9 @@ switch ($functionChoice) {
     case 'showUserlist':
         showUserlist($_POST['role'], $_POST['order'], $_POST['ascdesc']);
         break;
+    case 'addAProperty':
+        addAProperty();
+        break;
     case 'showUnprovenProperties':
         showUnprovenProperties($_POST['order'], $_POST['ascdesc']);
         break;
@@ -1080,7 +1083,7 @@ function loadUserInformationByID($userID, $role) {
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i>&nbsp;</span>
                                                 <span class="btn btn-default btn-file">
                                                     <input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add">
-                                                    <input type="hidden" id="profile_image_id">
+                                                    <input type="hidden" id="property_image_id">
                                                 </span>
                                                 <span class="btn">
                                                     <input type="button" value="Upload" id="profile_upload_picture_btn">
@@ -1111,7 +1114,7 @@ function loadUserInformationByID($userID, $role) {
 function showUnprovenProperties($order, $ascdesc) {
     $pc =  new PropertyController();
     $properties = $pc->giveUnprovenProperties();
-   
+   $ic =  new ImageController();
    
     if( $ascdesc == "asc") {
         $properties = array_orderby($properties, $order, SORT_ASC, "creation_date", SORT_ASC);
@@ -1123,12 +1126,14 @@ function showUnprovenProperties($order, $ascdesc) {
         $ac = new AgentController();
         $agent = $ac->loadAgentByID($property['created_by']);
         
+      $property_images = $pc->giveImageHashesByPropertyID(intval($property['property_id'])); 
+      $property_image_path = $ic->displayPicture("LARGE", $property_images[0]['image_name']);
       print '
                     <div class="row well">
 
                         <div class="col-xs-12 col-sm-2">
                                 <a class="" href="#">
-                                  <img class="img-circle img-responsive" src="./../../../images/house2.jpg"  >
+                                   <img class="img-circle img-responsive" src="../../' . $property_image_path . '">
                                 </a>
                         </div>
                         <div class="col-xs-12 col-sm-3">
@@ -1143,7 +1148,7 @@ function showUnprovenProperties($order, $ascdesc) {
                         </div>
                         <div class="col-xs-12 col-sm-3">
                                   <h5><span class="badge">Address:</span></h5>
-                                  <p><br>203 East 50th St., Suite 1157 New York, NY 10022 '.$property['country'].'</p> 
+                                  <p><br>'.$property['address1'].', '.$property['address2'].' '.$property['state'].', '.$property['zipcode'].' '.$property['country'].'</p> 
                         </div>
                         <div class="col-xs-12 col-sm-2">
                                   <h5><span class="badge">Facts:</span></h5>
@@ -1209,6 +1214,34 @@ function sentResetCode($email) {
         $_SESSION['resetCode'] = 0;
         echo 0;
     }
+}
+
+function addAProperty() {
+  
+    $title = strip_tags($_POST['title']);
+    $address1 = strip_tags($_POST['address1']);
+    $address2 = strip_tags($_POST['address2']);
+    $zipcode = strip_tags($_POST['zipcode']);
+    $neighborhood = strip_tags($_POST['neighborhood']);
+    $city = strip_tags($_POST['city']);
+    $state = strip_tags($_POST['state']);
+    $country = strip_tags($_POST['country']);
+    $description = strip_tags($_POST['description']);
+    
+    $balcon = strip_tags($_POST['balcon']);
+    $pool = strip_tags($_POST['pool']);
+    $bath = strip_tags($_POST['bath']);
+    $bed = strip_tags($_POST['bed']);
+    $area = strip_tags($_POST['area']);
+    $price = strip_tags($_POST['price']);
+    $image = strip_tags($_POST['image']);
+    
+    $pc = new PropertyController();
+    echo $pc->addProperty($title,$address1,$address2,$zipcode,
+            $neighborhood,$city,$state,$country,$description, $balcon,
+            $pool,$bath,$bed,$area,$price, $image);
+    
+    
 }
 
 function updateUserProfile() {
