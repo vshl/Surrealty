@@ -18,6 +18,7 @@
 session_start();
 
 define ("PROPERTY_DIR", "../images/property_images");
+define ("IMAGE_DIR", "../images");
 
 require_once './../APIs/geocoder.php';
 require_once './../controllers/PropertyController.php';
@@ -180,9 +181,16 @@ $lng = $coords['lng'];
                         <a href="./property.php?Search=<?php $a = str_replace(" ", "+", $address);
             echo $a;?>&PropertyId=<?php echo $property['property_id']; ?>" >
                             <?php
-                              $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
-                              $ic = new ImageController();
-                              $ic->compressImage($property_img, 50);
+                                $property_img = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
+                               $ic = new ImageController();
+                                 $pc = new PropertyController();
+                                if( !file_exists($property_img) ) {
+                                    $property_images = $pc->giveImageHashesByPropertyID(intval($property['property_id'])); 
+                                    $property_img = $ic->displayPicture("XLARGE", $property_images[0]['image_name']);
+                                   // $property_img = IMAGE_DIR .'/'. $property['imaage']
+                                }                               
+                             
+                                $ic->compressImage($property_img, 50);
                             ?>
                         </a>
                             <div class="caption">

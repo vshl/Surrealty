@@ -126,9 +126,10 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
   <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
           <span id="tab_count_unseen_comments" class="badge">0</span></a></li>
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
-  <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li>
+    <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> 
+<!-- <li role="presentation"><a href="http://localhost:8080/AddProperty/" target="_blank" ><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> -->
 </ul>
- 
+
 <div class="tab-content">
 <!-- Tab my listings -->
   <div role="tabpanel" class="tab-pane active" id="Listings">
@@ -528,7 +529,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 
 
-                  <form action="#" methode="POST">
+                  <form action="#" methode="POST" id="addPropertyFrom">
 
                                     
                                               <div class="input-group" title="title">

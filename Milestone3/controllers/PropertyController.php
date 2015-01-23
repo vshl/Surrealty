@@ -196,22 +196,29 @@ class PropertyController {
         $dbcomm = new DatabaseComm();
         $result = $dbcomm->executeQuery($sqlQuery);
         
-        $id = $dbcomm->giveID();
-        
-        $sqlQuery =  "INSERT INTO property_images ( property_id, image_name, created_by, creation_date) VALUES ".
-                "( (SELECT property_id FROM property WHERE property_id='". $id ."'), '".$image."', (SELECT user_id FROM users WHERE user_id='".$_SESSION['user_id']."'), NOW() );";
-        
-        $result = $dbcomm->executeQuery($sqlQuery);
-        if ($result != true)
+        if ($result != true) 
         {
-            echo $sqlQuery;
-            echo "<br><b>" . $dbcomm->giveError() . "</b>";
+                echo "<br><b>" . $dbcomm->giveError() . "</b>";
 
-            die("Error at agent saving");
-        }
-        else
-        {
-            return 1;
+                die("Error at addProperty Part1");
+        } else {
+            $id = $dbcomm->giveID();
+
+            $sqlQuery =  "INSERT INTO property_images ( property_id, image_name, created_by, creation_date) VALUES ".
+                    "( (SELECT property_id FROM property WHERE property_id='". $id ."'), '".$image."', (SELECT user_id FROM users WHERE user_id='".$_SESSION['user_id']."'), NOW() );";
+
+            $result = $dbcomm->executeQuery($sqlQuery);
+            if ($result != true)
+            {
+
+                echo "<br><b>" . $dbcomm->giveError() . "</b>";
+
+                die("Error at addProperty Part2");
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }
