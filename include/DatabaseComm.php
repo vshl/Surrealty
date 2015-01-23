@@ -13,12 +13,19 @@
  * FHA - Added UTF8 Support 
  */
 class DatabaseComm {
-    
+    /*
     private $username = "f14g11";
     private $password = "Group11";
     private $dbName = "student_f14g11";
     private $dbHost = "localhost";
+    */
+    private $username = "bbleic";
+    private $password = "swef2014db";
+    private $dbName = "student_bbleic";
+    private $dbHost = "localhost";
+    
     private $dbConn;
+    
   
     
     /**

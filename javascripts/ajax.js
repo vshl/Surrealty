@@ -92,8 +92,9 @@ function addAProperty(event) {
     };
     
     var result = callBackend(paramArr);
-alert(result);
+    
     if (result != "0") {
+      //  $("#addPropertyFrom").trigger("reset");
         $.toaster({ priority : 'success', title : 'Agent Dashboard', message : 'Property successfully added' });
     }
     else
