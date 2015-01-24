@@ -22,6 +22,8 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
 <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="datepicker/jquery.ptTimeSelect.css" />
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
@@ -30,6 +32,44 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
 <script src="../../../javascripts/jquery.toaster.js"></script>
+<script src="datepicker/jquery.ptTimeSelect.js"></script>
+<script>
+                        $(function() {
+                            $( ".datepick" ).datepicker({
+                                                dateFormat: 'yy-mm-dd',
+                                                defaultDate: new Date(),
+                                                changeMonth: true,
+                                                changeYear: true
+                                               });
+                            $( "#search" ).datepicker({
+                                                dateFormat: 'yy-mm-dd',
+                                                defaultDate: new Date(),
+                                                changeMonth: true,
+                                                constrainInput: false,
+                                                changeYear: true
+                                               });                   
+
+                            $('#datepicker').css("z-index","0"); 
+                            
+                            $(".timepick").ptTimeSelect();
+                            
+                            $('#timepicker').ptTimeSelect({
+                                containerClass: undefined,
+                                containerWidth: undefined,
+                                hoursLabel:     'Hour',
+                                minutesLabel:   'Minutes',
+                                setButtonLabel: 'Set',
+                                popupImage:     undefined,
+                                onFocusDisplay: true,
+                                zIndex:         5000,
+                                onBeforeShow:   undefined,
+                                onClose:        undefined
+                            });
+                            
+                            
+                         });
+                       
+                    </script> 
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <script>
         $(document).ready( function() {
@@ -128,6 +168,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
     <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> 
 <!-- <li role="presentation"><a href="http://localhost:8080/AddProperty/" target="_blank" ><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> -->
+  <li role="presentation"><a  href="#Myappointment" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i>&nbsp;My Appointments</a></li>
 </ul>
 
 <div class="tab-content">
@@ -652,6 +693,181 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 </div>
 <!--endof tab add property-->
+
+
+
+
+<!-- Tab my appointment -->
+  <div role="tabpanel" class="tab-pane " id="Myappointment">
+   <div class="well">
+
+                <div class="page-header" style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 10px; margin-top: 0px">
+                <h1>My Appointments</h1> 
+                </div>   
+
+                
+                
+                <div ng-app="todo">
+
+                <div ng-controller="TodoController">
+                    
+                    
+
+                    
+                    <form class="form-inline" ng-submit="addTask()" name="ff">
+                    <div class="input-group">    
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input class="form-control input-group-sm" name="appointment" id="appointment" type="text" ng-model="appointment" placeholder="Oppointment with Mr/Mrs" required />
+                    </div>  
+                    <div class="input-group" >    
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input class="form-control input-group-sm datepick" name="date"  id="dp" ng-model="date" placeholder="Select the date" maxlength="25" size="15" required />
+                    </div>
+                    <div class="input-group">  
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    <input class="form-control input-group-sm timepick" name="time" id="time"  ng-model="time" placeholder="Select the time" maxlength="25" size="15" required />
+                    </div>    
+                    <button type="submit" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
+                    <div class="input-group pull-right">  
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input class="form-control input-group-sm " id="search" name="search" type="search" ng-model="search"  placeholder="Search ..." maxlength="30" size="30"/>
+                    </div>
+                    </form>
+                    
+                   
+                    
+                    <hr>
+                    <div class="text-info" style="padding-bottom: 5px;"><div class="badge">{{restant}}</div> All Appointments to do, <div class="badge">{{restanttoday}}</div> today. </div>
+                   
+                    <div class="alert alert-{{notification.type}}" style="display: none;" role="alert" data-notification="{{notification.status}}">{{notification.message}}</div>
+                    <div style="max-height:400px; overflow-y: auto; overflow-x: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                
+                                <th data-field="appid" ng-hide="true"></th>
+                                
+                                <th data-field="appname" style="background-color: #bbbbbb;">
+                                    <a href="#" ng-click="orderByField='apointment_with'; reverseSort = !reverseSort">
+                                        Appointment with Mr/Mrs <span ng-show="orderByField == 'apointment_with'"><span ng-show="!reverseSort">
+                                                <i class="glyphicon glyphicon-chevron-up"></i>
+                                            </span><span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+                                    </a>
+                                </th>
+                                
+                                <th data-field="appdate" style="background-color: #bbbbbb; text-align: center;">
+                                    <a href="#" ng-click="orderByField='date'; reverseSort = !reverseSort">
+                                        Appointment day <span ng-show="orderByField == 'date'"><span ng-show="!reverseSort">
+                                                <i class="glyphicon glyphicon-chevron-up"></i>
+                                            </span><span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+                                    </a>
+                                </th>
+                                
+                                <th data-field="apptime" style="background-color: #bbbbbb; text-align: center;">
+                                    <a href="#" ng-click="orderByField='time'; reverseSort = !reverseSort">
+                                        Appointment time <span ng-show="orderByField == 'time'"><span ng-show="!reverseSort">
+                                                <i class="glyphicon glyphicon-chevron-up"></i>
+                                            </span><span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+                                    </a>
+                                </th><!--
+<!--                            <th data-field="appname" style="background-color: #bbbbbb;">Appointment with Mr/Mrs</th>
+                                <th data-field="appday" style="text-align: center; background-color: #bbbbbb;">Appointment day</th>
+                                <th data-field="apptime" style="text-align: center; background-color: #bbbbbb;">Appointment time</th>-->
+                                <th data-field="appdone" style="text-align: center; background-color: #bbbbbb;">Delete</th>
+                                <th data-field="appedit" style="text-align: center; background-color: #bbbbbb;">Edit</th>
+                                <th data-field="appdel" style="text-align: center; background-color: #bbbbbb;">Done</th>
+
+                            </tr>    
+                        </thead>
+                        <tbody style="font-size: 13px; font-weight:bold;">
+                            <tr ng-repeat="task in tasks |orderBy:orderByField:reverseSort | filter:search ">
+                                <td ng-hide="true"><input type="text" value="{{task.id}}"/></td>   
+                              <td>{{task.apointment_with}}</td>
+                              <td style="text-align: center;">{{task.date}}</td>
+                              <td style="text-align: center;">{{task.time}}</td>
+                              <td><button class="btn btn-danger btn-xs center-block" ng-click="deltask(task.id);  notification.message = 'Appointment with ' + task.apointment_with + ' is deleted'; notification.type = 'danger'"><span class="glyphicon glyphicon-trash"></span></button></td>
+                              
+                              
+                              
+                              <td>
+                                  <a href="#updatapp" class="modal-toggle" data-toggle="modal">
+                                  <button class="btn btn-info btn-xs center-block" ng-click="loadeditmodal(task.id, task.apointment_with, task.date, task.time)"><span class="glyphicon glyphicon-edit"></span></button>
+                                  </a>
+                              </td>    
+                              <td><button class="btn btn-success btn-xs center-block"  ng-click="taskdone(task.id); notification.message = 'Appointment with ' + task.apointment_with + ' is set done'; notification.type = 'success'"><span class="glyphicon glyphicon-ok-sign"></span></button></td>
+<!--<div ng-repeat="today in todayapp">                           
+<script>
+$(function() {
+
+toastr["info"](today.date);
+       
+        });
+</script>
+</div> -->
+                            <!--modal for update appointment-->
+                                <div id="updatapp" class="modal fade">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" align="center"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit Appointment <p ng-hide="true">{{appid}}</p></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="input-group">    
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                <input class="form-control input-group-sm" name="editappwith" id="editappwith" type="text" ng-model="appwith" value="{{appwith}}"  required /> 
+                                                </div>          
+                                                <div class="input-group"> <!-- onclick="javascript:NewCssCal('date')" style="cursor:pointer"--> 
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                <input class="form-control  input-group-sm datepick" name="editappdate" id="datepicker"  ng-model="appdate" value="{{appdate}}" maxlength="25" size="25" required />
+                                                </div>
+                                                <div class="input-group">  
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                <input class="form-control input-group-sm " name="editapptime" id="timepicker"  ng-model="apptime" value="{{apptime}}" maxlength="25" size="25" required />
+                                                </div>
+
+                                            </div> 
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;Close</button>
+                                                <button type="submit" id="" class="btn btn-success btn-xs" ng-click="updatetask(appid, appwith, appdate, apptime); notification.message = 'Appointment with ' + appwith + ' is modified'; notification.type = 'info'" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- en of modal update appointment-->
+                           </tr> 
+                        </tbody>    
+                    </table>
+                    </div>
+
+                   
+                    
+                    
+
+                
+               
+               
+                <script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.9/toaster.min.js"></script>  
+                <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+                <script src="app.js"></script>
+                
+                </div>
+                
+                
+               
+                <!--endof row inside tab-->
+   </div>
+  </div> 
+
+
+
+</div>
+
+
 
 </div><!--endof tab contents-->
 
