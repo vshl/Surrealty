@@ -416,7 +416,7 @@ function readCommentsForAgent($agentID, $showHidden) {
                         else {
                             $disp .= "<a href=\"#ReplyComment\" class=\"btn btn-success btn-xs\" data-toggle=\"modal\" onClick=\"transferCommentDataToReplyModal(".$comments[$i]['comment_id'].")\"><i class=\"glyphicon glyphicon-pencil\"></i>&nbsp;Modify</a>";
                         }
-        $disp .=        "<h5><a href=\"../../property.php?propertyID=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
+        $disp .=        "<h5><a href=\"../../property.php?PropertyId=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
         $disp .=        "<div class=\"btn-toolbar\" role=\"toolbar\">";                
                         if ($cc->isFlagSet($comments[$i]['flags'], FLAG_AGENT_HIDE_COMMENT)) {
                             $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-open\"></i>&nbsp;Unhide</a>";
@@ -545,7 +545,7 @@ function readCommentsForBuyer($buyerID, $showHidden) {
                                 $disp .= "<a href\"#\" class=\"btn btn-success btn-xs\" onclick=\"readCommentReply(" . $comments[$i]['comment_id'] . ")\"><i class=\"glyphicon glyphicon-ok\"></i>&nbsp; I read the reply</a></h5>";
                             };
                 
-        $disp .=            "<h5><a href=\"../../property.php?propertyID=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
+        $disp .=            "<h5><a href=\"../../property.php?PropertyId=" . $comments[$i]['property_id'] . "\" class=\"btn btn-info btn-xs\"><i class=\"glyphicon glyphicon-info-sign\"></i>&nbsp;Show property details</a><h5>";
                             if (!$cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_AGENT_REPLIED_COMMENT)) {
                                 // Comment is unanswered, so buyer can modify or delete this comment
                                 $disp .= "<div class=\"btn-toolbar\" role=\"toolbar\">";
@@ -1137,7 +1137,7 @@ function showUnprovenProperties($order, $ascdesc) {
                                 </a>
                         </div>
                         <div class="col-xs-12 col-sm-3">
-                                <h5><a href="../../property.php?propertyID='.$property['property_id'].'" target="_blank"><span class="badge">Property ID:'.$property['property_id'].'</span></a></h5>
+                                <h5><a href="../../property.php?PropertyId='.$property['property_id'].'" target="_blank"><span class="badge">Property ID:'.$property['property_id'].'</span></a></h5>
                                   <h6>Creation-date: '.$property['creation_date'].'</h6>
                                   <h6>Modification-date: '.$property['modification_date'].'</h6>
                                   <h6>Created by: '.$agent->getFirstname().' '.$agent->getLastname().'</h6>
