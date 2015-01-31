@@ -49,8 +49,8 @@ if (($result->num_rows ) == 1)
             echo '<h3>Logged in successfully as ' . $role . '</h3>';
             if ($role == "ADMIN")
             {
-                echo '<p>Under Construction. This will be redirected to admin dashboard once its ready.</p>';
-                header('Refresh: 3; URL=./../home.php');
+                 echo '<p>Redirecting to dashboard...</p>';
+                header('Refresh: 3; URL=./admin/adminDashboard.php');
                 ?>
                 
         

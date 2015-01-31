@@ -186,7 +186,10 @@ $lng = $coords['lng'];
                                  $pc = new PropertyController();
                                 if( !file_exists($property_img) ) {
                                     $property_images = $pc->giveImageHashesByPropertyID(intval($property['property_id'])); 
+
                                     $property_img = $ic->displayPicture("XLARGE", $property_images[0]['image_name']);
+    
+    
                                    // $property_img = IMAGE_DIR .'/'. $property['imaage']
                                 }                               
                              

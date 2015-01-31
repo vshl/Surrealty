@@ -49,7 +49,7 @@ include ('../pathMaker.php');
                 <ul class="nav navbar-nav navbar-right" style="font-size: 1.2em">
                     <?php 
                         if(isset($_SESSION['fname'])) {
-                            echo "<li><a href=\"login/".strtolower($_SESSION['role'])."/".strtolower($_SESSION['role'])."Dashboard.php\" ><span class=\"glyphicon glyphicon-user\"></span>&nbsp;Hello&nbsp;".$_SESSION['fname']."</a></li>";
+                            echo "<li><a href=\"http://www.sfsuswe.com/~".$pathArray[2]."/pages/login/".strtolower($_SESSION['role'])."/".strtolower($_SESSION['role'])."Dashboard.php\" ><span class=\"glyphicon glyphicon-user\"></span>&nbsp;Hello&nbsp;".$_SESSION['fname']."</a></li>";
                             echo "<li><a href=\"http://www.sfsuswe.com/~". $pathArray[2] ."/pages/login/logout.php\"><span class=\"glyphicon glyphicon-log-out\"></span>&nbsp;Logout</a></li>";
                         } 
                         else {

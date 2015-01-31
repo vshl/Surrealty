@@ -25,9 +25,9 @@ require_once($path.'/include/checkUser.php');
     }
     
     $servername = "localhost";
-    $username = "f14g11";
-    $pass = "Group11";
-    $dbname = "student_f14g11";
+    $username = "bbleic";
+    $pass = "swef2014db";
+    $dbname = "student_bbleic";
 
     if ($property_id == NULL)
     {
@@ -62,6 +62,7 @@ if (($result->num_rows ) == 1)
     $baths = $row["baths"];
     $area = $row["area"];
     $agent = $row["agent_id"];
+    $description = $row['description'];
 }
 //load the agent data
 $sql = "SELECT * FROM users WHERE user_id = '$agent'";
@@ -137,18 +138,31 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                 <div class="col-sm-12 col-md-8" id="pictures">
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
+                        <li role="presentation">
                             <a href="#Description" role="tab" data-toggle="tab" id="descTab">
                                 <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Description
                             </a>
                         </li>
-                        
+                        <li role="presentation">
+                            <a href="#Specs" role="tab" data-toggle="tab" id="specsTab">
+                                <i class="glyphicon glyphicon-home"></i>&nbsp;Specs
+                            </a>
+                        </li>
                         <li role="presentation">
                             <a href="#Gallery" role="tab" data-toggle="tab" id="galleryTab">
                                 <i class="glyphicon glyphicon-picture"></i>&nbsp;Gallery
                             </a>
                         </li>
-                        
+<!--                        <li role="presentation">
+                            <a href="#Map" role="tab" data-toggle="tab" id="mapTab">
+                                <i class="glyphicon glyphicon-map-marker"></i>&nbsp;Map
+                            </a>
+                        </li>-->
+                        <li role="presentation">
+                            <a href="#Comments" role="tab" data-toggle="tab" id="commentTab">
+                                <i class="glyphicon glyphicon-comment"></i>&nbsp;Comments
+                            </a>
+                        </li>
                     </ul>
  
                     <div class="tab-content">
@@ -157,11 +171,14 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                             <div class="well">
                                  <div class="row">
                                     <div class="col-sm-8 col-md-8" id="description" style="margin-bottom: 1%;">
-                                        <h2 id="address">
+                                        <h1 id="address">
                                             <?php echo $address;?>
-                                        </h2>
+                                        </h1>
                                         <p id="description">
-                                            Available NOW - Clean, bright and airy Studio Apartment with large windows near Union Square. This apartment was just freshly painted and has carpet throughout. This charming apartment comes with a large walk-in closet to provide ample storage space. The kitchen is equipped with a newer fridge, gas stove, and plenty of cabinet and counter space for all your cooking needs.This 7th floor unit is located in a well-maintained Victorian building with an elevator. The building is clean, quiet and secured. There is a community laundry room in the basement of our neighboring sister property next door for your use. We pay for your heat, water, sewer and trash pickup.
+                                            
+                                            <?php
+                                           echo $description
+                                            ?>
                                         </p>
                                         <p id="openHouse">
                                             <b>Open House</b> 
@@ -173,25 +190,29 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                     </div>
                                     <div class="col-sm-4 col-md-4" id="details">
                                         <h1>For Sale</h1>
-                                        <h2 id="price">
+                                        <h2 style="font-size: 20; color: #2aabd2 ">
                                             <strong>
-                                                <?php echo "$ " . number_format($price).".00";?>
-                                            </strong>
+                                            <?php echo "$ " . number_format($price).".00";?>
+                                                </strong>
                                         </h2>
-                                        <p>
-                                            No of Beds  :<?php echo " ".$beds;?>  <br>
-                                            No of Baths :<?php echo " ".$baths;?> <br> 
-                                            Lot: <?php echo $area;?> sqft <br>
-                                            Single Family <br> 
-                                            Built in 1938 <br> 
-                                            5 Days on Surrealty <br> 
-                                        </p>  
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+                        <!--spec tab goes here-->
+                        <div role="tabpanel" class="tab-pane" id="Specs">
+                            <div class="well">
+                              <p>
+                                            <?php echo $beds;?> Bedrooms  <?php echo $baths;?> Bath <br> 
+                                            Lot: <?php echo $area;?> sqft <br>
+                                            Single Family <br> 
+                                            Built in 1938 <br> 
+                                            5 Days on Surreality <br> 
+                              </p>
+                          
+                            </div>
+                        </div>
                         <!--gallery tab goes here-->
                         <div role="tabpanel" class="tab-pane" id="Gallery">
                             <div class="well">
@@ -240,7 +261,38 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                             </div>
                         </div>
 
-                      
+                        <!--map tab goes here-->
+<!--                        <div role="tabpanel" class="tab-pane" id="Map">
+                            <div class="well">
+                                Map will go here...
+                            </div>
+                        </div>
+                        -->
+                        <!--comment tab here-->
+                        <div role="tabpanel" class="tab-pane" id="Comments">
+                            <div class="well">
+                                <div class="row" style="margin-bottom: 5%;">
+                                     <div class="col-sm-4 col-md-4" id="new_comment_container">
+                                     <?php
+                                         if (!isset($_SESSION['role'])) {
+                                             echo "<h4> please Login or register to use the comment function. Thank you</h4>";
+                                         }
+                                         elseif ($_SESSION['role'] == 'BUYER') {
+                                            echo "<form role=\"form\" action=\"#\" class=\"form-inline\">" . 
+                                                 "<div class=\"input-group input-group-lg\">" . 
+                                                 "<input size=\"160\" type=\"text\" class=\"form-control input-group-lg\" id=\"comment_message\" placeholder=\"Your comment...\">" .
+                                                 "<span class=\"input-group-btn\">" .
+                                                 "<input type=\"button\" class=\"btn btn-info\" id=\"button_comment_submit\" value=\"submit\">" .
+                                                 "</span></div></form>";  
+                                         }
+                                         ?>
+                                     </div>
+                                     <div class="col-sm-8 col-md-8" id="prop_comment_container">
+
+                                     </div>
+                                 </div>
+                            </div>
+                        </div> <!-- comment tab end -->
                         
                     </div><!-- tab content--> 
                 </div>    
@@ -251,7 +303,8 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                     <div class="thumbnail">
                         <div class="caption">
                             <h3><span class="glyphicon glyphicon-envelope"></span>&nbsp;Contact the Agent <?php echo $agent_name;?></h3> 
-                            <form role="form" id="contactform" action="property.php?PropertyId=<?php echo $property_id;?>">
+<!--                            <form role="form" id="contactform" action="property.php?PropertyId=<?php echo $property_id;?>">-->
+                                <form role="form" id="contactform" action="#">
                                 <div class="form-group">
                                     <label for="inputName">Name</label> 
                                     <input type="text" class="form-control" id="inputName" placeholder="Enter your name" value="<?php if (isset($buyer_name)){echo $buyer_name;}?>" maxlength="50" required>
@@ -272,7 +325,8 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
                                     <label for="inputMessage">Message</label> 
                                     <textarea class="form-control" id="inputMessage" placeholder="Enter message" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?>)">Submit</button>
+                                 <button type="button" class="btn btn-defualt" >Submit</button>
+<!--                                <button type="submit" class="btn btn-defualt" onclick="contactAgent(<?php echo $property_id; ?>)">Submit</button>-->
                             </form> 
                         </div>
                     </div>
@@ -282,7 +336,7 @@ $sql = "SELECT * FROM users WHERE user_id = '$agent'";
             </div>
         
            
-            
+        
         
         
         <!--- the following code is from florian. its a proof of concept for working comment section -->
