@@ -245,6 +245,25 @@ class CommentController {
             return 0;
         }
         $db = new DatabaseComm();
+        
+         $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID ." AND com.flags % 2 = 1;";
+        //$logger->logToFile("listCommentByBuyer", "info", $query);
+        $result = $db->executeQuery($query);
+        $comments = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($showHidden == 1) {
+                    $comments[] = $row;
+                }
+                else {
+                    if (!$this->isFlagSet($row['flags'], Comment::FLAG_BUYER_HIDE_COMMENT)) {
+                        $comments[] = $row;
+                    }
+                }
+            }
+        }
+        
+        
         $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID .";";
         //$logger->logToFile("listCommentByBuyer", "info", $query);
         $result = $db->executeQuery($query);
