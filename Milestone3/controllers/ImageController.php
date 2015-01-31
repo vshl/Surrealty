@@ -107,10 +107,10 @@ class ImageController {
         $logger = new Logging();
         $logger->logToFile ("loadPicture", "info", "run" . $pictureHash);
         if ($pictureHash == NULL) {
-            if( $type == 1 )
-                return "../images/placeholder.jpg";
+            if( strpos($type, "LARGE") !== FALSE ) 
+                return "../images/placeholder2.jpg";
             else
-                return "../images/placeholder2.jpg";   
+                return "../images/placeholder.jpg";   
         }
         
         $filename = PICTURE_DIR . $pictureHash;
@@ -132,7 +132,7 @@ class ImageController {
             return $filename;
         }
         else {
-            return "../images/file_missing.png";
+            return "../images/file_missing.jpg";
         }
     }
     
@@ -159,7 +159,7 @@ class ImageController {
         {
            $height = $width / $ratio_orig;
         }
-        
+
         $picture_p    = imagecreatetruecolor ($width, $height);
         $picture      = imagecreatefromjpeg ($filename);
         imagecopyresampled ($picture_p, $picture, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
@@ -180,13 +180,14 @@ class ImageController {
         list ($img_width, $img_height) = getimagesize ($image);
      
         $percentage = $size / 100;
-     
+        
         $new_width = $img_width * $percentage;
         $new_height = $img_width * $percentage;
-        
+      //  ini_set("gd.jpeg_ignore_warning", 1);
          $rendered_image = imagecreatetruecolor ($new_width, $new_height) or 
             die ('Cannot Initialize new GD image stream');
-         $img_source = imagecreatefromjpeg ($image);
+     
+        $img_source = imagecreatefromjpeg ($image);
        
         imagecopyresampled ($rendered_image, $img_source, 0, 0, 0, 0, $new_width, $new_height, 
             $img_width, $img_height);

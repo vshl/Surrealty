@@ -402,7 +402,7 @@ function readCommentsForAgent($agentID, $showHidden) {
                        $disp .= "<h5> <span class=\"badge progress-bar-danger\"><i class=\"glyphicon glyphicon-warning-sign\">&nbsp;Please reply to this comment</i></span></h5>";
                     }
         $disp .=    "<h5>Comment state is:";
-                    if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
+                    if (!$cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
                         $disp .= "<span class=\"badge\" style=\"margin-left: 10px\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
                     }
                     else {
@@ -495,7 +495,7 @@ function readCommentsForBuyer($buyerID, $showHidden) {
                 $property_image_path = $ic->displayPicture("MEDIUM", $property_images[0]['image_name']);
         }
         else {
-                $property_image_path = $ic->displayPicture("MEDIUM", 'placeholder');
+                $property_image_path = $ic->displayPicture("MEDIUM", NULL );
         }
         
         //prepare datetime
@@ -1089,7 +1089,7 @@ function loadUserInformationByID($userID, $role) {
                                                     <input type="button" value="Upload" id="profile_upload_picture_btn">
                                                 </span>
                                                 <span class="">
-                                                    <img id="profile_user_image" src="../../../images/placeholder.jpg" height="48" width="48">
+                                                    <img id="profile_user_image" src="../../../images/'.$image_file.'" height="48" width="48">
                                                 </span>
                                               </div>                 
                 </div> 
@@ -1271,7 +1271,8 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
-            $user->setPictureName($image_name);
+            if( !empty($image_name))
+                $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateAdmin();
@@ -1288,7 +1289,8 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
-            $user->setPictureName($image_name);
+            if( !empty($image_name))
+                $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateAgent();
@@ -1305,7 +1307,8 @@ function updateUserProfile() {
             $user->setZipcode($zipcode);
             $user->setCity($city);
             $user->setState($state);
-            $user->setPictureName($image_name);
+            if( !empty($image_name))
+                $user->setPictureName($image_name);
             if( !empty($password))
                 $user->setPassword ($password);
             echo $user->updateBuyer();

@@ -144,7 +144,19 @@
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i><sup>*</sup></span>
                             <input class="form-control" name="phone" id="phone" type="tel" placeholder="Phone number" maxlength="50" pattern="\d*" required>
                           </div>
-
+                        <div class="input-group" title="image" style="margin: 10px 10px 10px 10px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i>&nbsp;</span>
+                            <span class="btn btn-default btn-file">
+                                <input type="file" data-filename-placement="inside" id="image_name" title="Search for a file to add">
+                                <input type="hidden" id="signup_image_id">
+                            </span>
+                            <span class="btn">
+                                <input type="button" value="Upload" id="signup_upload_picture_btn">
+                            </span>
+                            <span class="">
+                                <img id="signup_user_image" src="../images/placeholder.jpg" height="48" width="48">
+                            </span>
+                          </div>
 <!--                        <p class="text-warning">
                             <small>
                                 <input type="checkbox" name="terms_check"/>

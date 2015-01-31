@@ -181,7 +181,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
                                           <hr>
 <div class="" style="max-height:500px; min-width:70px; overflow-y:auto; overflow-x:hidden; "> <!--container for all results rows-->              
 <!--a row of result inside tab-->
-<div class="row well"> 
+<!--<div class="row well"> 
                   <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
                                     
                                  
@@ -238,7 +238,7 @@ checkUserRoleAndRedirect(array('BUYER'), "../../home.php");
 
                   </div> 
   
-</div><!--endof row of result inside tab-->
+</div>endof row of result inside tab-->
 
 <hr>
 

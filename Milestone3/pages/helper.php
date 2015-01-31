@@ -15,8 +15,6 @@ if( isset($_GET['search'])) {
     require_once './../APIs/geocoder.php';
     require_once './../controllers/PropertyController.php';
     require_once './../controllers/ImageController.php';
-    require_once './../APIs/maps.php';
-    require_once './../APIs/pagination.php';
     
     $address = filter_input(INPUT_GET, 'search');
     if ($address != NULL )
@@ -33,7 +31,7 @@ if( isset($_GET['search'])) {
         $lng = $coords['lng'];
     }   
 
-    $pagination = new Pagination();
+
     
     $order = filter_input(INPUT_POST, "order");
     $sortField = 'property_id';
@@ -50,28 +48,24 @@ if( isset($_GET['search'])) {
     $pc = new PropertyController();
     $ic = new ImageController();
     
-    if(count($properties) > 0) { 
-        foreach($properties as $property) {      
-           foreach($property as $value) {
-               echo $value.";";
+    
+    for($i = 0; $i < count($properties); $i++) { 
+        $url = "http://sfsuswe.com/~bbleic/pages/";
+        $hash = $pc->giveImageHashesByPropertyID($properties[$i]['property_id']);
+        
+        if($hash != 0 ) {
+            $image = $url.$ic->displayPicture("LARGE", $hash);
+        } else {
+            $image = PROPERTY_DIR .'/'. $properties[$i]['property_id'] .'.jpg';
 
-           }
-
-           $url = "http://sfsuswe.com/~bbleic/pages/";
-            $hash = $pc->giveImageHashesByPropertyID($property['property_id']);
-            if($hash != 0 ) {
-                $image = $url.$ic->displayPicture("LARGE", $hash);
+            if( !file_exists($image) ) {
+                $image = "-1";
             } else {
-                $image = PROPERTY_DIR .'/'. $property['property_id'] .'.jpg';
-
-                if( !file_exists($image) ) {
-                    $image = "-1";
-                } else {
-                    $image = $url.$image;
-                }
+                $image = $url.$image;
             }
-            echo $image.";<br>";
         }
+        $properties[$i]['image'] = $image;
     }
+    echo json_encode($properties);
 } 
 ?>

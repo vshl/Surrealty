@@ -240,42 +240,6 @@ function deleteUserByID(userID, role) {
         return false;
     }
     
-    // insert modal box here
-   /*
-    $( "#dialog-confirm" ).html("<b>Wollen Sie wirklich(" + userID +")" + " loeschen?");
-        $( "#dialog-confirm" ).dialog({ 
-        resizable: false,
-        height: "auto",
-        modal: true,
-        title: "Delete " + userID + "?",
-        buttons: {
-            "Delete": function() {
-                 
-                var paramArr = {
-                    action: "deleteUserByID",
-                    userID: userID,
-                    role: role
-                }
-                var result = callBackend(paramArr);
-                if (result !== "0") {
-                   // $.toaster({ priority : 'success', title : 'Administrator Dashboard', message : 'User successfully deleted' });
-            
-                }
-                else
-                {
-                   // $.toaster({ priority : 'warning', title : 'Administrator Dashboard', message : result })
-                }
-                setTimeout(function(){
-                   $("#user_sort_order").change();
-                }, 1500);
-
-                $( this ).dialog( "close" );
-            },
-            "Cancel": function() {
-                $( this ).dialog( "close" );
-            }
-        }
-    }); */    
 }
 
 function enableUser(userID, role, enable) {
@@ -562,7 +526,14 @@ function createComment(listingID) {
          comment: comment
         };
     result = callBackend(paramArr);
-    $.toaster({ priority : 'success', title : 'Comment System', message : result});
+   
+    if (result == 1) {
+        $.toaster({ priority : 'success', title : 'Comment System', message : 'Comment successfully created' });
+    }
+    else {
+        $.toaster({ priority : 'warning', title : 'Comment System', message : result });
+    }
+ //   $.toaster({ priority : 'success', title : 'Comment System', message : result});
  
     
  }

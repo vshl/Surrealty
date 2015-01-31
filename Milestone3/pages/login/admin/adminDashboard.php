@@ -165,7 +165,7 @@ checkUserRoleAndRedirect(array('ADMIN'), "../../home.php");
                                                           <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
                                                         </label>
                                                   </div>&nbsp;&nbsp;
-                                                  <input type="text" placeholder="search term" name="srch-term" id="">
+<!--                                                  <input type="text" placeholder="search term" name="srch-term" id="">-->
                                                   &nbsp;&nbsp;<button type="submit" class="btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
                                               </div>
                                             </div>
