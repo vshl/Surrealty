@@ -264,7 +264,7 @@ class CommentController {
         }
         
         
-        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID .";";
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID ." AND com.flags % 2 = 0;";
         //$logger->logToFile("listCommentByBuyer", "info", $query);
         $result = $db->executeQuery($query);
         $comments = array();
