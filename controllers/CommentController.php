@@ -264,10 +264,9 @@ class CommentController {
         }
         
         
-        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID ." AND com.flags % 2 = 0;";
+        $query = "Select com.* FROM comments com, property prop WHERE com.property_id = prop.property_id AND com.created_by = " . $buyerID ." AND com.flags % 2 = 0 ORDER BY com.answer_date DESC;";
         //$logger->logToFile("listCommentByBuyer", "info", $query);
         $result = $db->executeQuery($query);
-        $comments = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 if ($showHidden == 1) {
