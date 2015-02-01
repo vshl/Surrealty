@@ -17,31 +17,22 @@ if( isset($_GET['search'])) {
     require_once './../controllers/ImageController.php';
     
     $address = filter_input(INPUT_GET, 'search');
-    if ($address != NULL )
-    {
-        $coords = geocoder::getLocation($address);
-        $lat = $coords['lat'];
-        $lng = $coords['lng'];
-    }
-    else
+    if ($address == NULL )
     {
         $address = "San Francisco";    
-        $coords = geocoder::getLocation($address);
-        $lat = $coords['lat'];
-        $lng = $coords['lng'];
     }   
-
-
     
     $order = filter_input(INPUT_POST, "order");
     $sortField = 'property_id';
     $sortOrder = 'ASC';
+    
     if ($order)
     {
         $sort = explode(' ', $order);
         $sortField = $sort[0];
         $sortOrder = $sort[1];
     }
+    
     list($properties, $total_properties) = PropertyController::searchProperty
         ($address, $sortField, $sortOrder, 0, 100);
     
@@ -66,6 +57,6 @@ if( isset($_GET['search'])) {
         }
         $properties[$i]['image'] = $image;
     }
-    echo json_encode($properties);
+    echo json_encode(array("result"=>$properties));
 } 
 ?>
