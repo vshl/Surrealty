@@ -39,7 +39,11 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
         });
 </script>
 <script src="../../../javascripts/upload_prop.js"></script>
+<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
 
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+<script src="app.js"></script>
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
             body {
@@ -757,15 +761,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                                   </a>
                               </td>    
                               <td><button class="btn btn-success btn-xs center-block"  ng-click="taskdone(task.id); notification.message = 'Appointment with ' + task.apointment_with + ' is set done'; notification.type = 'success'"><span class="glyphicon glyphicon-ok-sign"></span></button></td>
-<!--<div ng-repeat="today in todayapp">                           
-<script>
-$(function() {
 
-toastr["info"](today.date);
-       
-        });
-</script>
-</div> -->
                             <!--modal for update appointment-->
                                 <div id="updatapp" class="modal fade">
                                     <div class="modal-dialog modal-sm">
@@ -802,16 +798,27 @@ toastr["info"](today.date);
                            </tr> 
                         </tbody>    
                     </table>
-                    </div>               
+
+                    </div>
+
+                   
+                    
+                    
+
+                
+               
+               
+                
+                
+                </div>
+
+                                
+
                 
                
                 <!--endof row inside tab-->
    </div>
   </div> 
-
-
-
-</div>
 
 
 
