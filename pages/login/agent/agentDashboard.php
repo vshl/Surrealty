@@ -23,7 +23,6 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-<link rel="stylesheet" href="datepicker/jquery.ptTimeSelect.css" />
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
@@ -32,44 +31,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 <script src="../../../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../../frameworks/bootstrap/dist/js/npm.js"></script>
 <script src="../../../javascripts/jquery.toaster.js"></script>
-<script src="datepicker/jquery.ptTimeSelect.js"></script>
-<script>
-                        $(function() {
-                            $( ".datepick" ).datepicker({
-                                                dateFormat: 'yy-mm-dd',
-                                                defaultDate: new Date(),
-                                                changeMonth: true,
-                                                changeYear: true
-                                               });
-                            $( "#search" ).datepicker({
-                                                dateFormat: 'yy-mm-dd',
-                                                defaultDate: new Date(),
-                                                changeMonth: true,
-                                                constrainInput: false,
-                                                changeYear: true
-                                               });                   
 
-                            $('#datepicker').css("z-index","0"); 
-                            
-                            $(".timepick").ptTimeSelect();
-                            
-                            $('#timepicker').ptTimeSelect({
-                                containerClass: undefined,
-                                containerWidth: undefined,
-                                hoursLabel:     'Hour',
-                                minutesLabel:   'Minutes',
-                                setButtonLabel: 'Set',
-                                popupImage:     undefined,
-                                onFocusDisplay: true,
-                                zIndex:         5000,
-                                onBeforeShow:   undefined,
-                                onClose:        undefined
-                            });
-                            
-                            
-                         });
-                       
-                    </script> 
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 <script>
         $(document).ready( function() {
@@ -840,23 +802,7 @@ toastr["info"](today.date);
                            </tr> 
                         </tbody>    
                     </table>
-                    </div>
-
-                   
-                    
-                    
-
-                
-               
-               
-                <script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.9/toaster.min.js"></script>  
-                <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-                <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
-                <script src="app.js"></script>
-                
-                </div>
-                
+                    </div>               
                 
                
                 <!--endof row inside tab-->
