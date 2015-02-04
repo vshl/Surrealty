@@ -402,7 +402,7 @@ function readCommentsForAgent($agentID, $showHidden) {
                        $disp .= "<h5> <span class=\"badge progress-bar-danger\"><i class=\"glyphicon glyphicon-warning-sign\">&nbsp;Please reply to this comment</i></span></h5>";
                     }
         $disp .=    "<h5>Comment state is:";
-                    if (!$cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
+                    if ($cc->isFlagSet($comments[$i]['flags'], Comment::FLAG_COMMENT_IS_PUBLIC)) {
                         $disp .= "<span class=\"badge\" style=\"margin-left: 10px\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</span>";
                     }
                     else {
@@ -425,7 +425,7 @@ function readCommentsForAgent($agentID, $showHidden) {
                             $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentHideState(" . $comments[$i]['comment_id']. ")\"><i class=\"glyphicon glyphicon-eye-close\"></i>&nbsp;Hide</a>";
                         }
                         if (!$comments[$i]['answer'] == ""){
-                            if ($cc->isFlagSet($comments[$i]['flags'], FLAG_COMMENT_IS_PUBLIC)) {
+                            if (!$cc->isFlagSet($comments[$i]['flags'], FLAG_COMMENT_IS_PUBLIC)) {
                                 $disp .= "<a href=\"#\" class=\"btn btn-warning btn-xs\" onclick=\"switchCommentPublicState(" . $comments[$i]['comment_id']. ")\" alt=\"Make private\"><i class=\"glyphicon glyphicon-star\"></i>&nbsp;Public</a>";
                             }
                             else {
