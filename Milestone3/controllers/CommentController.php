@@ -279,10 +279,12 @@ class CommentController {
                 }
             }
         } 
-        else {
+        if (empty($comments)) {
             return 0;          
         }
-        return $comments;
+		else {
+			return $comments;
+		}
     }
     
     /**
