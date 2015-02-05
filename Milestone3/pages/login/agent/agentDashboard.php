@@ -20,9 +20,10 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
     <!-- Bootstrap core CSS -->
 
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap.css" rel="stylesheet"> 
-<link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">
+<!--<link href="../../../frameworks/bootstrap/dist/bootstrap.min.css" rel="stylesheet">-->
 <link href="../../../frameworks/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="datepicker/jquery.ptTimeSelect.css" />
 <!--<link href="bootstrap-3.3.0/js/jquery-ui-1.9.2.custom.css" rel="stylesheet">-->
 
 <script src="../../../javascripts/jquery-2.1.1.js"></script>
@@ -39,10 +40,11 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
         });
 </script>
 <script src="../../../javascripts/upload_prop.js"></script>
-<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+
 
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
 <script src="datepicker/jquery.ptTimeSelect.js"></script>
 <script src="app.js"></script>
 
@@ -78,21 +80,7 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
                                 onBeforeShow:   undefined,
                                 onClose:        undefined
                             });
-                            
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "progressBar": false,
-                                "positionClass": "toast-bottom-right",
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "0",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                              };
+                                                 
 
                          });
                        
@@ -182,11 +170,12 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <ul class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active"><a href="#Listings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings</a></li>
+  <li role="presentation"><a href="http://localhost:8080/surrealty/index.jsp" target="_blank" ><i class="glyphicon glyphicon-list-alt"></i>&nbsp;My Listings Local</a></li>
   <li role="presentation"><a href="#Comments" role="tab" data-toggle="tab" onclick="readCommentsForUser(<?php echo $_SESSION['user_id']; ?>)"><i class="glyphicon glyphicon-comment"></i>&nbsp;Comments&nbsp;
           <span id="tab_count_unseen_comments" class="badge">0</span></a></li>
   <li role="presentation"><a href="#Profile" role="tab" data-toggle="tab" id="profileTab"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
     <li role="presentation"><a href="#AddProperty" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> 
-<!-- <li role="presentation"><a href="http://localhost:8080/AddProperty/" target="_blank" ><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property</a></li> -->
+ <li role="presentation"><a href="http://localhost:8080/AddProperty/" target="_blank" ><i class="glyphicon glyphicon-import"></i>&nbsp;Add Property Local</a></li>
   <li role="presentation"><a  href="#Myappointment" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i>&nbsp;My Appointments</a></li>
 </ul>
 
