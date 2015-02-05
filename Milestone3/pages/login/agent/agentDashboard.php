@@ -43,7 +43,60 @@ checkUserRoleAndRedirect(array('AGENT', 'ADMIN'), "../../home.php");
 
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+<script src="datepicker/jquery.ptTimeSelect.js"></script>
 <script src="app.js"></script>
+
+<script>
+                        $(function() {
+                            $( ".datepick" ).datepicker({
+                                                dateFormat: 'yy-mm-dd',
+                                                defaultDate: new Date(),
+                                                changeMonth: true,
+                                                changeYear: true
+                                               });
+                            $( "#search" ).datepicker({
+                                                dateFormat: 'yy-mm-dd',
+                                                defaultDate: new Date(),
+                                                changeMonth: true,
+                                                constrainInput: false,
+                                                changeYear: true
+                                               });                   
+
+                            $('#datepicker').css("z-index","0"); 
+                            
+                            $(".timepick").ptTimeSelect();
+                            
+                            $('#timepicker').ptTimeSelect({
+                                containerClass: undefined,
+                                containerWidth: undefined,
+                                hoursLabel:     'Hour',
+                                minutesLabel:   'Minutes',
+                                setButtonLabel: 'Set',
+                                popupImage:     undefined,
+                                onFocusDisplay: true,
+                                zIndex:         5000,
+                                onBeforeShow:   undefined,
+                                onClose:        undefined
+                            });
+                            
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "progressBar": false,
+                                "positionClass": "toast-bottom-right",
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "0",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                              };
+
+                         });
+                       
+                    </script> 
 <!-- our main Css / it can be later on one separated file--> 
  <style type="text/css">
             body {
