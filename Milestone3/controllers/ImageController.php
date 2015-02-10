@@ -64,6 +64,7 @@ class ImageController {
         } 
         else 
         {
+            $this->convertPicture ("_MEDIUM", 200, 200, PICTURE_DIR . $picture);
             $this->convertPicture ("_LARGE", 400, 400, PICTURE_DIR . $picture);
             $this->convertPicture ("_XLARGE", 1024, 1024, PICTURE_DIR . $picture);
         }

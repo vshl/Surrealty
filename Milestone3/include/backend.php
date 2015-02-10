@@ -1205,7 +1205,7 @@ function sentResetCode($email) {
     $ac = new AuthenticationController();
     $code = $ac->sentResetCode($email);
 
-    $success =  mail($email, "Password Reset", "Please follow the link to reset your Password.\nhttp://sfsuswe.com/~bbleic/pages/home.php?code=".$code."&email=".$email);
+    $success =  mail($email, "Password Reset", "Please follow the link to reset your Password.\nhttp://www.sfsuswe.com/~bbleic/pages/home.php?code=".$code."&email=".$email);
    
     if( (strlen($code) == 32) && $success) {
         $_SESSION['resetCode'] = 1;
