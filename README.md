@@ -1,8 +1,8 @@
-# Surrealty - a real estate marketplace project for SFSU Computer Science - CSC 848
+# Surrealty
 
-In colloboration with Fachhochschule Fulda, Fulda, Germany.
+A real estate marketplace project to buy and sell properties.
 
-Technologies used:
+## Technologies used:
 
 * PHP
 * HTML
@@ -10,3 +10,4 @@ Technologies used:
 * CSS
 * Google Maps API
 
+### A project for SFSU, Computer Science course CSC648/848 in colloboration with Fachhochschule Fulda, Fulda, Germany.
